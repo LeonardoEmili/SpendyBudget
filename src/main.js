@@ -3,7 +3,6 @@ import firebase from 'firebase'
 import Index from './components/Index.vue'
 import Login from './components/Login.vue'
 
-
 Vue.config.productionTip = false
 
 // Your web app's Firebase configuration
@@ -22,13 +21,10 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig)
 firebase.analytics()
 
-
-
 const routes = {
   '/': Index,
   '/login': Login
 }
-
 
 new Vue({
   data: {
@@ -39,5 +35,8 @@ new Vue({
       return routes[this.currentRoute] || Index
     }
   },
-  render: (h) => h(this.ViewComponent)
-}).$mount('#index')
+
+  render: function (h) {
+    return h(this.ViewComponent)
+  } 
+}).$mount('#app')

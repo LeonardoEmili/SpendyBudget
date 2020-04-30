@@ -1,5 +1,5 @@
 <template>
-  <div id="index">
+  <div id="app">
     <div class="index">
         <h1>Hello from the Index!</h1>
         <p>Prova prova</p>
