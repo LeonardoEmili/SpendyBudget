@@ -1,6 +1,7 @@
 import Vue from 'vue'
-import App from './App.vue'
 import firebase from 'firebase'
+import Index from './components/Index.vue'
+import Login from './components/Login.vue'
 
 
 Vue.config.productionTip = false
@@ -22,6 +23,21 @@ firebase.initializeApp(firebaseConfig)
 firebase.analytics()
 
 
+
+const routes = {
+  '/': Index,
+  '/login': Login
+}
+
+
 new Vue({
-  render: h => h(App),
-}).$mount('#app')
+  data: {
+    currentRoute: window.location.pathname
+  },
+  computed: {
+    ViewComponent () {
+      return routes[this.currentRoute] || Index
+    }
+  },
+  render: (h) => h(this.ViewComponent)
+}).$mount('#index')
