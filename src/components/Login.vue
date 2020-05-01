@@ -7,22 +7,21 @@
       </b-navbar-brand>
 
       <b-navbar-nav class="ml-auto">
-        <b-nav-item to="/about">TODO</b-nav-item>
-        <b-nav-item to="/login">TODO</b-nav-item>
-        <b-nav-item to="/signup">TODO</b-nav-item>
+        <b-nav-item to="/about">About us</b-nav-item>
+        <b-nav-item to="/signup">Sign up</b-nav-item>
       </b-navbar-nav>
     </b-navbar>
 
-    <div style="width: 400px; margin-left: auto; margin-right: auto; margin-top: 50px;">
-      <p style="font-size:26px; text-align:center;">
+    <div style="width: 320px; margin-left: auto; margin-right: auto; margin-top: 50px;">
+      <p style="font-size:24px; text-align:center;">
         <b>Login</b> to SpendyBudget
       </p>
-      <p style="text-align:center;">
+      <p style="text-align:center; font-size: 15px; margin-top: 5px;">
         Don't have an account yet?
         <b-link to="/signup">Sign up here!</b-link>
       </p>
 
-      <b-form @submit="onSubmit" @reset="onReset" v-if="show" style="padding-top:30px;">
+      <b-form @submit="onSubmit" @reset="onReset" v-if="show" style="margin-top:40px;">
         <b-form-group id="input-group-1" label="Email address:" label-for="input-1" label-size="sm">
           <b-form-input
             size="sm"
@@ -30,16 +29,16 @@
             v-model="form.email"
             type="email"
             required
-            placeholder="Enter email"
+            placeholder="example@gmail.com"
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group id="input-group-2" label="Your Name:" label-for="input-2" label-size="sm">
+        <b-form-group id="input-group-2" label="Password:" label-for="input-2" label-size="sm" style="margin-top:5px;">
           <b-form-input
             id="input-2"
             v-model="form.name"
             size="sm"
-            placeholder="Enter name"
+            placeholder="password"
             required
           ></b-form-input>
         </b-form-group>
@@ -49,7 +48,7 @@
             size="sm"
             type="submit"
             variant="primary"
-            style="margin-right:5px; margin-top:20px; width: 200px;"
+            style="margin-right:5px; margin-top:40px; width: 180px;"
           >Login to SpendyBudget</b-button>
         </div>
       </b-form>
@@ -63,17 +62,8 @@ export default {
     return {
       form: {
         email: "",
-        name: "",
-        food: null,
-        checked: []
+        name: ""
       },
-      foods: [
-        { text: "Select One", value: null },
-        "Carrots",
-        "Beans",
-        "Tomatoes",
-        "Corn"
-      ],
       show: true
     };
   },
@@ -87,8 +77,6 @@ export default {
       // Reset our form values
       this.form.email = "";
       this.form.name = "";
-      this.form.food = null;
-      this.form.checked = [];
       // Trick to reset/clear native browser form validation state
       this.show = false;
       this.$nextTick(() => {
@@ -101,4 +89,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+* {
+  margin: 0
+}
 </style>
