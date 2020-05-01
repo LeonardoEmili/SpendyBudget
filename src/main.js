@@ -1,11 +1,19 @@
+// Import Vue and initialize Boostrap
 import Vue from 'vue'
-import firebase from 'firebase'
-import Index from './components/Index.vue'
-import Login from './components/Login.vue'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+// Remove the production mode warning
 Vue.config.productionTip = false
+// Install BootstrapVue
+Vue.use(BootstrapVue)
+// Optionally install the BootstrapVue icon components plugin
+Vue.use(IconsPlugin)
 
-// Your web app's Firebase configuration
+import firebase from 'firebase'
+
+// Web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBWFn7YZi8syAr1PMbW90A97hCoxXz-oe0",
   authDomain: "spendybudget.firebaseapp.com",
@@ -21,22 +29,10 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig)
 firebase.analytics()
 
-const routes = {
-  '/': Index,
-  '/login': Login
-}
+import App from './App.vue'
+import router from './router'
 
 new Vue({
-  data: {
-    currentRoute: window.location.pathname
-  },
-  computed: {
-    ViewComponent () {
-      return routes[this.currentRoute] || Index
-    }
-  },
-
-  render: function (h) {
-    return h(this.ViewComponent)
-  } 
+  router,
+  render: h => h(App),
 }).$mount('#app')
