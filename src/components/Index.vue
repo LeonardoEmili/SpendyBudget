@@ -1,10 +1,8 @@
 <template>
-  <div id="app">
     <div class="index">
         <h1>Hello from the Index!</h1>
         <p>Prova prova</p>
     </div>
-  </div>
 </template>
 
 <script>

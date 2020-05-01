@@ -1,8 +1,6 @@
 <template>
-  <div id="app">
   <div class="login">
    <p>Login heree</p>
-  </div>
   </div>
 </template>
 
