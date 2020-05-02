@@ -73,7 +73,7 @@
 <script>
 import * as functions from '../plugins/firebase-vue'
 import sha512 from "js-sha512";
-//import router from "./router";
+import router from "../router";
 
 export default {
   data() {
@@ -107,6 +107,7 @@ export default {
       this.isLoading = false;
       if (result.data != null) {
         console.log("Bentornato " + result.data.name);
+        router.push('/home');
       } else {
         console.log("Wrong email or password. Please try again.");
       }

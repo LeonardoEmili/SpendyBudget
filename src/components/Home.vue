@@ -15,7 +15,7 @@
 
     <center>
       <div id="welcome-div">
-        <h1>Same spending tracker, new style</h1>
+        <h1>Home Page</h1>
         <p>A simpe expense tracker to help you manage your money.</p>
         <div style="margin-top:50px">
           <img src="../assets/chart1.png" width="240px" alt="." style="margin-right:50px" />
