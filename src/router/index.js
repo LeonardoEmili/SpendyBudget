@@ -4,11 +4,8 @@ import Index from '../components/Index.vue'
 import Login from '../components/Login.vue'
 import SignUp from '../components/Signup.vue'
 import About from '../components/About.vue'
+import Home from '../components/Home.vue'
 //import Profile from '../views/Profile.vue'
-
-//import Index from './components/Index.vue'
-
-//const routes = {'/': Index,'/login': Login}
 
 Vue.use(VueRouter);
 
@@ -32,6 +29,11 @@ const routes = [
     path: '/about',
     name: 'About Us',
     component: About
+  },
+  {
+    path: '/home',
+    name: 'Home',
+    component: Home
   }
 ]
 

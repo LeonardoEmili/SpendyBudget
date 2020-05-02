@@ -21,6 +21,13 @@
         <b-link to="/signup">Sign up here!</b-link>
       </p>
 
+      <b-spinner
+        variant="primary"
+        label="Spinning"
+        v-show="isLoading"
+        style="position: absolute; top:50%; left:50%;"
+      ></b-spinner>
+
       <b-form @submit="onSubmit" style="margin-top:40px;">
         <b-form-group id="input-group-1" label="Email address:" label-for="input-1" label-size="sm">
           <b-form-input
@@ -66,6 +73,11 @@
 <script>
 import firebase from "firebase";
 import sha512 from "js-sha512";
+//import router from "./router";
+
+const loginWithEmailAndPassword = firebase
+  .functions()
+  .httpsCallable("loginWithEmailAndPassword");
 
 export default {
   data() {
@@ -73,27 +85,34 @@ export default {
       form: {
         email: "",
         password: ""
-      }
+      },
+      isLoading: false
     };
   },
+  computed: {},
   methods: {
     async onSubmit(evt) {
       evt.preventDefault();
-      //const user = JSON.stringify(this.form);
-      console.log(sha512(this.form.password));
+
+      if (this.isLoading) {
+        // Prevent sending a new request while the previous is still being processed
+        return;
+      }
+
+      this.isLoading = true;
+
       const user = {
         email: this.form.email,
         password: sha512(this.form.password)
       };
-      let helloWorld = firebase.functions().httpsCallable("helloWorld");
-      helloWorld(user).then(function(result) {
-        if (result.data != null) {
-          console.log("Bentornato " + result.data.name);
-        } else {
-          console.log("Wrong email or password. Please try again.");
-        }
-        
-      });
+      let result = await loginWithEmailAndPassword(user);
+
+      this.isLoading = false;
+      if (result.data != null) {
+        console.log("Bentornato " + result.data.name);
+      } else {
+        console.log("Wrong email or password. Please try again.");
+      }
     }
   }
 };
