@@ -3,7 +3,7 @@
   <div id="app">
     <router-view />
     <b-card id="footer">
-      <b-row id="footer-row">
+      <b-row>
         <b-col>
           <b-card-text class="footer-text">SpendyBudget 2020</b-card-text>
         </b-col>
@@ -36,15 +36,14 @@ export default {
 <style scoped>
 #footer {
   background-color: #24292e;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   height: 100px;
   width: 100%;
   text-align: center;
 }
-#footer-row {
-}
+
 .footer-text {
   color: aliceblue;
 }
