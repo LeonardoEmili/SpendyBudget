@@ -10,8 +10,13 @@
   "dependencies": {
     "bootstrap-vue": "^2.1.0",
     "core-js": "^3.6.4",
+    "dns": "^0.2.2",
     "firebase": "^7.14.2",
+    "firebase-admin": "^8.11.0",
+    "firebase-functions": "^3.6.1",
+    "http2": "^3.3.7",
     "jquery": "^3.5.0",
+    "js-sha512": "^0.8.0",
     "vue": "^2.6.11",
     "vue-router": "^3.1.6"
   },

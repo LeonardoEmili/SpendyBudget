@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div>
     <b-navbar class="my-asd">
       <b-navbar-brand to="/" class="my-asd">
         <img src="../assets/logo.png" height="60px" width="60px" alt="." />
@@ -12,16 +12,16 @@
       </b-navbar-nav>
     </b-navbar>
 
-    <div style="width: 320px; margin-left: auto; margin-right: auto; margin-top: 50px;">
-      <p style="font-size:24px; text-align:center;">
+    <div style="width: 360px; margin-left: auto; margin-right: auto; margin-top: 15vh;">
+      <p style="font-size:32px; text-align:center;">
         <b>Login</b> to SpendyBudget
       </p>
-      <p style="text-align:center; font-size: 15px; margin-top: 5px;">
+      <p style="text-align:center; font-size: 16px; margin-top: 5px;">
         Don't have an account yet?
         <b-link to="/signup">Sign up here!</b-link>
       </p>
 
-      <b-form @submit="onSubmit" @reset="onReset" v-if="show" style="margin-top:40px;">
+      <b-form @submit="onSubmit" style="margin-top:40px;">
         <b-form-group id="input-group-1" label="Email address:" label-for="input-1" label-size="sm">
           <b-form-input
             size="sm"
@@ -33,12 +33,19 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group id="input-group-2" label="Password:" label-for="input-2" label-size="sm" style="margin-top:5px;">
+        <b-form-group
+          id="input-group-2"
+          label="Password:"
+          label-for="input-2"
+          label-size="sm"
+          style="margin-top:5px;"
+        >
           <b-form-input
             id="input-2"
-            v-model="form.name"
+            v-model="form.password"
+            type="password"
             size="sm"
-            placeholder="password"
+            placeholder="qwerty123@"
             required
           ></b-form-input>
         </b-form-group>
@@ -48,7 +55,7 @@
             size="sm"
             type="submit"
             variant="primary"
-            style="margin-right:5px; margin-top:40px; width: 180px;"
+            style="margin-top:30px;"
           >Login to SpendyBudget</b-button>
         </div>
       </b-form>
@@ -57,30 +64,35 @@
 </template>
 
 <script>
+import firebase from "firebase";
+import sha512 from "js-sha512";
+
 export default {
   data() {
     return {
       form: {
         email: "",
-        name: ""
-      },
-      show: true
+        password: ""
+      }
     };
   },
   methods: {
-    onSubmit(evt) {
+    async onSubmit(evt) {
       evt.preventDefault();
-      alert(JSON.stringify(this.form));
-    },
-    onReset(evt) {
-      evt.preventDefault();
-      // Reset our form values
-      this.form.email = "";
-      this.form.name = "";
-      // Trick to reset/clear native browser form validation state
-      this.show = false;
-      this.$nextTick(() => {
-        this.show = true;
+      //const user = JSON.stringify(this.form);
+      console.log(sha512(this.form.password));
+      const user = {
+        email: this.form.email,
+        password: sha512(this.form.password)
+      };
+      let helloWorld = firebase.functions().httpsCallable("helloWorld");
+      helloWorld(user).then(function(result) {
+        if (result.data != null) {
+          console.log("Bentornato " + result.data.name);
+        } else {
+          console.log("Wrong email or password. Please try again.");
+        }
+        
       });
     }
   }
@@ -89,7 +101,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-* {
-  margin: 0
-}
 </style>

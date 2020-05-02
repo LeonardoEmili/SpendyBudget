@@ -1,7 +1,7 @@
 <template>
   <div>
-    <b-navbar class="my-asd">
-      <b-navbar-brand to="/" class="my-asd">
+    <b-navbar>
+      <b-navbar-brand to="/">
         <img src="../assets/logo.png" height="60px" width="60px" alt="." />
         SpendyBudget
       </b-navbar-brand>
@@ -36,10 +36,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.my-asd {
-  padding-top: 2px;
-  padding-bottom: 2px;
-}
 #welcome-div {
   padding-top: 100px;
 }
