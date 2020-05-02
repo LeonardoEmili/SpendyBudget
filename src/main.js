@@ -1,17 +1,16 @@
-// Import Vue and initialize Boostrap
 import Vue from 'vue'
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
-
-// Remove the production mode warning
-Vue.config.productionTip = false
-// Install BootstrapVue
-Vue.use(BootstrapVue)
-// Optionally install the BootstrapVue icon components plugin
-Vue.use(IconsPlugin)
-
+import './plugins/bootstrap-vue'
+import App from './App.vue'
+import router from './router'
 import firebase from 'firebase'
+
+// TODO: check if these two dependencies are required (at the moment the web app is working without them)
+// remove them from dependencies too (package.json) if they are not needed.
+//import '@babel/polyfill'
+//import 'mutationobserver-shim'
+
+// Remove production mode's warnings
+Vue.config.productionTip = false
 
 // Web app's Firebase configuration
 const firebaseConfig = {
@@ -28,9 +27,6 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig)
 firebase.analytics()
-
-import App from './App.vue'
-import router from './router'
 
 new Vue({
   router,
