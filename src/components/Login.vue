@@ -71,13 +71,9 @@
 </template>
 
 <script>
-import firebase from "firebase";
+import * as functions from '../plugins/firebase-vue'
 import sha512 from "js-sha512";
 //import router from "./router";
-
-const loginWithEmailAndPassword = firebase
-  .functions()
-  .httpsCallable("loginWithEmailAndPassword");
 
 export default {
   data() {
@@ -105,7 +101,8 @@ export default {
         email: this.form.email,
         password: sha512(this.form.password)
       };
-      let result = await loginWithEmailAndPassword(user);
+      
+      let result = await functions.loginWithEmailAndPassword(user);
 
       this.isLoading = false;
       if (result.data != null) {
