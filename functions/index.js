@@ -48,7 +48,7 @@ exports.signInSilently = functions.https.onRequest(async (req, res) => {
     const data = JSON.parse(req.body);
 
     const user = await getUserBySessionToken(data["sessionToken"]);
-    if (user == null) {
+    if (user === null) {
         res.send(JSON.stringify({
             error: "No user found"
         }));
@@ -72,7 +72,7 @@ async function getUserBySessionToken(sessionToken) {
         .get();
 
     // No user found.
-    if (snaps.docs.length == 0) {
+    if (snaps.docs.length === 0) {
         return null;
     }
 

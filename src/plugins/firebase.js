@@ -24,8 +24,8 @@ firebase.analytics()
 
 export const loginWithEmailAndPassword = function (user, handleResponse) {
     let xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/loginWithEmailAndPassword", true);
-    //xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/loginWithEmailAndPassword");
+    //xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/loginWithEmailAndPassword", true);
+    xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/loginWithEmailAndPassword");
 
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState == 4) {
@@ -46,9 +46,10 @@ export const signInSilently = async function () {
 
     // Making request that checks the user existence and returns its data
     let xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/signInSilently", true);
+    //xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/signInSilently", true);
+    xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/signInSilently", true);
     xmlHttp.onreadystatechange = () => {
-        if (xmlHttp.readyState == 4) {
+        if (xmlHttp.readyState === 4) {
             const res = JSON.parse(xmlHttp.responseText);
             if (res.error !== undefined) {
                 console.log(res.error);
@@ -69,7 +70,7 @@ export const hello = function () {
     xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/hello");
     xmlHttp.withCredentials = true;
     xmlHttp.onreadystatechange = function () {
-        if (xmlHttp.readyState == 4) {
+        if (xmlHttp.readyState === 4) {
             console.log(xmlHttp);
         }
     };
