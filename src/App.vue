@@ -1,6 +1,6 @@
 <template>
   <!-- navbar -->
-  <div id="app">
+  <div id="app" >
     <router-view />
     <b-card id="footer">
       <b-row>
@@ -28,6 +28,7 @@ export default {
     openGithub() {
       window.open("https://github.com/LeonardoEmili/SpendyBudget", "_blank");
     }
+    
   }
 };
 </script>

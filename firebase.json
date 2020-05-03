@@ -24,5 +24,9 @@
   },
   "storage": {
     "rules": "storage.rules"
-  }
+  },
+  "emulators": {
+    "functions": {
+      "port": "16492"
+    }}
 }
