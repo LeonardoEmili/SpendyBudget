@@ -72,8 +72,9 @@
 
 <script>
 import * as functions from "../plugins/firebase";
+import * as utils from '../utils';
 import sha512 from "js-sha512";
-//import router from "../router";
+import router from "../router";
 
 export default {
   data() {
@@ -87,7 +88,7 @@ export default {
   },
   computed: {},
   methods: {
-    async onSubmit(evt) {
+    onSubmit(evt) {
       evt.preventDefault();
 
       if (this.isLoading) {
@@ -97,18 +98,31 @@ export default {
 
       this.isLoading = true;
 
+      let email = this.form.email;
+      let hashedPassword = sha512(this.form.password);
       const user = {
-        email: this.form.email,
-        password: sha512(this.form.password)
+        email: email,
+        password: hashedPassword
       };
 
       //functions.hello();
 
       functions.loginWithEmailAndPassword(user, xmlHttp => {
-        console.log(xmlHttp.response);
-        console.log(xmlHttp.getAllResponseHeaders());
-        //console.log(xmlHttp.getResponseHeader("Set-Cookie"));
-        //Cookie
+
+
+        let response = JSON.parse(xmlHttp.responseText);
+        if (response.error !== undefined) {
+          // Handling error response
+          console.log(response.error);
+          // TODO: Tell the user his data was incorrect
+          return;
+        }
+
+        // Storing session token as a cookie
+        document.cookie = xmlHttp.getResponseHeader('Set-Cookie3');
+
+        router.replace("/home");
+
       });
     }
   }

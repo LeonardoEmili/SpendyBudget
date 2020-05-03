@@ -7,30 +7,23 @@ const db = admin.firestore();
 
 exports.loginWithEmailAndPassword = functions.https.onRequest(async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
-    //res.setHeader("Access-Control-Expose-Headers", "Transfer-Encoding");
-    res.setHeader('Set-Cookie: cross-site-cookie=Set-Cookie; SameSite=None; Secure');
+
     const data = JSON.parse(req.body)
 
     const email = data['email'];
     const password = data['password'];
 
     // Generate a new cookie if there isn't one or if it has expired
-    const sessionCookie = generateSessionCookie();
+    const sessionToken = generateSessionToken();
 
     const user = await db.collection('users').where('email', '==', email).where('password', '==', password).get();
     if (user.docs.length === 1) {
-
-        let resData = {};
         
-        resData["__session"] = generateSessionCookie();
+        res.setHeader("Access-Control-Expose-Headers", "Set-Cookie3")
+        const options = { maxAge: 30, httpOnly: true, secure: true };
+        res.setHeader('Set-Cookie3', '__session=' + sessionToken);
 
-        //res.cookie("Set-Cookie", "__session=" + sessionCookie);
-        //res.cookie('Set-Cookie', 'cookievalue', { maxAge: 900000, httpOnly: true });
-
-        //res.setHeader("Set-Cookie", "__session=" + sessionCookie);
-
-        resData["user"] = user.docs[0].data();
-        res.send(resData);
+        res.send(user.docs[0].data());
     } else {
         res.send('{"error": "User not found"}');
     }
@@ -43,12 +36,12 @@ exports.hello = functions.https.onRequest(async (req, res) => {
 });
 
 
-const COOKIE_LENGTH = 64;
+const SESSION_TOKEN_LENGTH = 64;
 
-function generateSessionCookie() {
+function generateSessionToken() {
     var result = '';
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (var i = 0; i < COOKIE_LENGTH; i++) {
+    for (var i = 0; i < SESSION_TOKEN_LENGTH; i++) {
         result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
     return result;
