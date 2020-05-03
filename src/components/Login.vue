@@ -121,7 +121,7 @@ export default {
 
         // Storing session token as a cookie
         console.log(xmlHttp.getAllResponseHeaders())
-        document.cookie = xmlHttp.getResponseHeader("Set-Cookie1");
+        localStorage.sessionToken = xmlHttp.getResponseHeader("Set-Cookie1");
 
         router.replace("/home");
       });

@@ -42,9 +42,20 @@ exports.hello = functions.https.onRequest(async (req, res) => {
 
 exports.signInSilently = functions.https.onRequest(async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
+    //res.send(req.headers.cookie)
     //req.get('Set-Cookie')
-    res.send(req.headers.cookie);
+    
+    const data = JSON.parse(req.body);
 
+    const user = await getUserBySessionToken(data["sessionToken"]);
+    if (user == null) {
+        res.send(JSON.stringify({
+            error: "No user found"
+        }));
+        return;
+    }
+    
+    res.send(user);
 
     //res.send(req.get('Set-Cookie3'));
 });

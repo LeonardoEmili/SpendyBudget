@@ -1,4 +1,5 @@
 import firebase from 'firebase'
+import router from '../router/index.js'
 
 // Web app's Firebase configuration
 const firebaseConfig = {
@@ -34,15 +35,33 @@ export const loginWithEmailAndPassword = function (user, handleResponse) {
     xmlHttp.send(JSON.stringify(user));
 }
 
+
+
 export const signInSilently = async function () {
+    // If there is no active session, redirecting to the welcome page
+    if (localStorage.sessionToken === undefined) {
+        router.replace("/");
+        return;
+    }
+
+    // Making request that checks the user existence and returns its data
     let xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/signInSilently", true);
+    xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/signInSilently", true);
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState == 4) {
-            console.log(xmlHttp.responseText);
+            const res = JSON.parse(xmlHttp.responseText);
+            if (res.error !== undefined) {
+                console.log(res.error);
+                localStorage.removeItem("sessionToken");
+                router.replace("/");
+            }
+            // TODO: save user's data (it's contained into the res object)
+            router.replace("/home");
         }
     };
-    xmlHttp.send();
+    xmlHttp.send(JSON.stringify({
+        sessionToken: localStorage.sessionToken
+    }));
 }
 
 export const hello = function () {
