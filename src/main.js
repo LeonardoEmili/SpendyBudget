@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import './plugins/bootstrap-vue'
-import './plugins/firebase-vue'
+import './plugins/firebase'
 import App from './App.vue'
 import router from './router'
 

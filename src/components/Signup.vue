@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import * as functions from "../plugins/firebase-vue";
+import * as functions from "../plugins/firebase";
 import sha512 from "js-sha512";
 import router from "../router";
 
