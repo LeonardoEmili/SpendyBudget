@@ -72,7 +72,6 @@
 
 <script>
 import * as functions from "../plugins/firebase";
-import * as utils from "../utils";
 import sha512 from "js-sha512";
 import router from "../router";
 
