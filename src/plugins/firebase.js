@@ -16,11 +16,20 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig)
 firebase.analytics()
 
+//const cors = require('cors')({ origin: true });
 
 /**
  * Define Google Cloud Functions down here
  */
 
-export const loginWithEmailAndPassword = firebase
-    .functions()
-    .httpsCallable("loginWithEmailAndPassword");
+//export const loginWithEmailAndPassword = firebase.functions().httpsCallable("loginWithEmailAndPassword");
+
+export const loginWithEmailAndPassword = function (user) {
+    let xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("POST", "http://localhost:5001/spendybudget/us-central1/loginWithEmailAndPassword");
+    xmlHttp.setRequestHeader("Content-Type", "application/json");
+    xmlHttp.send(user);
+    console.log("HERE");
+    console.log(xmlHttp.response);
+    return xmlHttp.response;
+}

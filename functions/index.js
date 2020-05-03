@@ -8,6 +8,8 @@ const db = admin.firestore();
 exports.loginWithEmailAndPassword = functions.https.onRequest(async (req, res) => {
     const email = req.body['email'];
     const password = req.body['password'];
+
+    // Generate a new cookie if there isn't one or if it has expired
     const sessionCookie = generateSessionCookie();
 
     const user = await db.collection('users').where('email', '==', email).where('password', '==', password).get();
