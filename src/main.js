@@ -3,6 +3,7 @@ import './plugins/bootstrap-vue'
 import './plugins/firebase'
 import App from './App.vue'
 import router from './router'
+import i18n from './plugins/i18n-vue'
 
 // TODO: check if these two dependencies are required (at the moment the web app is working without them)
 // remove them from dependencies too (package.json) if they are not needed.
@@ -14,5 +15,6 @@ Vue.config.productionTip = false
 
 new Vue({
   router,
-  render: h => h(App),
+  i18n,
+  render: h => h(App)
 }).$mount('#app')
