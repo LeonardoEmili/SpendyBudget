@@ -24,12 +24,38 @@ firebase.analytics()
 
 //export const loginWithEmailAndPassword = firebase.functions().httpsCallable("loginWithEmailAndPassword");
 
-export const loginWithEmailAndPassword = function (user) {
+export const loginWithEmailAndPassword = function (user, handleResponse) {
     let xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("POST", "http://localhost:5001/spendybudget/us-central1/loginWithEmailAndPassword");
-    xmlHttp.setRequestHeader("Content-Type", "application/json");
-    xmlHttp.send(user);
-    console.log("HERE");
-    console.log(xmlHttp.response);
-    return xmlHttp.response;
+    xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/loginWithEmailAndPassword", true);
+    //xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/loginWithEmailAndPassword");
+
+    xmlHttp.onreadystatechange = () => {
+        if (xmlHttp.readyState == 4) {
+            handleResponse(xmlHttp);
+        }
+    };
+    xmlHttp.send(JSON.stringify(user));
 }
+
+export const hello = function () {
+    let xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/hello");
+    xmlHttp.withCredentials = true;
+    xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState == 4) {
+            console.log(xmlHttp);
+        }
+    };
+    xmlHttp.send();
+}
+
+
+/*
+xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/hello");
+    xmlHttp.send();
+    xmlHttp.onreadystatechange = () => {
+        //console.log(xmlHttp.readyState);
+        console.log(xmlHttp.responseText);
+
+    };
+*/

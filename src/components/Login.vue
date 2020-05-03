@@ -71,9 +71,9 @@
 </template>
 
 <script>
-import * as functions from '../plugins/firebase'
+import * as functions from "../plugins/firebase";
 import sha512 from "js-sha512";
-import router from "../router";
+//import router from "../router";
 
 export default {
   data() {
@@ -101,24 +101,24 @@ export default {
         email: this.form.email,
         password: sha512(this.form.password)
       };
-      
-      let result = await functions.loginWithEmailAndPassword(user);
 
-      this.isLoading = false;
-      if (result.data != null) {
-        console.log("Bentornato " + result.data.name);
-        router.push('/home');
-      } else {
-        console.log("Wrong email or password. Please try again.");
-      }
+      //functions.hello();
+
+      functions.loginWithEmailAndPassword(user, xmlHttp => {
+        console.log(xmlHttp.response);
+        console.log(xmlHttp.getAllResponseHeaders());
+        //console.log(xmlHttp.getResponseHeader("Set-Cookie"));
+        //Cookie
+      });
     }
   }
 };
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-*{
-  margin: 0
+* {
+  margin: 0;
 }
 </style>
