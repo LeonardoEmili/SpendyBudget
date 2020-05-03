@@ -3,7 +3,8 @@ import VueRouter from 'vue-router'
 import Index from '../components/Index.vue'
 import Login from '../components/Login.vue'
 import SignUp from '../components/Signup.vue'
-import About from '../components/About.vue'
+//import About from '../components/About.vue'
+import Hello from '../components/HelloI18n.vue'
 import Home from '../components/Home.vue'
 //import Profile from '../views/Profile.vue'
 
@@ -28,7 +29,7 @@ const routes = [
   {
     path: '/about',
     name: 'About Us',
-    component: About
+    component: Hello
   },
   {
     path: '/home',
