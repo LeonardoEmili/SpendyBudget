@@ -126,3 +126,6 @@ yarn-error.log*
 
 # Firebase files
 .firebase
+
+# Firebase Admin SDK
+spendybudget-firebase-adminsdk-uzio2-32c99077b6.json
