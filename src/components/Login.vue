@@ -109,6 +109,7 @@ export default {
 
       functions.loginWithEmailAndPassword(user, function(xmlHttp) {
         vm.isLoading = false;
+        console.log(xmlHttp.responseText);
 
         let response = JSON.parse(xmlHttp.responseText);
         if (response.error !== undefined) {
@@ -119,7 +120,8 @@ export default {
         }
 
         // Storing session token as a cookie
-        document.cookie = xmlHttp.getResponseHeader("Set-Cookie3");
+        console.log(xmlHttp.getAllResponseHeaders())
+        document.cookie = xmlHttp.getResponseHeader("Set-Cookie1");
 
         router.replace("/home");
       });

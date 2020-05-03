@@ -1,6 +1,6 @@
 /**
  * Returns the value of a cookie given its name.
- * @param {*} name  the value that identifies the cookie
+ * @param {String} name  the value that identifies the cookie
  */
 export function getCookie(name) {
     let result = null;
@@ -29,7 +29,7 @@ export function clearCookies() {
 
 /**
  * Deletes a cookie from its name.
- * @param {*} name the value that identifies the cookie
+ * @param {String} name the value that identifies the cookie
  */
 export function eraseCookie(name) {
     document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";

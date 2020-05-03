@@ -16,13 +16,10 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig)
 firebase.analytics()
 
-//const cors = require('cors')({ origin: true });
 
-/**
- * Define Google Cloud Functions down here
- */
 
-//export const loginWithEmailAndPassword = firebase.functions().httpsCallable("loginWithEmailAndPassword");
+// --------------- Define calls to Google Cloud Functions down here
+
 
 export const loginWithEmailAndPassword = function (user, handleResponse) {
     let xmlHttp = new XMLHttpRequest();
@@ -37,6 +34,17 @@ export const loginWithEmailAndPassword = function (user, handleResponse) {
     xmlHttp.send(JSON.stringify(user));
 }
 
+export const signInSilently = async function () {
+    let xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/signInSilently", true);
+    xmlHttp.onreadystatechange = () => {
+        if (xmlHttp.readyState == 4) {
+            console.log(xmlHttp.responseText);
+        }
+    };
+    xmlHttp.send();
+}
+
 export const hello = function () {
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/hello");
@@ -48,14 +56,3 @@ export const hello = function () {
     };
     xmlHttp.send();
 }
-
-
-/*
-xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/hello");
-    xmlHttp.send();
-    xmlHttp.onreadystatechange = () => {
-        //console.log(xmlHttp.readyState);
-        console.log(xmlHttp.responseText);
-
-    };
-*/
