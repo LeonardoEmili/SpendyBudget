@@ -72,7 +72,7 @@
 
 <script>
 import * as functions from "../plugins/firebase";
-import * as utils from '../utils';
+import * as utils from "../utils";
 import sha512 from "js-sha512";
 import router from "../router";
 
@@ -105,10 +105,11 @@ export default {
         password: hashedPassword
       };
 
-      //functions.hello();
+      // The view model.
+      let vm = this;
 
-      functions.loginWithEmailAndPassword(user, xmlHttp => {
-
+      functions.loginWithEmailAndPassword(user, function(xmlHttp) {
+        vm.isLoading = false;
 
         let response = JSON.parse(xmlHttp.responseText);
         if (response.error !== undefined) {
@@ -119,15 +120,13 @@ export default {
         }
 
         // Storing session token as a cookie
-        document.cookie = xmlHttp.getResponseHeader('Set-Cookie3');
+        document.cookie = xmlHttp.getResponseHeader("Set-Cookie3");
 
         router.replace("/home");
-
       });
     }
   }
 };
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
