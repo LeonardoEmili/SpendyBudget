@@ -27,7 +27,7 @@ exports.loginWithEmailAndPassword = functions.https.onRequest(async (req, res) =
 
         db.collection('users').doc(user.id).update({ "authTokens": authTokens });
         res.setHeader("Access-Control-Expose-Headers", "Authentication")
-        res.setHeader('Authentication',  authToken);
+        res.setHeader('Authentication', authToken);
         res.send(user.data());
     } else {
         res.send('{"error": "User not found"}');
@@ -42,7 +42,7 @@ exports.signInSilently = functions.https.onRequest(async (req, res) => {
     const authToken = String(req.headers.authorization).split("Bearer ")[1];
     const userDoc = await getUserDocByAuthToken(authToken);
     if (userDoc === null) {
-        res.send( {"error": "Invalid auth token"});
+        res.send({ "error": "Invalid auth token" });
         return;
     }
     const user = userDoc.data();
@@ -57,9 +57,9 @@ exports.loadWallets = functions.https.onRequest(async (req, res) => {
 
     const authToken = String(req.headers.authorization).split("Bearer ")[1];
     const userDoc = await getUserDocByAuthToken(authToken);
-    
+
     if (userDoc === null) {
-        res.send( {"error": "Invalid auth token"});
+        res.send({ "error": "Invalid auth token" });
         return;
     }
 
@@ -88,19 +88,21 @@ exports.createNewWallet = functions.https.onRequest(async (req, res) => {
 
     const authToken = String(req.headers.authorization).split("Bearer ")[1];
     const userDoc = await getUserDocByAuthToken(authToken);
-    
+
     if (userDoc === null) {
-        res.send( {"error": "Invalid auth token"});
+        res.send({ "error": "Invalid auth token" });
         return;
     }
 
+    const data = JSON.parse(req.body);
+
     let wallet = {
-        name: req.body.name,
-        currency: req.body.currency,
+        name: data.name,
+        currency: data.currency,
         balanceEUR: 0.0,
         budget: {
             budgetEUR: 0.0,
-            expiryDate: new admin.firestore.Timestamp(seconds = 0)
+            expiryDate: admin.firestore.Timestamp.fromMillis(0)
         }
     }
 
@@ -108,7 +110,7 @@ exports.createNewWallet = functions.https.onRequest(async (req, res) => {
         .doc(userDoc.id)
         .collection("wallets")
         .add(wallet)
-    
+
 
     wallet["id"] = doc.id
 
