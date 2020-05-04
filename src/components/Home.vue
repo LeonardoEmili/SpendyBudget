@@ -19,7 +19,7 @@
         <div v-for="wallet in wallets" :key="wallet.id">
           <div style="background-color: cyan">
             <p>{{wallet.name}}</p>
-            <p>{{wallet.balanceEUR}} {{wallet.currency}}</p>
+            <p>{{convertFromEUR(wallet.balanceEUR, wallet.currency)}} {{wallet.currency}}</p>
           </div>
           <br />
           <br />
@@ -55,6 +55,7 @@
 
 <script>
 import { loadWallets, createNewWallet } from "../plugins/firebase";
+import * as utils from "../utils"
 
 export default {
   name: "Home",
@@ -80,6 +81,9 @@ export default {
       createNewWallet(formData, wallet => this.wallets.push(wallet));
 
       this.$bvModal.hide("new_wallet_modal");
+    },
+    convertFromEUR(quantityEUR, currency) {
+      return utils.convertFromEUR(quantityEUR, currency);
     }
   },
   mounted: function() {
