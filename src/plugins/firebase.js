@@ -27,7 +27,7 @@ export const loginWithEmailAndPassword = function (user, handleResponse) {
     //xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/loginWithEmailAndPassword");
 
     xmlHttp.onreadystatechange = () => {
-        if (xmlHttp.readyState == 4) {
+        if (xmlHttp.readyState === 4) {
             handleResponse(xmlHttp);
         }
     };
@@ -39,13 +39,13 @@ export const loginWithEmailAndPassword = function (user, handleResponse) {
  * "Authorization" request header field with the "Bearer" HTTP authorization scheme.
  * @param {String} authToken the security token used to login
  */
-export const signInSilently = async function (authToken) {
+export const signInSilently = async function (authToken, handleResponse) {
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/signInSilently", true);
     xmlHttp.setRequestHeader('Authorization', 'Bearer ' + authToken);
     xmlHttp.onreadystatechange = () => {
-        if (xmlHttp.readyState == 4) {
-            console.log(xmlHttp.responseText);
+        if (xmlHttp.readyState === 4) {
+            handleResponse(xmlHttp.responseText)
         }
     };
     xmlHttp.send();
@@ -56,7 +56,7 @@ export const hello = function () {
     xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/hello");
     xmlHttp.withCredentials = true;
     xmlHttp.onreadystatechange = function () {
-        if (xmlHttp.readyState == 4) {
+        if (xmlHttp.readyState === 4) {
             console.log(xmlHttp);
         }
     };

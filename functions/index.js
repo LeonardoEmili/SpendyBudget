@@ -26,8 +26,8 @@ exports.loginWithEmailAndPassword = functions.https.onRequest(async (req, res) =
         authTokens.push(authToken);
 
         db.collection('users').doc(user.id).update({ "authTokens": authTokens });
-        res.setHeader("Access-Control-Expose-Headers", "Set-Cookie1")
-        res.setHeader('Set-Cookie1', '__token=' + authToken);
+        res.setHeader("Access-Control-Expose-Headers", "Authentication")
+        res.setHeader('Authentication', '__token=' + authToken);
         res.send(user.data());
     } else {
         res.send('{"error": "User not found"}');
