@@ -17,7 +17,13 @@
         <!-- List of wallets -->
 
         <h1>My wallets:</h1>
-          <div v-for="wallet in wallets" :key="wallet.id"> {{wallet.name}}</div>
+          <div v-for="wallet in wallets" :key="wallet.id" > 
+          <div style="background-color: cyan">
+            <p>{{wallet.name}}</p>
+            <p>{{wallet.balanceEUR}} {{wallet.currency}}</p>
+            </div>
+            <br><br>
+          </div>
        
        <!-- " New wallet" modal view -->
        
