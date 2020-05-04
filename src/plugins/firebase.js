@@ -24,45 +24,50 @@ firebase.analytics()
 
 export const loginWithEmailAndPassword = function (user, handleResponse) {
     let xmlHttp = new XMLHttpRequest();
-    //xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/loginWithEmailAndPassword", true);
-    xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/loginWithEmailAndPassword");
+    xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/loginWithEmailAndPassword", true);
+    //xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/loginWithEmailAndPassword");
 
     xmlHttp.onreadystatechange = () => {
-        if (xmlHttp.readyState == 4) {
+        if (xmlHttp.readyState === 4) {
             handleResponse(xmlHttp);
         }
     };
     xmlHttp.send(JSON.stringify(user));
 }
 
-
-
+/**
+ * Attempts a bearer authentication (a.k.a. token-based authentication) using the 
+ * "Authorization" request header field with the "Bearer" HTTP authorization scheme.
+ */
 export const signInSilently = async function () {
+
     // If there is no active session, redirecting to the welcome page
-    if (localStorage.sessionToken === undefined) {
-        router.replace("/").catch(() => {});
+    if (localStorage.authToken === undefined) {
+        console.log("No active session");
+        router.replace("/").catch(() => { });
         return;
     }
 
-    // Making request that checks the user existence and returns its data
+
     let xmlHttp = new XMLHttpRequest();
-    //xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/signInSilently", true);
-    xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/signInSilently", true);
+    xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/signInSilently", true);
+    xmlHttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken);
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
-            const res = JSON.parse(xmlHttp.responseText);
-            if (res.error !== undefined) {
-                console.log(res.error);
-                localStorage.removeItem("sessionToken");
-                router.replace("/").catch(() => {});
+            let response = JSON.parse(xmlHttp.responseText);
+            if (response.error !== undefined) {
+                console.log(response.error);
+                localStorage.removeItem("authToken");
+                router.replace("/").catch(() => { });
+                return;
             }
+            console.log("Successfully signed-in silently! Here's the user:\n" + xmlHttp.responseText);
             // TODO: save user's data (it's contained into the res object)
-            router.replace("/home").catch(() => {});
+            router.replace("/home").catch(() => { });
+
         }
     };
-    xmlHttp.send(JSON.stringify({
-        sessionToken: localStorage.sessionToken
-    }));
+    xmlHttp.send();
 }
 
 export const hello = function () {

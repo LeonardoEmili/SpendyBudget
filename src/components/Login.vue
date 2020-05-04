@@ -119,9 +119,9 @@ export default {
           return;
         }
 
-        // Storing session token as a cookie
-        console.log(xmlHttp.getAllResponseHeaders())
-        localStorage.sessionToken = xmlHttp.getResponseHeader("Set-Cookie1");
+        // Storing auth token as localStorage
+        console.log(xmlHttp.getAllResponseHeaders());
+        localStorage.authToken = xmlHttp.getResponseHeader("Authentication");
 
         router.replace("/home");
       });
