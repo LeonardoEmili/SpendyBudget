@@ -4,7 +4,7 @@ import './plugins/bootstrap-vue'
 import './plugins/firebase'
 import App from './App.vue'
 import router from './router'
-import * as functions from "./plugins/firebase"
+import { signInSilently } from './utils'
 
 // TODO: check if these two dependencies are required (at the moment the web app is working without them)
 // remove them from dependencies too (package.json) if they are not needed.
@@ -15,9 +15,7 @@ import * as functions from "./plugins/firebase"
 Vue.config.productionTip = false
 
 
-
-console.log(document.cookie);
-functions.signInSilently();
+signInSilently();
 
 new Vue({
   router,

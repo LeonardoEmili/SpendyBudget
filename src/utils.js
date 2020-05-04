@@ -26,11 +26,24 @@ export function clearCookies() {
     getCookies().forEach(eraseCookie)
 }
 
-
 /**
  * Deletes a cookie from its name.
  * @param {String} name the value that identifies the cookie
  */
 export function eraseCookie(name) {
     document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+}
+
+// --------- Utility functions for the integration with Firebase
+
+import * as functions from './plugins/firebase'
+
+/**
+ * Wrapper of the [firebase.signInSilently] function.
+ */
+export function signInSilently() {
+    let authToken = getCookie("__session");
+    if (authToken != null) {
+        functions.signInSilently(authToken);
+    }
 }

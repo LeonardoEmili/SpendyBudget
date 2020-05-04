@@ -42,8 +42,13 @@ exports.hello = functions.https.onRequest(async (req, res) => {
 
 exports.signInSilently = functions.https.onRequest(async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
+    //res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization");
+    //res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authorization');
+
+    //res.send("AJEJE");
     //req.get('Set-Cookie')
-    res.send(req.headers.cookie);
+    res.send(req.headers.authorization);
 
 
     //res.send(req.get('Set-Cookie3'));

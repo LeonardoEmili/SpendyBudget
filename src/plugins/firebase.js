@@ -34,9 +34,15 @@ export const loginWithEmailAndPassword = function (user, handleResponse) {
     xmlHttp.send(JSON.stringify(user));
 }
 
-export const signInSilently = async function () {
+/**
+ * Attempts a bearer authentication (a.k.a. token-based authentication) using the 
+ * "Authorization" request header field with the "Bearer" HTTP authorization scheme.
+ * @param {String} authToken the security token used to login
+ */
+export const signInSilently = async function (authToken) {
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/signInSilently", true);
+    xmlHttp.setRequestHeader('Authorization', 'Bearer ' + authToken);
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState == 4) {
             console.log(xmlHttp.responseText);
