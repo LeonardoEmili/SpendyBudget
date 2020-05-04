@@ -24,8 +24,8 @@ firebase.analytics()
 
 export const loginWithEmailAndPassword = function (user, handleResponse) {
     let xmlHttp = new XMLHttpRequest();
-    //xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/loginWithEmailAndPassword", true);
-    xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/loginWithEmailAndPassword");
+    xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/loginWithEmailAndPassword", true);
+    //xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/loginWithEmailAndPassword");
 
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
@@ -40,11 +40,14 @@ export const loginWithEmailAndPassword = function (user, handleResponse) {
  * "Authorization" request header field with the "Bearer" HTTP authorization scheme.
  */
 export const signInSilently = async function () {
+
     // If there is no active session, redirecting to the welcome page
     if (localStorage.authToken === undefined) {
+        console.log("No active session");
         router.replace("/").catch(() => { });
         return;
     }
+
 
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/signInSilently", true);
@@ -52,12 +55,13 @@ export const signInSilently = async function () {
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
             let response = JSON.parse(xmlHttp.responseText);
-            console.log("Successfully signed-in silently! Here's the user:\n" + response);
             if (response.error !== undefined) {
                 console.log(response.error);
                 localStorage.removeItem("authToken");
                 router.replace("/").catch(() => { });
+                return;
             }
+            console.log("Successfully signed-in silently! Here's the user:\n" + xmlHttp.responseText);
             // TODO: save user's data (it's contained into the res object)
             router.replace("/home").catch(() => { });
 

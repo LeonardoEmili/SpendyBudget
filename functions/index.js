@@ -27,7 +27,7 @@ exports.loginWithEmailAndPassword = functions.https.onRequest(async (req, res) =
 
         db.collection('users').doc(user.id).update({ "authTokens": authTokens });
         res.setHeader("Access-Control-Expose-Headers", "Authentication")
-        res.setHeader('Authentication', '__token=' + authToken);
+        res.setHeader('Authentication',  authToken);
         res.send(user.data());
     } else {
         res.send('{"error": "User not found"}');
@@ -53,7 +53,7 @@ exports.signInSilently = functions.https.onRequest(async (req, res) => {
 async function getUserByAuthToken(authToken) {
 
     if (authToken == null) {
-        return {"error": "Invalid auth token"};
+        return {"error": "Invalid auth tokan"};
     }
 
     const snaps = await db.collection('users')
@@ -63,7 +63,7 @@ async function getUserByAuthToken(authToken) {
 
     // No user found with the given auth token.
     if (snaps.docs.length == 0) {
-        return {"error": "Invalid auth token"};
+        return {"error": "Invalid authI token"};
     }
 
     return snaps.docs[0].data();
