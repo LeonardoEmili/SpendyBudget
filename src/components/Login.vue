@@ -119,7 +119,7 @@ export default {
           return;
         }
 
-        // Storing session token as a cookie
+        // Storing auth token as a cookie
         console.log(xmlHttp.getAllResponseHeaders())
         document.cookie = xmlHttp.getResponseHeader("Set-Cookie1");
 

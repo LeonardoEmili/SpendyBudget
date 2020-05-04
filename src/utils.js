@@ -42,8 +42,9 @@ import * as functions from './plugins/firebase'
  * Wrapper of the [firebase.signInSilently] function.
  */
 export function signInSilently() {
-    let authToken = getCookie("__session");
+    let authToken = getCookie("__token");
+    functions.signInSilently(authToken);
     if (authToken != null) {
-        functions.signInSilently(authToken);
+        //functions.signInSilently(authToken);
     }
 }
