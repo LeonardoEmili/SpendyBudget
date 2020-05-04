@@ -40,7 +40,7 @@ export const loginWithEmailAndPassword = function (user, handleResponse) {
 export const signInSilently = async function () {
     // If there is no active session, redirecting to the welcome page
     if (localStorage.sessionToken === undefined) {
-        router.replace("/");
+        router.replace("/").catch(() => {});
         return;
     }
 
@@ -54,10 +54,10 @@ export const signInSilently = async function () {
             if (res.error !== undefined) {
                 console.log(res.error);
                 localStorage.removeItem("sessionToken");
-                router.replace("/");
+                router.replace("/").catch(() => {});
             }
             // TODO: save user's data (it's contained into the res object)
-            router.replace("/home");
+            router.replace("/home").catch(() => {});
         }
     };
     xmlHttp.send(JSON.stringify({
