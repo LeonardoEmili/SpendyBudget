@@ -4,7 +4,7 @@ import './plugins/bootstrap-vue'
 import './plugins/firebase'
 import App from './App.vue'
 import router from './router'
-import { signInSilently } from './utils'
+import { signInSilently } from './plugins/firebase'
 
 // TODO: check if these two dependencies are required (at the moment the web app is working without them)
 // remove them from dependencies too (package.json) if they are not needed.
