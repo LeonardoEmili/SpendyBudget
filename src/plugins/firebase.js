@@ -1,5 +1,6 @@
 import firebase from 'firebase'
 import router from '../router/index.js'
+import * as utils from '../utils'
 
 // Web app's Firebase configuration
 const firebaseConfig = {
@@ -44,10 +45,9 @@ export const signInSilently = async function () {
     // If there is no active session, redirecting to the welcome page
     if (localStorage.authToken === undefined) {
         console.log("No active session");
-        router.replace("/").catch(() => { });
+        utils.resetSession();
         return;
     }
-
 
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/signInSilently", true);
@@ -57,18 +57,53 @@ export const signInSilently = async function () {
             let response = JSON.parse(xmlHttp.responseText);
             if (response.error !== undefined) {
                 console.log(response.error);
-                localStorage.removeItem("authToken");
-                router.replace("/").catch(() => { });
+                utils.resetSession();
                 return;
             }
             console.log("Successfully signed-in silently! Here's the user:\n" + xmlHttp.responseText);
-            // TODO: save user's data (it's contained into the res object)
             router.replace("/home").catch(() => { });
 
         }
     };
     xmlHttp.send();
 }
+
+
+export function loadWallets (onSuccess) {
+    let xmlHttp = new XMLHttpRequest()
+  xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/loadWallets", true)
+  xmlHttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken)
+  xmlHttp.onreadystatechange = () => {
+      if (xmlHttp.readyState === 4) {
+          const wallets = JSON.parse(xmlHttp.responseText)
+          if (typeof(wallets) === 'object' && 'error' in wallets) {
+              console.log(wallets.error)
+              utils.resetSession()
+              return
+          }
+          onSuccess(wallets)
+      }
+    }
+  xmlHttp.send()
+  }
+
+  export function createNewWallet (newWallet, onSuccess) {
+    let xmlHttp = new XMLHttpRequest()
+  xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/createNewWallet", true)
+  xmlHttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken)
+  xmlHttp.onreadystatechange = () => {
+      if (xmlHttp.readyState === 4) {
+          const wallet = JSON.parse(xmlHttp.responseText)
+          if ('error' in wallet) {
+              console.log(wallet.error)
+              utils.resetSession()
+              return
+          }
+          onSuccess(wallet)
+      }
+    }
+  xmlHttp.send(JSON.stringify(newWallet))
+  }
 
 export const hello = function () {
     let xmlHttp = new XMLHttpRequest();

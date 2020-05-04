@@ -40,20 +40,90 @@ exports.signInSilently = functions.https.onRequest(async (req, res) => {
     res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization");
 
     const authToken = String(req.headers.authorization).split("Bearer ")[1];
-    const user = await getUserByAuthToken(authToken);
-    res.send(user)
+    const userDoc = await getUserDocByAuthToken(authToken);
+    if (userDoc === null) {
+        res.send( {"error": "Invalid auth token"});
+        return;
+    }
+    const user = userDoc.data();
+    res.send(user);
 
 });
 
+exports.loadWallets = functions.https.onRequest(async (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+
+    res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization");
+
+    const authToken = String(req.headers.authorization).split("Bearer ")[1];
+    const userDoc = await getUserDocByAuthToken(authToken);
+    
+    if (userDoc === null) {
+        res.send( {"error": "Invalid auth token"});
+        return;
+    }
+
+    const snaps = await db.collection('users')
+        .doc(userDoc.id)
+        .collection("wallets")
+        .get();
+
+    let wallets = [];
+
+    snaps.forEach(snap => {
+        let wallet = snap.data()
+        wallet["id"] = snap.id
+        wallets.push(wallet);
+    });
+
+    res.send(wallets);
+
+});
+
+
+exports.createNewWallet = functions.https.onRequest(async (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+
+    res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization");
+
+    const authToken = String(req.headers.authorization).split("Bearer ")[1];
+    const userDoc = await getUserDocByAuthToken(authToken);
+    
+    if (userDoc === null) {
+        res.send( {"error": "Invalid auth token"});
+        return;
+    }
+
+    let wallet = {
+        name: req.body.name,
+        currency: req.body.currency,
+        balanceEUR: 0.0,
+        budget: {
+            budgetEUR: 0.0,
+            expiryDate: new admin.firestore.Timestamp(seconds = 0)
+        }
+    }
+
+    const doc = await db.collection('users')
+        .doc(userDoc.id)
+        .collection("wallets")
+        .add(wallet)
+    
+
+    wallet["id"] = doc.id
+
+    res.send(wallet)
+});
+
 /**
- * Gets the [user] associated with the given [authToken].
+ * Gets the [user document] associated with the given [authToken].
  * If no user has that auth token, returns null.
   * @param {String} authToken 
  */
-async function getUserByAuthToken(authToken) {
+async function getUserDocByAuthToken(authToken) {
 
     if (authToken == null) {
-        return {"error": "Invalid auth tokan"};
+        return null;
     }
 
     const snaps = await db.collection('users')
@@ -63,10 +133,10 @@ async function getUserByAuthToken(authToken) {
 
     // No user found with the given auth token.
     if (snaps.docs.length == 0) {
-        return {"error": "Invalid authI token"};
+        return null;
     }
 
-    return snaps.docs[0].data();
+    return snaps.docs[0];
 }
 
 

@@ -4,7 +4,6 @@ import './plugins/bootstrap-vue'
 import './plugins/firebase'
 import App from './App.vue'
 import router from './router'
-import { signInSilently } from './plugins/firebase'
 
 // TODO: check if these two dependencies are required (at the moment the web app is working without them)
 // remove them from dependencies too (package.json) if they are not needed.
@@ -14,11 +13,13 @@ import { signInSilently } from './plugins/firebase'
 // Remove production mode's warnings
 Vue.config.productionTip = false
 
-
-signInSilently();
-
-new Vue({
+export const app = new Vue({
   router,
   i18n,
   render: h => h(App)
-}).$mount('#app')
+});
+
+app.$mount('#app')
+
+
+

@@ -1,7 +1,10 @@
 <template>
   <!-- navbar -->
   <div id="app" >
+
+    <!-- Currently loaded page (through the router) -->
     <router-view />
+
     <b-card id="footer">
       <b-row>
         <b-col>
@@ -23,13 +26,20 @@
 </template>
 
 <script>
+import { signInSilently } from './plugins/firebase'
+
+
 export default {
   methods: {
     openGithub() {
       window.open("https://github.com/LeonardoEmili/SpendyBudget", "_blank");
     }
-    
+  },
+ 
+  mounted: function () {
+    signInSilently()
   }
+  
 };
 </script>
 

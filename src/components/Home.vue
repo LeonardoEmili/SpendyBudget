@@ -13,23 +13,77 @@
 
     <center>
       <div id="welcome-div">
-        <h1>Home Page</h1>
-        <p>A simpe expense tracker to help you manage your money.</p>
-        <div style="margin-top:50px">
-          <img src="../assets/chart1.png" width="240px" alt="." style="margin-right:50px" />
 
-          <img src="../assets/chart2.png" width="240px" alt="." />
-        </div>
+        <!-- List of wallets -->
+
+        <h1>My wallets:</h1>
+          <div v-for="wallet in wallets" :key="wallet.id"> {{wallet.name}}</div>
+       
+       <!-- " New wallet" modal view -->
+       
+      <div>
+         <b-button v-b-modal.new_wallet_modal>New wallet </b-button>
+
+      <b-modal id="new_wallet_modal"  title="New wallet" hide-footer>
+
+        <form id="new_wallet_form">
+
+          Wallet name:
+          <br>
+          <input type="text" name="name" maxlength="30" required>
+          <br><br>
+          Wallet currency:
+          <br>
+          <select name="currency">
+            <option value="EUR" selected>EUR</option>
+            <option value="USD">USD</option>
+          </select>
+          
+        </form>
+      <br><br>
+      <b-button v-on:click="onNewWalletPressed">Create</b-button>
+        </b-modal>
+      </div>
+      
+      
       </div>
     </center>
   </div>
 </template>
 
 <script>
+import { loadWallets, createNewWallet } from '../plugins/firebase'
+
 export default {
   name: "Home",
-  props: {}
-};
+  data: function() {
+    return {
+      wallets: []
+    }
+  },
+  methods: {
+    onNewWalletPressed() {
+      let form = document.getElementById('new_wallet_form')
+        if (form.name.value === '') {
+          alert("Fill out all the fields")
+          return
+        }
+        
+        const formData = {
+          name: form.name.value,
+          currency: form.name.currency
+        }
+
+        createNewWallet(formData, wallet => this.wallets.push(wallet))
+
+        this.$bvModal.hide("new_wallet_modal")
+
+      }
+  },
+  mounted: function() {
+    loadWallets(wallets => this.wallets = wallets)
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
