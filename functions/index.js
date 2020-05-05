@@ -1,5 +1,6 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const FieldValue = admin.firestore.FieldValue;
 
 admin.initializeApp();
 
@@ -76,6 +77,29 @@ exports.loadWallets = functions.https.onRequest(async (req, res) => {
 
 });
 
+exports.logout = functions.https.onRequest(async (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Headers", "Authorization");
+
+    const userDoc = await authenticateRequest(req);
+    if (userDoc === null) {
+        res.send({ "error": "Invalid auth token" });
+        return;
+    }
+
+    const token = parseAuthToken(req.headers.authorization);
+    await db.collection("users").doc(userDoc.id).update({ "authTokens": FieldValue.arrayRemove(token) });
+    res.send();
+});
+
+/*
+
+docRef.update({
+   array: FieldValue.arrayRemove('idToRemove');
+});
+
+*/
+
 
 exports.createNewWallet = functions.https.onRequest(async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -109,6 +133,14 @@ exports.createNewWallet = functions.https.onRequest(async (req, res) => {
     res.send(wallet)
 });
 
+/**
+ * Returns the auth token extracted from the Bearer authentication scheme.
+ * @param {String} token the authentication token
+ */
+function parseAuthToken(tokenScheme) {
+    return String(tokenScheme).split("Bearer ")[1];
+};
+
 
 /**
  * Authenticates the request and returns the user related to the provided authentication token.
@@ -119,7 +151,7 @@ async function authenticateRequest(req) {
         // Check whether such authentication token is provided
         return null;
     }
-    const authToken = String(req.headers.authorization).split("Bearer ")[1];
+    const authToken = parseAuthToken(req.headers.authorization);
     const userDoc = await getUserDocByAuthToken(authToken);
     return userDoc;
 }

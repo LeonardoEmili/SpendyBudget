@@ -1,21 +1,34 @@
 import router from './router'
+import * as functions from './plugins/firebase'
 
 // General purpose utility function
 
-export function removeAuth() {
-    localStorage.removeItem("authToken")
-}
-
+/**
+ * Resets the current user session (client side only).
+ */
 export function resetSession() {
-    removeAuth()
+    localStorage.removeItem("authToken")
     router.replace("/").catch(() => { });
 }
 
+/**
+ * Performs the logout of the current logged user.
+ */
+export function logout() {
+    functions.logout();
+    resetSession();
+}
+
+/**
+ * Converts the value into the desidered currency.
+ * @param {Number} value the value to be converted in [currency]
+ * @param {String} currency in ["EUR", "USD"]
+ */
 export function convertFromEUR(value, currency) {
     switch (currency) {
         case "USD":
             return (value * 1.09).toFixed(2);
-
+        case "EUR":
         default:
             return value.toFixed(2);
     }

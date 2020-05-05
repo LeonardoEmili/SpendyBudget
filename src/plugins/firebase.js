@@ -22,6 +22,19 @@ firebase.analytics()
 
 // --------------- Define calls to Google Cloud Functions down here
 
+export const logout = function () {
+    let xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/logout", true);
+    //xmlHttp.open("GET", "https://us-central1-spendybudget.cloudfunctions.net/logout", true);
+    xmlHttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken);
+    xmlHttp.onreadystatechange = () => {
+        if (xmlHttp.readyState === 4) {
+            console.log("You have been successfully logged out!");
+        }
+    };
+    xmlHttp.send();
+}
+
 
 export const loginWithEmailAndPassword = function (user, handleResponse) {
     let xmlHttp = new XMLHttpRequest();

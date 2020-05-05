@@ -8,6 +8,7 @@
 
       <b-navbar-nav class="ml-auto">
         <b-nav-item to="/about">About us</b-nav-item>
+        <b-nav-item v-on:click="logout">Logout</b-nav-item>
       </b-navbar-nav>
     </b-navbar>
 
@@ -66,6 +67,9 @@ export default {
     };
   },
   methods: {
+    logout() {
+      utils.logout();
+    },
     onNewWalletPressed() {
       let form = document.getElementById("new_wallet_form");
       if (form.name.value === "") {
