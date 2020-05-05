@@ -36,8 +36,7 @@ exports.loginWithEmailAndPassword = functions.https.onRequest(async (req, res) =
 
 exports.signInSilently = functions.https.onRequest(async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
-
-    res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization");
+    res.setHeader("Access-Control-Allow-Headers", "Authorization");
 
     const authToken = String(req.headers.authorization).split("Bearer ")[1];
     const userDoc = await getUserDocByAuthToken(authToken);
@@ -52,8 +51,7 @@ exports.signInSilently = functions.https.onRequest(async (req, res) => {
 
 exports.loadWallets = functions.https.onRequest(async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
-
-    res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization");
+    res.setHeader("Access-Control-Allow-Headers", "Authorization");
 
     const authToken = String(req.headers.authorization).split("Bearer ")[1];
     const userDoc = await getUserDocByAuthToken(authToken);
@@ -83,8 +81,7 @@ exports.loadWallets = functions.https.onRequest(async (req, res) => {
 
 exports.createNewWallet = functions.https.onRequest(async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
-
-    res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization");
+    res.setHeader("Access-Control-Allow-Headers", "Authorization");
 
     const authToken = String(req.headers.authorization).split("Bearer ")[1];
     const userDoc = await getUserDocByAuthToken(authToken);
@@ -124,7 +121,7 @@ exports.createNewWallet = functions.https.onRequest(async (req, res) => {
  */
 async function getUserDocByAuthToken(authToken) {
 
-    if (authToken == null) {
+    if (authToken === null || authToken === undefined) {
         return null;
     }
 
@@ -134,7 +131,7 @@ async function getUserDocByAuthToken(authToken) {
         .get();
 
     // No user found with the given auth token.
-    if (snaps.docs.length == 0) {
+    if (snaps.docs.length === 0) {
         return null;
     }
 

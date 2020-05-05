@@ -26,7 +26,7 @@ firebase.analytics()
 export const loginWithEmailAndPassword = function (user, handleResponse) {
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/loginWithEmailAndPassword", true);
-    //xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/loginWithEmailAndPassword");
+    //xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/loginWithEmailAndPassword", true);
 
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
@@ -51,6 +51,7 @@ export const signInSilently = async function () {
 
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/signInSilently", true);
+    //xmlHttp.open("GET", "https://us-central1-spendybudget.cloudfunctions.net/signInSilently", true);
     xmlHttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken);
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
@@ -72,6 +73,7 @@ export const signInSilently = async function () {
 export function loadWallets(onSuccess) {
     let xmlHttp = new XMLHttpRequest()
     xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/loadWallets", true)
+    //xmlHttp.open("GET", "https://us-central1-spendybudget.cloudfunctions.net/loadWallets", true);
     xmlHttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken)
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
@@ -90,6 +92,7 @@ export function loadWallets(onSuccess) {
 export function createNewWallet(newWallet, onSuccess) {
     let xmlHttp = new XMLHttpRequest()
     xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/createNewWallet", true)
+    //xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/createNewWallet", true);
     xmlHttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken)
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
@@ -103,16 +106,4 @@ export function createNewWallet(newWallet, onSuccess) {
         }
     }
     xmlHttp.send(JSON.stringify(newWallet))
-}
-
-export const hello = function () {
-    let xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/hello");
-    xmlHttp.withCredentials = true;
-    xmlHttp.onreadystatechange = function () {
-        if (xmlHttp.readyState === 4) {
-            console.log(xmlHttp);
-        }
-    };
-    xmlHttp.send();
 }
