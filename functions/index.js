@@ -38,12 +38,12 @@ exports.signInSilently = functions.https.onRequest(async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Headers", "Authorization");
 
-    const authToken = String(req.headers.authorization).split("Bearer ")[1];
-    const userDoc = await getUserDocByAuthToken(authToken);
+    const userDoc = await authenticateRequest(req);
     if (userDoc === null) {
         res.send({ "error": "Invalid auth token" });
         return;
     }
+
     const user = userDoc.data();
     res.send(user);
 
@@ -53,9 +53,7 @@ exports.loadWallets = functions.https.onRequest(async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Headers", "Authorization");
 
-    const authToken = String(req.headers.authorization).split("Bearer ")[1];
-    const userDoc = await getUserDocByAuthToken(authToken);
-
+    const userDoc = await authenticateRequest(req);
     if (userDoc === null) {
         res.send({ "error": "Invalid auth token" });
         return;
@@ -83,9 +81,7 @@ exports.createNewWallet = functions.https.onRequest(async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Headers", "Authorization");
 
-    const authToken = String(req.headers.authorization).split("Bearer ")[1];
-    const userDoc = await getUserDocByAuthToken(authToken);
-
+    const userDoc = await authenticateRequest(req);
     if (userDoc === null) {
         res.send({ "error": "Invalid auth token" });
         return;
@@ -110,9 +106,23 @@ exports.createNewWallet = functions.https.onRequest(async (req, res) => {
 
 
     wallet["id"] = doc.id
-
     res.send(wallet)
 });
+
+
+/**
+ * Authenticates the request and returns the user related to the provided authentication token.
+ * @param {Request} req the incoming HTTP request
+ */
+async function authenticateRequest(req) {
+    if (req.headers.authorization === null || req.headers.authorization === undefined) {
+        // Check whether such authentication token is provided
+        return null;
+    }
+    const authToken = String(req.headers.authorization).split("Bearer ")[1];
+    const userDoc = await getUserDocByAuthToken(authToken);
+    return userDoc;
+}
 
 /**
  * Gets the [user document] associated with the given [authToken].

@@ -36,6 +36,17 @@ export const loginWithEmailAndPassword = function (user, handleResponse) {
     xmlHttp.send(JSON.stringify(user));
 }
 
+// TODO: handle functions authentication here (issue #3)
+/*export const authenticateFunction = function (name) {
+    let xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/authenticateFunction", true);
+    xmlHttp.onreadystatechange = () => {
+        if (xmlHttp.readyState === 4) {
+            handleResponse(xmlHttp);
+        }
+    };
+}*/
+
 /**
  * Attempts a bearer authentication (a.k.a. token-based authentication) using the 
  * "Authorization" request header field with the "Bearer" HTTP authorization scheme.
