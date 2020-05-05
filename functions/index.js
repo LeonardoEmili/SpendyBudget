@@ -167,7 +167,7 @@ exports.createNewWallet = functions.https.onRequest(async (req, res) => {
  */
 function parseAuthToken(tokenScheme) {
     return String(tokenScheme).split("Bearer ")[1];
-};
+}
 
 
 /**
