@@ -1,10 +1,29 @@
 <template>
   <!-- navbar -->
-  <div id="app" >
-
+  <div id="app">
     <!-- Currently loaded page (through the router) -->
     <router-view />
 
+    <v-footer absolute padless dark>
+      <v-card class="flex" flat tile id="footer">
+        <v-card-title>
+          <div>
+            <v-card-text class="py-2 white--text">
+              <strong>SpendyBudget</strong>
+              {{ new Date().getFullYear() }}
+            </v-card-text>
+          </div>
+
+          <v-spacer></v-spacer>
+
+          <v-btn class="mx-4 white--text" v-on:click="openGithub" icon>
+            <v-icon large>mdi-github</v-icon>
+          </v-btn>
+        </v-card-title>
+      </v-card>
+    </v-footer>
+
+    <!--
     <b-card id="footer">
       <b-row>
         <b-col>
@@ -21,13 +40,12 @@
           </b-button>
         </b-col>
       </b-row>
-    </b-card>
+    </b-card>-->
   </div>
 </template>
 
 <script>
-import { signInSilently } from './plugins/firebase'
-
+import { signInSilently } from "./plugins/firebase";
 
 export default {
   methods: {
@@ -35,11 +53,10 @@ export default {
       window.open("https://github.com/LeonardoEmili/SpendyBudget", "_blank");
     }
   },
- 
-  mounted: function () {
-    signInSilently()
+
+  mounted: function() {
+    signInSilently();
   }
-  
 };
 </script>
 
@@ -47,12 +64,6 @@ export default {
 <style scoped>
 #footer {
   background-color: #24292e;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  height: 100px;
-  width: 100%;
-  text-align: center;
 }
 
 .footer-text {
