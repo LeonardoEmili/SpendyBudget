@@ -29,7 +29,7 @@
       ></b-spinner>
 
       <b-form @submit="onSubmit" style="margin-top:40px;">
-        <ValidationProvider rules="required" v-slot="{ errors, valid }">
+        <ValidationProvider rules="required|email" v-slot="{ errors, valid }">
           <b-form-group label="Email address:" label-size="sm">
             <b-form-input
               size="sm"
@@ -89,16 +89,6 @@
 import * as functions from "../plugins/firebase";
 import sha512 from "js-sha512";
 import router from "../router";
-
-import { extend } from "vee-validate";
-
-extend("password", {
-  params: ["target"],
-  validate(value, { target }) {
-    return value === target;
-  },
-  message: "Password confirmation does not match"
-});
 
 export default {
   data() {

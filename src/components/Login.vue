@@ -29,33 +29,33 @@
       ></b-spinner>
 
       <b-form @submit="onSubmit" style="margin-top:40px;">
-        <b-form-group id="input-group-1" label="Email address:" label-for="input-1" label-size="sm">
-          <b-form-input
-            size="sm"
-            id="input-1"
-            v-model="email"
-            type="email"
-            required
-            placeholder="example@gmail.com"
-          ></b-form-input>
-        </b-form-group>
+        <ValidationProvider rules="required|email" v-slot="{ errors, valid }">
+          <b-form-group label="Email address:" label-size="sm">
+            <b-form-input
+              size="sm"
+              v-model="email"
+              type="email"
+              :state="errors[0] ? false : (valid ? true : null)"
+              placeholder="example@gmail.com"
+              required
+            ></b-form-input>
+            <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
+          </b-form-group>
+        </ValidationProvider>
 
-        <b-form-group
-          id="input-group-2"
-          label="Password:"
-          label-for="input-2"
-          label-size="sm"
-          style="margin-top:5px;"
-        >
-          <b-form-input
-            id="input-2"
-            v-model="password"
-            type="password"
-            size="sm"
-            placeholder="qwerty123@"
-            required
-          ></b-form-input>
-        </b-form-group>
+        <ValidationProvider rules="required" v-slot="{ errors, valid }">
+          <b-form-group label="Password:" style="margin-top:8px" label-size="sm">
+            <b-form-input
+              size="sm"
+              type="password"
+              v-model="password"
+              :state="errors[0] ? false : (valid ? true : null)"
+              placeholder="qwerty123@"
+              required
+            ></b-form-input>
+            <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
+          </b-form-group>
+        </ValidationProvider>
 
         <div style="text-align: center;">
           <b-button
