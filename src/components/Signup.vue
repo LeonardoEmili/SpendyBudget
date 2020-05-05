@@ -35,11 +35,11 @@
               size="sm"
               v-model="email"
               type="email"
-              :state="errors[0] ? false : (valid ? true : null)"
+              :state="errors[0] || error ? false : (valid ? true : null)"
               placeholder="example@gmail.com"
               required
             ></b-form-input>
-            <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
+            <b-form-invalid-feedback>{{ error || errors[0] }}</b-form-invalid-feedback>
           </b-form-group>
         </ValidationProvider>
 
@@ -96,10 +96,17 @@ export default {
       email: "",
       password: "",
       confirmation: "",
-      isLoading: false
+      firebaseError: "",
+      isLoading: false,
+      componentKey: 0
     };
   },
-  computed: {},
+  computed: {
+    error: function() {
+      // TODO: translate(firebaseError) into many languages
+      return this.firebaseError;
+    }
+  },
   methods: {
     async onSubmit(evt) {
       evt.preventDefault();
@@ -123,8 +130,7 @@ export default {
         let response = JSON.parse(xmlHttp.responseText);
         if (response.error !== undefined) {
           // Handling error response
-          console.log(response.error);
-          // TODO: Tell the user the email is already taken
+          vm.firebaseError = response.error;
           return;
         }
 
@@ -134,17 +140,6 @@ export default {
 
         router.replace("/home");
       });
-      /*
-
-
-
-      this.isLoading = false;
-      if (result.data != null) {
-        console.log("Bentornato " + result.data.name);
-        router.push("/home");
-      } else {
-        console.log("Wrong email or password. Please try again.");
-      }*/
     }
   }
 };

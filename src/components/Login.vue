@@ -35,7 +35,7 @@
               size="sm"
               v-model="email"
               type="email"
-              :state="errors[0] ? false : (valid ? true : null)"
+              :state="errors[0] || error ? false : (valid ? true : null)"
               placeholder="example@gmail.com"
               required
             ></b-form-input>
@@ -49,11 +49,11 @@
               size="sm"
               type="password"
               v-model="password"
-              :state="errors[0] ? false : (valid ? true : null)"
+              :state="errors[0] || error ? false : (valid ? true : null)"
               placeholder="qwerty123@"
               required
             ></b-form-input>
-            <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
+            <b-form-invalid-feedback>{{ error || errors[0] }}</b-form-invalid-feedback>
           </b-form-group>
         </ValidationProvider>
 
@@ -80,10 +80,16 @@ export default {
     return {
       email: "",
       password: "",
-      isLoading: false
+      isLoading: false,
+      firebaseError: ""
     };
   },
-  computed: {},
+  computed: {
+    error: function() {
+      // TODO: translate(firebaseError) into many languages
+      return this.firebaseError;
+    }
+  },
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
@@ -94,7 +100,6 @@ export default {
       }
 
       this.isLoading = true;
-
       const user = {
         email: this.email,
         password: sha512(this.password)
@@ -110,8 +115,7 @@ export default {
         let response = JSON.parse(xmlHttp.responseText);
         if (response.error !== undefined) {
           // Handling error response
-          console.log(response.error);
-          // TODO: Tell the user his data was incorrect
+          vm.firebaseError = response.error;
           return;
         }
 
