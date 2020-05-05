@@ -35,6 +35,19 @@ export const logout = function () {
     xmlHttp.send();
 }
 
+export const signUpWithEmailAndPassword = function (user, handleResponse) {
+    let xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/signUpWithEmailAndPassword", true);
+    //xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/signUpWithEmailAndPassword", true);
+
+    xmlHttp.onreadystatechange = () => {
+        if (xmlHttp.readyState === 4) {
+            handleResponse(xmlHttp);
+        }
+    };
+    xmlHttp.send(JSON.stringify(user));
+}
+
 
 export const loginWithEmailAndPassword = function (user, handleResponse) {
     let xmlHttp = new XMLHttpRequest();

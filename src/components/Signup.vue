@@ -29,50 +29,48 @@
       ></b-spinner>
 
       <b-form @submit="onSubmit" style="margin-top:40px;">
-        <b-form-group id="input-group-1" label="Email address:" label-for="input-1" label-size="sm">
-          <b-form-input
-            size="sm"
-            id="input-1"
-            v-model="form.email"
-            type="email"
-            required
-            placeholder="example@gmail.com"
-          ></b-form-input>
-        </b-form-group>
+        <ValidationProvider rules="required" v-slot="{ errors, valid }">
+          <b-form-group label="Email address:" label-size="sm">
+            <b-form-input
+              size="sm"
+              v-model="email"
+              type="email"
+              :state="errors[0] ? false : (valid ? true : null)"
+              placeholder="example@gmail.com"
+              required
+            ></b-form-input>
+            <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
+          </b-form-group>
+        </ValidationProvider>
 
-        <b-form-group
-          id="input-group-2"
-          label="Password:"
-          label-for="input-2"
-          label-size="sm"
-          style="margin-top:5px"
-        >
-          <b-form-input
-            id="input-2"
-            v-model="form.password"
-            v-on:submit="ciao"
-            type="password"
-            size="sm"
-            placeholder="qwerty123@"
-            required
-          ></b-form-input>
-        </b-form-group>
+        <ValidationObserver>
+          <ValidationProvider rules="required|password:@confirm" v-slot="{ errors, valid }">
+            <b-form-group label="Password:" style="margin-top:8px" label-size="sm">
+              <b-form-input
+                size="sm"
+                type="password"
+                v-model="password"
+                :state="errors[0] ? false : (valid ? true : null)"
+                placeholder="qwerty123@"
+                required
+              ></b-form-input>
+              <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
+            </b-form-group>
+          </ValidationProvider>
 
-        <b-form-group
-          id="input-group-3"
-          label="Confirm password:"
-          label-for="input-3"
-          label-size="sm"
-          style="margin-top:5px"
-        >
-          <b-form-input
-            id="input-3"
-            type="password"
-            size="sm"
-            placeholder="qwerty123@"
-            required
-          ></b-form-input>
-        </b-form-group>
+          <ValidationProvider name="confirm" rules="required" v-slot="{ errors, valid }">
+            <b-form-group label="Confirm password:" style="margin-top:8px" label-size="sm">
+              <b-form-input
+                size="sm"
+                type="password"
+                v-model="confirmation"
+                :state="errors[0] ? false : (valid ? true : null)"
+                placeholder="qwerty123@"
+                required
+              ></b-form-input>
+            </b-form-group>
+          </ValidationProvider>
+        </ValidationObserver>
 
         <div style="text-align: center;">
           <b-button
@@ -92,13 +90,22 @@ import * as functions from "../plugins/firebase";
 import sha512 from "js-sha512";
 import router from "../router";
 
+import { extend } from "vee-validate";
+
+extend("password", {
+  params: ["target"],
+  validate(value, { target }) {
+    return value === target;
+  },
+  message: "Password confirmation does not match"
+});
+
 export default {
   data() {
     return {
-      form: {
-        email: "",
-        password: ""
-      },
+      email: "",
+      password: "",
+      confirmation: "",
       isLoading: false
     };
   },
@@ -106,20 +113,40 @@ export default {
   methods: {
     async onSubmit(evt) {
       evt.preventDefault();
-
-      if (this.isLoading) {
-        // Prevent sending a new request while the previous is still being processed
+      if (this.isLoading || this.password !== this.confirmation) {
         return;
       }
 
       this.isLoading = true;
-
       const user = {
-        email: this.form.email,
-        password: sha512(this.form.password)
+        email: this.email,
+        password: sha512(this.password)
       };
 
-      let result = await functions.loginWithEmailAndPassword(user);
+      // The view model.
+      let vm = this;
+
+      await functions.signUpWithEmailAndPassword(user, function(xmlHttp) {
+        vm.isLoading = false;
+        console.log(xmlHttp.responseText);
+
+        let response = JSON.parse(xmlHttp.responseText);
+        if (response.error !== undefined) {
+          // Handling error response
+          console.log(response.error);
+          // TODO: Tell the user the email is already taken
+          return;
+        }
+
+        // Storing auth token in localStorage
+        console.log(xmlHttp.getAllResponseHeaders());
+        localStorage.authToken = xmlHttp.getResponseHeader("Authentication");
+
+        router.replace("/home");
+      });
+      /*
+
+
 
       this.isLoading = false;
       if (result.data != null) {
@@ -127,7 +154,7 @@ export default {
         router.push("/home");
       } else {
         console.log("Wrong email or password. Please try again.");
-      }
+      }*/
     }
   }
 };

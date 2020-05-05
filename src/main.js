@@ -2,6 +2,7 @@ import Vue from 'vue'
 import i18n from './plugins/i18n-vue'
 import './plugins/bootstrap-vue'
 import './plugins/firebase'
+import './plugins/vee-validate'
 import App from './App.vue'
 import router from './router'
 

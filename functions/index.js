@@ -10,14 +10,13 @@ exports.loginWithEmailAndPassword = functions.https.onRequest(async (req, res) =
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     const data = JSON.parse(req.body)
-
     const email = data['email'];
     const password = data['password'];
 
     // Generate a new cookie if there isn't one or if it has expired
     const authToken = generateAuthToken();
 
-    const snaps = await db.collection('users').where('email', '==', email).where('password', '==', password).get();
+    const snaps = await db.collection('users').where('email', '==', email).where('password', '==', password).limit(1).get();
     if (snaps.docs.length === 1) {
 
         const user = snaps.docs[0];
@@ -34,6 +33,35 @@ exports.loginWithEmailAndPassword = functions.https.onRequest(async (req, res) =
         res.send('{"error": "User not found"}');
     }
 });
+
+exports.signUpWithEmailAndPassword = functions.https.onRequest(async (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+
+    const data = JSON.parse(req.body)
+    const email = data['email'];
+    const password = data['password'];
+
+    // Check if already exists a user with that email
+    const snaps = await db.collection('users').where('email', '==', email).limit(1).get();
+    if (snaps.docs.length === 0) {
+
+        // Create the user
+        const authToken = generateAuthToken();
+        const user = {
+            email: email,
+            password: password,
+            authTokens: [authToken]
+        };
+
+        db.collection('users').add(user);
+        res.setHeader("Access-Control-Expose-Headers", "Authentication")
+        res.setHeader('Authentication', authToken);
+        res.send('{}');
+    } else {
+        res.send('{"error": "Email already used"}');
+    }
+});
+
 
 exports.signInSilently = functions.https.onRequest(async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");

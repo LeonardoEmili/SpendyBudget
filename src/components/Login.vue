@@ -33,7 +33,7 @@
           <b-form-input
             size="sm"
             id="input-1"
-            v-model="form.email"
+            v-model="email"
             type="email"
             required
             placeholder="example@gmail.com"
@@ -49,7 +49,7 @@
         >
           <b-form-input
             id="input-2"
-            v-model="form.password"
+            v-model="password"
             type="password"
             size="sm"
             placeholder="qwerty123@"
@@ -78,10 +78,8 @@ import router from "../router";
 export default {
   data() {
     return {
-      form: {
-        email: "",
-        password: ""
-      },
+      email: "",
+      password: "",
       isLoading: false
     };
   },
@@ -97,11 +95,9 @@ export default {
 
       this.isLoading = true;
 
-      let email = this.form.email;
-      let hashedPassword = sha512(this.form.password);
       const user = {
-        email: email,
-        password: hashedPassword
+        email: this.email,
+        password: sha512(this.password)
       };
 
       // The view model.
@@ -119,7 +115,7 @@ export default {
           return;
         }
 
-        // Storing auth token as localStorage
+        // Storing auth token in localStorage
         console.log(xmlHttp.getAllResponseHeaders());
         localStorage.authToken = xmlHttp.getResponseHeader("Authentication");
 
