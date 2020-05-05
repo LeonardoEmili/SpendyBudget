@@ -63,9 +63,18 @@ export const loginWithEmailAndPassword = function (user, handleResponse) {
 }
 
 // TODO: handle functions authentication here (issue #3)
-/*export const authenticateFunction = function (name) {
+/*
+export const authenticateFunction = function (name, method="GET", payload=null, handleResponse=null) {
     let xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/authenticateFunction", true);
+
+    if (method == "GET" && payload != null) {
+        console.log("Malformed request: using payload with a GET request");
+        return;
+    }
+
+
+
+    xmlHttp.open(method, "http://localhost:16492/spendybudget/us-central1/authenticateFunction", true);
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
             handleResponse(xmlHttp);

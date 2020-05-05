@@ -120,15 +120,6 @@ exports.logout = functions.https.onRequest(async (req, res) => {
     res.send();
 });
 
-/*
-
-docRef.update({
-   array: FieldValue.arrayRemove('idToRemove');
-});
-
-*/
-
-
 exports.createNewWallet = functions.https.onRequest(async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Headers", "Authorization");
