@@ -108,7 +108,7 @@ export const signInSilently = async function () {
                 return;
             }
             console.log("Successfully signed-in silently! Here's the user:\n" + xmlHttp.responseText);
-            router.replace("/home").catch(() => { });
+            router.replace("/dashboard").catch(() => { });
 
         }
     };
