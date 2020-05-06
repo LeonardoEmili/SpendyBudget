@@ -59,7 +59,7 @@ import { loadWallets, createNewWallet } from "../plugins/firebase";
 import * as utils from "../utils"
 
 export default {
-  name: "Home",
+  name: "Dashboard",
   data: function() {
     return {
       selectedCurrency: "EUR",

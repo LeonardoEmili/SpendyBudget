@@ -138,7 +138,7 @@ export default {
         console.log(xmlHttp.getAllResponseHeaders());
         localStorage.authToken = xmlHttp.getResponseHeader("Authentication");
 
-        router.replace("/home");
+        router.replace("/dashboard");
       });
     }
   }

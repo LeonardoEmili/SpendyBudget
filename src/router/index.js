@@ -5,7 +5,7 @@ import Login from '../components/Login.vue'
 import SignUp from '../components/Signup.vue'
 //import About from '../components/About.vue'
 import Hello from '../components/HelloI18n.vue'
-import Home from '../components/Home.vue'
+import Dashboard from '../components/Dashboard.vue'
 //import Profile from '../views/Profile.vue'
 
 Vue.use(VueRouter);
@@ -32,9 +32,9 @@ const routes = [
     component: Hello
   },
   {
-    path: '/home',
-    name: 'Home',
-    component: Home
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Dashboard
   }
 ]
 
