@@ -1,8 +1,7 @@
 <template>
   <b-card style="background-color: cyan">
-    <p>{{wallet.name}}</p>
+    <h5>{{wallet.name}}</h5>
     <p>{{convertFromEUR(wallet.balanceEUR, wallet.currency)}} {{wallet.currency}}</p>
-    <p>{{selected}}</p>
     </b-card>
  
 </template>

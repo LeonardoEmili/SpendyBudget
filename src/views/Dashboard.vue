@@ -63,9 +63,11 @@
         </b-container>
 
       <!-- Expanded wallet card -->
+      <b-container fluid>
       <b-collapse id="collapse-wallet-card" v-model="walletCardVisible">
-      <wallet-card ></wallet-card>
+      <wallet-card  :wallet="getSelectedWallet()"></wallet-card>
       </b-collapse>
+      </b-container>
       
       </div>
     </center>
@@ -129,8 +131,18 @@ export default {
         this.selectedWalletId = wallet.id
         this.walletCardVisible = true
       }
+    },
+    /**
+     * Returns the selected wallet.
+     */
+    getSelectedWallet() {
+      for (let wallet of this.wallets) {
+        if (wallet.id === this.selectedWalletId) {
+          return wallet
+        }
+      }
+      return null
     }
-
   },
   mounted: function() {
     loadWallets(wallets => (this.wallets = wallets));
