@@ -34,6 +34,8 @@
             <b-form-input
               size="sm"
               v-model="email"
+              v-on:focus="keyboardOpen"
+              v-on:blur="keyboardClosed"
               type="email"
               :state="errors[0] || error ? false : (valid ? true : null)"
               placeholder="example@gmail.com"
@@ -50,6 +52,8 @@
                 size="sm"
                 type="password"
                 v-model="password"
+                v-on:focus="keyboardOpen"
+                v-on:blur="keyboardClosed"
                 :state="errors[0] ? false : (valid ? true : null)"
                 placeholder="qwerty123@"
                 required
@@ -64,6 +68,8 @@
                 size="sm"
                 type="password"
                 v-model="confirmation"
+                v-on:focus="keyboardOpen"
+                v-on:blur="keyboardClosed"
                 :state="errors[0] ? false : (valid ? true : null)"
                 placeholder="qwerty123@"
                 required
@@ -77,7 +83,7 @@
             size="sm"
             type="submit"
             variant="primary"
-            style="margin-top:30px;"
+            style="margin-top:30px; margin-bottom: 30px"
           >Signup to SpendyBudget</b-button>
         </div>
       </b-form>
@@ -89,6 +95,7 @@
 import * as functions from "../plugins/firebase";
 import sha512 from "js-sha512";
 import router from "../router";
+import { isMobileView } from "../utils";
 
 export default {
   data() {
@@ -108,6 +115,18 @@ export default {
     }
   },
   methods: {
+    keyboardOpen() {
+      if (isMobileView()) {
+        console.log("xd");
+        console.log(window.innerHeight);
+        this.$parent.$refs.footer.classList.add("when-keyboard");
+      }
+    },
+    keyboardClosed() {
+      if (isMobileView()) {
+        this.$parent.$refs.footer.classList.remove("when-keyboard");
+      }
+    },
     async onSubmit(evt) {
       evt.preventDefault();
       if (this.isLoading || this.password !== this.confirmation) {

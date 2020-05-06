@@ -3,7 +3,7 @@
   <div id="app">
     <!-- Currently loaded page (through the router) -->
     <router-view />
-    <div style="bottom:0;">
+    <div v-show="footerVisible" ref="footer">
       <v-footer padless dark absolute>
         <v-card class="flex" flat tile id="footer">
           <v-card-title>
@@ -30,6 +30,11 @@
 import { signInSilently } from "./plugins/firebase";
 
 export default {
+  data() {
+    return {
+      footerVisible: true
+    };
+  },
   methods: {
     openGithub() {
       window.open("https://github.com/LeonardoEmili/SpendyBudget", "_blank");
@@ -48,13 +53,12 @@ export default {
   background-color: #24292e;
 }
 
-#app {
-  overflow: hidden;
-  position: relative;
-  height: 100vh;
+.when-keyboard {
+  visibility: hidden;
 }
 
-.footer-text {
-  color: aliceblue;
+#app {
+  position: relative;
+  height: 100vh;
 }
 </style>

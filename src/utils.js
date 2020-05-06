@@ -19,6 +19,10 @@ export function logout() {
     resetSession();
 }
 
+export function isMobileView() {
+    return screen.width <= 600;
+}
+
 /**
  * Converts the value into the desidered currency.
  * @param {Number} value the value to be converted in [currency]
