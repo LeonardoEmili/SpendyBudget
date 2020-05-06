@@ -1,9 +1,9 @@
 <template>
-  <div style="background-color: cyan">
+  <b-card style="background-color: cyan">
     <p>{{wallet.name}}</p>
     <p>{{convertFromEUR(wallet.balanceEUR, wallet.currency)}} {{wallet.currency}}</p>
- 
-    </div>
+    <p>{{selected}}</p>
+    </b-card>
  
 </template>
 
@@ -11,9 +11,10 @@
 import * as utils from "../utils"
 export default {
 
-    name: "Wallet",
+    name: "WalletThumbnail",
     props: [
-        "wallet"
+        "wallet",
+        "selected"
     ],
     methods: {
     convertFromEUR(quantityEUR, currency) {
