@@ -153,3 +153,25 @@ export function createNewWallet(newWallet, onSuccess) {
     }
     xmlHttp.send(JSON.stringify(newWallet))
 }
+
+export function createNewTransaction(walletId, newTransaction, onSuccess) {
+    let xmlHttp = new XMLHttpRequest()
+    xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/createNewTransaction", true)
+    //xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/createNewTransaction", true);
+    xmlHttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken)
+    xmlHttp.onreadystatechange = () => {
+        if (xmlHttp.readyState === 4) {
+            const transaction = JSON.parse(xmlHttp.responseText)
+            if ('error' in transaction) {
+                console.log(transaction.error)
+                utils.resetSession()
+                return
+            }
+            onSuccess(transaction)
+        }
+    }
+    xmlHttp.send(JSON.stringify({
+        walletId: walletId,
+        transaction: newTransaction
+    }))
+}

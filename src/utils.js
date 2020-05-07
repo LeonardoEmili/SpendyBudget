@@ -37,3 +37,18 @@ export function convertFromEUR(value, currency) {
             return value.toFixed(2);
     }
 }
+
+/**
+ * Converts the value into the desidered currency.
+ * @param {Number} value the value to be converted in [currency]
+ * @param {String} currency in ["EUR", "USD"]
+ */
+export function convertToEUR(value, currency) {
+    switch (currency) {
+        case "USD":
+            return (value * 0,92).toFixed(2);
+        case "EUR":
+        default:
+            return value.toFixed(2);
+    }
+}

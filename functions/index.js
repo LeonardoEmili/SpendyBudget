@@ -153,6 +153,36 @@ exports.createNewWallet = functions.https.onRequest(async (req, res) => {
     res.send(wallet)
 });
 
+exports.createNewTransaction = functions.https.onRequest(async (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Headers", "Authorization");
+
+    const userDoc = await authenticateRequest(req);
+    if (userDoc === null) {
+        res.send({ "error": "Invalid auth token" });
+        return;
+    }
+
+    const data = JSON.parse(req.body);
+
+    let transaction = {
+        description: data.transaction.description,
+        amount: parseFloat(data.transaction.amount),
+        instant: admin.firestore.Timestamp.now()
+    }
+
+    const doc = await db.collection('users')
+        .doc(userDoc.id)
+        .collection("wallets")
+        .doc(data.walletId)
+        .update({
+            transactions: admin.firestore.FieldValue.arrayUnion(transaction),
+            balanceEUR: admin.firestore.FieldValue.increment(parseFloat(data.transaction.amount))
+        })
+
+    res.send(transaction)
+});
+
 /**
  * Returns the auth token extracted from the Bearer authentication scheme.
  * @param {String} token the authentication token
