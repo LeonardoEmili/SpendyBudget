@@ -78,6 +78,20 @@ exports.signInSilently = functions.https.onRequest(async (req, res) => {
 
 });
 
+exports.uploadProfilePhoto = functions.https.onRequest(async (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Headers", "Authorization");
+
+    const userDoc = await authenticateRequest(req);
+    if (userDoc === null) {
+        res.send({ "error": "Invalid auth token" });
+        return;
+    }
+
+    await db.collection('users').doc(userDoc.id).update({ "profPic": req.body });
+    res.send({"message": "Image uploaded successfully"});
+});
+
 exports.loadWallets = functions.https.onRequest(async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Headers", "Authorization");
