@@ -1,7 +1,7 @@
 <template>
   <div>
-    <b-navbar class="my-asd">
-      <b-navbar-brand to="/" class="my-asd">
+    <b-navbar>
+      <b-navbar-brand to="/">
         <img src="../assets/logo.png" height="60px" width="60px" alt="." />
         SpendyBudget
       </b-navbar-brand>
