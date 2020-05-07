@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import i18n from './plugins/i18n-vue'
 import './plugins/bootstrap-vue'
-import './plugins/firebase'
+import { user } from './plugins/firebase'
 import './plugins/vee-validate'
 import App from './App.vue'
 import router from './router'
@@ -16,6 +16,9 @@ import vuetify from './plugins/vuetify';
 Vue.config.productionTip = false
 
 export const app = new Vue({
+  data: {
+    user
+  },
   router,
   i18n,
   vuetify,

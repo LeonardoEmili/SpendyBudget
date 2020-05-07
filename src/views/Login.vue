@@ -98,8 +98,6 @@ export default {
   methods: {
     keyboardOpen() {
       if (isMobileView()) {
-        console.log("xd");
-        console.log(window.innerHeight);
         this.$parent.$refs.footer.classList.add("when-keyboard");
       }
     },

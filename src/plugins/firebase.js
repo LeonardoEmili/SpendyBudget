@@ -18,6 +18,15 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig)
 firebase.analytics()
 
+/**
+ * Cached user's data
+ */
+export let user = {
+    name: "",
+    surname: "",
+    email: "",
+    profPic: "",
+};
 
 
 // --------------- Define calls to Google Cloud Functions down here
@@ -109,7 +118,41 @@ export const signInSilently = async function () {
             }
             console.log("Successfully signed-in silently! Here's the user:\n" + xmlHttp.responseText);
             router.replace("/dashboard").catch(() => { });
+        }
+    };
+    xmlHttp.send();
+}
 
+/**
+ * Fetches user data from Google Cloud Firestore.
+ * @param {Function} onSuccess called when data is available
+ */
+export const fetchUserData = async function (onSuccess) {
+    // If there is no active session, redirecting to the welcome page
+    if (localStorage.authToken === undefined) {
+        console.log("No active session");
+        utils.resetSession();
+        return;
+    }
+    let xmlHttp = new XMLHttpRequest();
+
+    // Using signInSilently since they do the same identical operations
+    xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/signInSilently", true);
+    //xmlHttp.open("GET", "https://us-central1-spendybudget.cloudfunctions.net/signInSilently", true);
+
+    xmlHttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken);
+    xmlHttp.onreadystatechange = () => {
+        if (xmlHttp.readyState === 4) {
+            let response = JSON.parse(xmlHttp.responseText);
+            if (response.error !== undefined) {
+                console.log(response.error);
+                utils.resetSession();
+                return;
+            }
+            if ("profPic" in response) {
+                response["profPic"] = utils.b64DecodeUnicode(response["profPic"]);
+            }
+            onSuccess(response);
         }
     };
     xmlHttp.send();
@@ -132,7 +175,27 @@ export function loadWallets(onSuccess) {
             onSuccess(wallets)
         }
     }
-    xmlHttp.send()
+    xmlHttp.send();
+}
+
+/**
+ * Uploads the profile picture and stores it as a BLOB.
+ * @param {String} blob utf-8 encoded image
+ */
+export function uploadProfilePhoto(blob) {
+    let xmlHttp = new XMLHttpRequest()
+    xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/uploadProfilePhoto", true)
+    //xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/uploadProfilePhoto", true);
+    xmlHttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken)
+    xmlHttp.onreadystatechange = () => {
+        if (xmlHttp.readyState === 4) {
+            console.log(xmlHttp.responseText);
+
+            //onSuccess(wallet)
+        }
+    }
+    const encodedImg = utils.b64EncodeUnicode(blob);
+    xmlHttp.send(encodedImg);
 }
 
 export function createNewWallet(newWallet, onSuccess) {
@@ -151,5 +214,5 @@ export function createNewWallet(newWallet, onSuccess) {
             onSuccess(wallet)
         }
     }
-    xmlHttp.send(JSON.stringify(newWallet))
+    xmlHttp.send(JSON.stringify(newWallet));
 }

@@ -3,10 +3,9 @@ import VueRouter from 'vue-router'
 import Index from '../views/Index.vue'
 import Login from '../views/Login.vue'
 import SignUp from '../views/Signup.vue'
-//import About from '../views/About.vue'
 import Hello from '../views/HelloI18n.vue'
 import Dashboard from '../views/Dashboard.vue'
-//import Profile from '../views/Profile.vue'
+import Settings from '../views/Settings.vue'
 
 Vue.use(VueRouter);
 
@@ -35,6 +34,11 @@ const routes = [
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard
+  },
+  {
+    path: '/settings',
+    name: 'Settings',
+    component: Settings
   }
 ]
 
