@@ -1,7 +1,7 @@
 <template>
-  <b-container style="; margin: 6vh auto; width: 50vw; min-width: 500px;">
+  <b-container style="; margin: 6vh auto; width: 42vw; min-width: 500px;">
     <b-row style="min-width: 400px;">
-      <b-col cols="3" style>
+      <b-col cols="2" style="min-width:200px;">
         <div v-for="(item,index) of items" :key="item">
           <div
             class="settings"
@@ -57,15 +57,12 @@ export default {
   vertical-align: middle;
   -webkit-transform: perspective(1px) translateZ(0);
   transform: perspective(1px) translateZ(0);
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
   position: relative;
   overflow: hidden;
 }
 .hvr-underline {
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
   display: inline-block;
   border-bottom: 4px solid #2098d1;
-  padding-bottom: 5px;
 }
 .hvr-underline-from-center:before {
   content: "";
@@ -99,4 +96,6 @@ export default {
 .settings-title {
   margin-bottom: 30px;
 }
+
+
 </style>
