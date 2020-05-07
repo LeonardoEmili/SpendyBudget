@@ -1,6 +1,7 @@
 import firebase from 'firebase'
 import router from '../router/index.js'
 import * as utils from '../utils'
+import { app } from '../main.js'
 
 // Web app's Firebase configuration
 const firebaseConfig = {
@@ -21,13 +22,7 @@ firebase.analytics()
 /**
  * Cached user's data
  */
-export let user = {
-    name: "",
-    surname: "",
-    email: "",
-    profPic: "",
-};
-
+export let user;
 
 const RELEASE = false;
 
@@ -48,6 +43,7 @@ export const logout = function () {
 }
 
 export const signUpWithEmailAndPassword = function (user, handleResponse) {
+    initUserData();
     let xmlHttp = new XMLHttpRequest();
     RELEASE ? xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/signUpWithEmailAndPassword", true) :
         xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/signUpWithEmailAndPassword", true);
@@ -62,6 +58,7 @@ export const signUpWithEmailAndPassword = function (user, handleResponse) {
 }
 
 export const loginWithEmailAndPassword = function (user, handleResponse) {
+    initUserData();
     let xmlHttp = new XMLHttpRequest();
     RELEASE ? xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/loginWithEmailAndPassword", true) :
         xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/loginWithEmailAndPassword", true);
@@ -99,6 +96,7 @@ export const authenticateFunction = function (name, method="GET", payload=null, 
  * "Authorization" request header field with the "Bearer" HTTP authorization scheme.
  */
 export const signInSilently = async function () {
+    initUserData();
 
     // If there is no active session, redirecting to the welcome page
     if (localStorage.authToken === undefined) {
@@ -246,4 +244,16 @@ export function createNewTransaction(walletId, newTransaction, onSuccess) {
         transaction: newTransaction
     }))
 
+}
+
+/**
+ * Initializes the local copy of the user's data.
+ */
+export function initUserData() {
+    app.user = {
+        name: "",
+        surname: "",
+        email: "",
+        profPic: "",
+    };
 }

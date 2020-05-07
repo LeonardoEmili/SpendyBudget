@@ -15,10 +15,22 @@
 
         <div style="width:400px;">
           <img
+            v-show="profPic"
             width="110px"
             height="110px"
             ref="img"
-            :src="previewImage"
+            :src="profPic"
+            class="rounded-circle"
+            :style="borderStyle"
+          />
+
+          <img
+            v-show="!profPic"
+            style="padding:6px;"
+            width="104px"
+            height="104px"
+            ref="img"
+            src="../assets/user.png"
             class="rounded-circle"
             :style="borderStyle"
           />
@@ -48,26 +60,18 @@ export default {
   name: "Settings",
   created() {
     let vm = this;
-    utils.fetchUserData(user => (vm.user = user));
+    utils.fetchUserProfilePicture(profPic => (vm.profPic = profPic));
   },
   data() {
     return {
       cropper: null,
-      previewImg: "https://placekitten.com/350/350",
-      user: null,
+      profPic: null,
       borderStyle: {
         color: "blue",
         borderStyle: "dotted"
       },
       items: ["Account", "All categories"]
     };
-  },
-  computed: {
-    previewImage() {
-      return this.user && this.user.profPic
-        ? this.user.profPic
-        : this.previewImg;
-    }
   },
   methods: {
     uploadImage(e) {

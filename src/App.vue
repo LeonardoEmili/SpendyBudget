@@ -27,9 +27,12 @@
 </template>
 
 <script>
-import { signInSilently } from "./plugins/firebase";
+import { signInSilently, initUserData } from "./plugins/firebase";
 
 export default {
+  created() {
+    initUserData();
+  },
   data() {
     return {
       footerVisible: true

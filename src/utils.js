@@ -50,13 +50,27 @@ export function b64EncodeUnicode(str) {
 }
 
 /**
- * Fetches user's data from Firestore and updates local data.
+ * Fetches the user's profile picture from Firestore.
+ * @param {Function} onSuccess called when data is available
+ * @param {*} forceUpdate force update the data available
+ */
+export function fetchUserProfilePicture(onSuccess, forceUpdate = false) {
+    if (app.user.profPic !== "") {
+        onSuccess(app.user.profPic);
+    } else {
+        // Update the user but return only the profile picture
+        fetchUserData(user => onSuccess(user.profPic), forceUpdate);
+    }
+}
+
+/**
+ * Fetches all the user's data from Firestore and updates local data.
  * @param {Function} onSuccess called when data is available
  * @param {Boolean} forceUpdate force update the data available
  */
 export function fetchUserData(onSuccess, forceUpdate = false) {
 
-    let shouldFetchNewData = forceUpdate || app.user.name == "" || app.user.surname == "" || app.user.email == "" || app.user.profPic == "";
+    let shouldFetchNewData = forceUpdate || app.user.name === "" || app.user.surname === "" || app.user.email === "" || app.user.profPic === "";
     if (!shouldFetchNewData) {
         onSuccess(app.user);
         return;
@@ -65,11 +79,11 @@ export function fetchUserData(onSuccess, forceUpdate = false) {
     functions.fetchUserData(userDoc => {
         // TODO: check if there are errors processing the HTTP request
 
-        app.user.name = (userDoc.name != null && userDoc.name.length > 0) ? userDoc.name : app.user.name;
-        app.user.surname = (userDoc.surname != null && userDoc.surname.length > 0) ? userDoc.surname : app.user.surname;
-        app.user.email = (userDoc.email != null && userDoc.email.length > 0) ? userDoc.email : app.user.email;
-        app.user.profPic = (userDoc.profPic != null && userDoc.profPic.length > 0) ? userDoc.profPic : app.user.profPic;
-        
+        app.user.name = (userDoc.name && userDoc.name.length > 0) ? userDoc.name : app.user.name;
+        app.user.surname = (userDoc.surname && userDoc.surname.length > 0) ? userDoc.surname : app.user.surname;
+        app.user.email = (userDoc.email && userDoc.email.length > 0) ? userDoc.email : app.user.email;
+        app.user.profPic = (userDoc.profPic && userDoc.profPic.length > 0) ? userDoc.profPic : app.user.profPic;
+
         onSuccess(app.user);
     });
 }
@@ -97,7 +111,7 @@ export function convertFromEUR(value, currency) {
 export function convertToEUR(value, currency) {
     switch (currency) {
         case "USD":
-            return (value * 0,92).toFixed(2);
+            return (value * 0, 92).toFixed(2);
         case "EUR":
         default:
             return value.toFixed(2);
