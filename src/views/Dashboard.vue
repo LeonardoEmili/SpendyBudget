@@ -14,15 +14,15 @@
 
     <center>
       <div id="welcome-div">
-        <!-- List of wallets -->
-
-        <h1>My wallets:</h1>
-        <div v-for="wallet in wallets" :key="wallet.id">
-          <wallet :wallet="wallet"></wallet>
-        </div>
-
-        <!-- " New wallet" modal view -->
-
+       
+       <b-container fluid>
+        <b-row>
+          <b-col sm="5" md="3">
+            <h1>My wallets</h1>
+          </b-col>
+          <b-col sm="5" md="7"></b-col>
+          <b-col cols="2">
+            <!-- " New wallet" modal view -->
         <div>
           <b-button v-b-modal.new_wallet_modal>New wallet</b-button>
 
@@ -44,13 +44,39 @@
             <b-button v-on:click="onNewWalletPressed">Create</b-button>
           </b-modal>
         </div>
+          </b-col>
+        </b-row>
+       </b-container>
+       
+        <!-- List of wallet thumbnails -->
+        <b-container fluid>
+        <b-row class="wallet-thumbnails" >
+          <b-col class="wallet-thumbnail" sm="4" md="2" xl="6" 
+          v-for="wallet in wallets" :key="wallet.id"
+          v-on:click="selectWallet(wallet)">
+          <wallet-thumbnail 
+            :wallet="wallet"
+            :selected="selectedWalletId === wallet.id">
+            </wallet-thumbnail>
+          </b-col>
+        </b-row>
+        </b-container>
+
+      <!-- Expanded wallet card -->
+      <b-container fluid>
+      <b-collapse id="collapse-wallet-card" v-model="walletCardVisible">
+      <wallet-card  :wallet="getSelectedWallet()"></wallet-card>
+      </b-collapse>
+      </b-container>
+      
       </div>
     </center>
   </div>
 </template>
 
 <script>
-import Wallet from "../components/Wallet"
+import WalletThumbnail from "../components/WalletThumbnail"
+import WalletCard from "../components/WalletCard"
 import { loadWallets, createNewWallet } from "../plugins/firebase"
 import * as utils from "../utils"
 
@@ -59,16 +85,25 @@ export default {
   data: function() {
     return {
       selectedCurrency: "EUR",
-      wallets: []
+      wallets: [],
+      selectedWalletId: "",
+      walletCardVisible: false
     };
   },
   components: {
-    wallet: Wallet
+    walletThumbnail: WalletThumbnail,
+    walletCard: WalletCard
   },
   methods: {
+    /**
+     * Logs out.
+     */
     logout() {
       utils.logout();
     },
+    /**
+     * Called when the "new wallet" button is pressed.
+     */
     onNewWalletPressed() {
       let form = document.getElementById("new_wallet_form");
       if (form.name.value === "") {
@@ -84,6 +119,29 @@ export default {
       createNewWallet(formData, wallet => this.wallets.push(wallet));
 
       this.$bvModal.hide("new_wallet_modal");
+    },
+    /**
+     * Sets the selected wallet id.
+     */
+    selectWallet(wallet) {
+      if (this.selectedWalletId === wallet.id) {
+        this.selectedWalletId = ""
+        this.walletCardVisible = false
+      } else {
+        this.selectedWalletId = wallet.id
+        this.walletCardVisible = true
+      }
+    },
+    /**
+     * Returns the selected wallet.
+     */
+    getSelectedWallet() {
+      for (let wallet of this.wallets) {
+        if (wallet.id === this.selectedWalletId) {
+          return wallet
+        }
+      }
+      return null
     }
   },
   mounted: function() {
@@ -97,4 +155,18 @@ export default {
 #welcome-div {
   padding-top: 100px;
 }
+
+
+ .wallet-thumbnails {
+  overflow-x: auto;
+  flex-wrap: nowrap;
+}
+ .wallet-thumbnails > .wallet-thumbnail {
+  display: inline-block;
+  float: none;
+  cursor: pointer;
+}
+
+
+
 </style>

@@ -153,7 +153,8 @@ exports.createNewWallet = functions.https.onRequest(async (req, res) => {
         budget: {
             budgetEUR: 0.0,
             expiryDate: admin.firestore.Timestamp.fromMillis(0)
-        }
+        },
+        transactions: []
     }
 
     const doc = await db.collection('users')
