@@ -29,12 +29,14 @@ export let user = {
 };
 
 
+const RELEASE = false;
+
 // --------------- Define calls to Google Cloud Functions down here
 
 export const logout = function () {
     let xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/logout", true);
-    //xmlHttp.open("GET", "https://us-central1-spendybudget.cloudfunctions.net/logout", true);
+    RELEASE ? xmlHttp.open("GET", "https://us-central1-spendybudget.cloudfunctions.net/logout", true)
+    : xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/logout", true);
     xmlHttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken);
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
@@ -46,8 +48,8 @@ export const logout = function () {
 
 export const signUpWithEmailAndPassword = function (user, handleResponse) {
     let xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/signUpWithEmailAndPassword", true);
-    //xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/signUpWithEmailAndPassword", true);
+    RELEASE ? xmlHttp.open("GET", "https://us-central1-spendybudget.cloudfunctions.net/signUpWithEmailAndPassword", true)
+    : xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/signUpWithEmailAndPassword", true);
 
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
@@ -60,9 +62,8 @@ export const signUpWithEmailAndPassword = function (user, handleResponse) {
 
 export const loginWithEmailAndPassword = function (user, handleResponse) {
     let xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/loginWithEmailAndPassword", true);
-    //xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/loginWithEmailAndPassword", true);
-
+    RELEASE ? xmlHttp.open("GET", "https://us-central1-spendybudget.cloudfunctions.net/logInWithEmailAndPassword", true)
+    : xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/logInWithEmailAndPassword", true);
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
             handleResponse(xmlHttp);
@@ -105,8 +106,8 @@ export const signInSilently = async function () {
     }
 
     let xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/signInSilently", true);
-    //xmlHttp.open("GET", "https://us-central1-spendybudget.cloudfunctions.net/signInSilently", true);
+    RELEASE ? xmlHttp.open("GET", "https://us-central1-spendybudget.cloudfunctions.net/signInSilently", true)
+    : xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/signInSilently", true);
     xmlHttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken);
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
@@ -137,8 +138,8 @@ export const fetchUserData = async function (onSuccess) {
     let xmlHttp = new XMLHttpRequest();
 
     // Using signInSilently since they do the same identical operations
-    xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/signInSilently", true);
-    //xmlHttp.open("GET", "https://us-central1-spendybudget.cloudfunctions.net/signInSilently", true);
+    RELEASE ? xmlHttp.open("GET", "https://us-central1-spendybudget.cloudfunctions.net/signInSilently", true)
+    : xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/signInSilently", true);
 
     xmlHttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken);
     xmlHttp.onreadystatechange = () => {
@@ -161,8 +162,8 @@ export const fetchUserData = async function (onSuccess) {
 
 export function loadWallets(onSuccess) {
     let xmlHttp = new XMLHttpRequest()
-    xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/loadWallets", true)
-    //xmlHttp.open("GET", "https://us-central1-spendybudget.cloudfunctions.net/loadWallets", true);
+    RELEASE ? xmlHttp.open("GET", "https://us-central1-spendybudget.cloudfunctions.net/loadWallets", true)
+    : xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/loadWallets", true);
     xmlHttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken)
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
@@ -184,8 +185,8 @@ export function loadWallets(onSuccess) {
  */
 export function uploadProfilePhoto(blob) {
     let xmlHttp = new XMLHttpRequest()
-    xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/uploadProfilePhoto", true)
-    //xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/uploadProfilePhoto", true);
+    RELEASE ? xmlHttp.open("GET", "https://us-central1-spendybudget.cloudfunctions.net/uploadProfilePhoto", true)
+    : xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/uploadProfilePhoto", true);
     xmlHttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken)
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
@@ -200,8 +201,8 @@ export function uploadProfilePhoto(blob) {
 
 export function createNewWallet(newWallet, onSuccess) {
     let xmlHttp = new XMLHttpRequest()
-    xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/createNewWallet", true)
-    //xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/createNewWallet", true);
+    RELEASE ? xmlHttp.open("GET", "https://us-central1-spendybudget.cloudfunctions.net/createNewWallet", true)
+    : xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/createNewWallet", true);
     xmlHttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken)
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
@@ -219,8 +220,8 @@ export function createNewWallet(newWallet, onSuccess) {
 
 export function createNewTransaction(walletId, newTransaction, onSuccess) {
     let xmlHttp = new XMLHttpRequest()
-    xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/createNewTransaction", true)
-    //xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/createNewTransaction", true);
+    RELEASE ? xmlHttp.open("GET", "https://us-central1-spendybudget.cloudfunctions.net/createNewTransaction", true)
+    : xmlHttp.open("GET", "http://localhost:16492/spendybudget/us-central1/createNewTransaction", true);
     xmlHttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken)
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {

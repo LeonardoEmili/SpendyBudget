@@ -1,13 +1,13 @@
 <template>
   <div>
     <b-navbar>
-      <b-navbar-brand to="/">
+      <b-navbar-brand >
         <img src="../assets/logo.png" height="60px" width="60px" alt="." />
         SpendyBudget
       </b-navbar-brand>
 
       <b-navbar-nav class="ml-auto">
-        <b-nav-item to="/about">About us</b-nav-item>
+        <b-nav-item to="/settings">Settings</b-nav-item>
         <b-nav-item v-on:click="logout">Logout</b-nav-item>
       </b-navbar-nav>
     </b-navbar>
