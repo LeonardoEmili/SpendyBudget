@@ -61,9 +61,6 @@ export const signUpWithEmailAndPassword = function (user, handleResponse) {
     xmlHttp.send(JSON.stringify(user));
 }
 
-const RELEASE = false;
-
-
 export const loginWithEmailAndPassword = function (user, handleResponse) {
     let xmlHttp = new XMLHttpRequest();
     RELEASE ? xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/loginWithEmailAndPassword", true) :
