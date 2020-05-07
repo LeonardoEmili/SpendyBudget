@@ -2,86 +2,49 @@
   <b-container style="; margin: 6vh auto; width: 50vw; min-width: 500px;">
     <b-row style="min-width: 400px;">
       <b-col cols="3" style>
-        <div v-for="item of items" :key="item">
+        <div v-for="(item,index) of items" :key="item">
           <div
-            :class="item !== 'Account' ? 'hvr-underline-from-center':'hvr-underline'"
-            style="padding-bottom: 5px; margin-bottom: 25px;"
+            class="settings"
+            :class="item !== selectedItem ? 'hvr-underline-from-center':'hvr-underline'"
+            v-on:click="selectedIndex = index"
           >{{item}}</div>
         </div>
       </b-col>
       <b-col>
-        <h5 style="margin-bottom: 30px;">Account Settings</h5>
-        <p style="font-size:14px;">Profile photo</p>
-
-        <div style="width:400px;">
-          <img
-            v-show="profPic"
-            width="110px"
-            height="110px"
-            ref="img"
-            :src="profPic"
-            class="rounded-circle"
-            :style="borderStyle"
-          />
-
-          <img
-            v-show="!profPic"
-            style="padding:6px;"
-            width="104px"
-            height="104px"
-            ref="img"
-            src="../assets/user.png"
-            class="rounded-circle"
-            :style="borderStyle"
-          />
-
-          <input type="file" ref="file" v-on:change="uploadImage" style="display: none" />
-          <b-button
-            size="sm"
-            variant="primary"
-            style="margin-left:20px;"
-            v-on:click="$refs.file.click()"
-          >
-            <upload-icon></upload-icon>
-            <span style="margin-left: 10px; padding-right: 4px;">Upload photo</span>
-          </b-button>
-        </div>
+        <h5 class="settings-title">{{currentTitle}}</h5>
+        <component v-bind:is="selectedTab"></component>
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
-// import Cropper from "cropperjs";
-import * as functions from "../plugins/firebase";
-import * as utils from "../utils";
+import AccountSettings from "../components/AccountSettings";
+import CategorySettings from "../components/CategorySettings";
 
 export default {
   name: "Settings",
-  created() {
-    let vm = this;
-    utils.fetchUserProfilePicture(profPic => (vm.profPic = profPic));
-  },
   data() {
     return {
-      cropper: null,
-      profPic: null,
-      borderStyle: {
-        color: "blue",
-        borderStyle: "dotted"
-      },
-      items: ["Account", "All categories"]
+      items: ["Account", "All categories"],
+      componentNames: ["accountSettings", "categorySettings"],
+      titles: ["Account Settings", "Category Settings"],
+      selectedIndex: 0
     };
   },
-  methods: {
-    uploadImage(e) {
-      const image = e.target.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(image);
-      reader.onload = e => {
-        this.previewImg = e.target.result;
-        functions.uploadProfilePhoto(this.previewImg);
-      };
+  components: {
+    accountSettings: AccountSettings,
+    categorySettings: CategorySettings
+  },
+  computed: {
+    currentTitle() {
+      return this.titles[this.selectedIndex];
+    },
+    selectedTab() {
+      return this.componentNames[this.selectedIndex];
+    },
+    selectedItem() {
+      return this.items[this.selectedIndex];
     }
   }
 };
@@ -125,5 +88,15 @@ export default {
 .hvr-underline-from-center:active:before {
   left: 0;
   right: 0;
+}
+
+.settings {
+  cursor: pointer;
+  padding-bottom: 5px;
+  margin-bottom: 25px;
+}
+
+.settings-title {
+  margin-bottom: 30px;
 }
 </style>

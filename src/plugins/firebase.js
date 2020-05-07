@@ -194,8 +194,8 @@ export function uploadProfilePhoto(blob) {
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
             console.log(xmlHttp.responseText);
-
-            //onSuccess(wallet)
+            // Update local copy of the profile picture
+            app.user.profPic = blob;
         }
     }
     const encodedImg = utils.b64EncodeUnicode(blob);
