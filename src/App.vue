@@ -4,7 +4,7 @@
     <!-- Currently loaded page (through the router) -->
     <router-view />
     <div v-show="footerVisible" ref="footer">
-      <v-footer padless dark absolute>
+      <v-footer padless dark fixed>
         <v-card class="flex" flat tile id="footer">
           <v-card-title>
             <div>
