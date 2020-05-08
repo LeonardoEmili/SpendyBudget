@@ -36,7 +36,14 @@
             </b-button>
 
             <!-- Force input to consider the same photo as different (for UX purposes) -->
-            <input type="file" ref="file" v-on:change="uploadImage" id="custom-input" :key="imgKey" />
+            <input
+              type="file"
+              ref="file"
+              accept="image/*"
+              v-on:change="uploadImage"
+              id="custom-input"
+              :key="imgKey"
+            />
             <b-button
               v-show="!picture"
               v-on:click="$refs.file.click()"
@@ -104,7 +111,7 @@
 </template>
 
 <script>
-//import router from "../router";
+import router from "../router";
 import * as functions from "../plugins/firebase";
 import { isMobileView } from "../utils";
 
@@ -137,7 +144,7 @@ export default {
     }
   },
   methods: {
-    sendInfo() {
+    async sendInfo() {
       //console.log(this.picture);
       console.log("Sending user data ... ");
       const data = {
@@ -145,7 +152,8 @@ export default {
         surname: this.surname,
         profPic: this.picture
       };
-      functions.updateUserData(data, res => console.log(res));
+      await functions.updateUserData(data, res => console.log(res));
+      router.replace("/dashboard").catch(() => {});
     },
     remove() {
       this.picture = null;
@@ -174,10 +182,6 @@ export default {
     },
     uploadImage(e) {
       const file = e.target.files[0];
-      if (!file.type.match(/image.*/)) {
-        alert("Nice try!");
-        return;
-      }
       const reader = new FileReader();
       reader.onload = e => {
         //this.picture = e.target.result;

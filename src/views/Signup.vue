@@ -157,7 +157,6 @@ export default {
         localStorage.authToken = xmlHttp.getResponseHeader("Authentication");
 
         router.replace("/more");
-        //router.replace("/dashboard");
       });
     }
   }
