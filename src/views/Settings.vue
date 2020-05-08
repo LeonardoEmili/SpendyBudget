@@ -1,5 +1,5 @@
 <template>
-  <b-container style="; margin: 6vh auto; width: 42vw; min-width: 500px;">
+  <b-container id="wrapper">
     <b-row style="min-width: 400px;">
       <b-col cols="2" style="min-width:200px;">
         <div v-for="(item,index) of items" :key="item">
@@ -97,5 +97,8 @@ export default {
   margin-bottom: 30px;
 }
 
-
+#wrapper {
+  width: 50vw;
+  min-width: 500px;
+}
 </style>

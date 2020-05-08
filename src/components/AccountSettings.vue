@@ -33,7 +33,7 @@
 
     <h6 class="my-headers">General Settings</h6>
 
-    <b-form v-on:submit.prevent="onSubmit">
+    <b-form v-on:submit.prevent="onSubmit" id="account-form">
       <b-row>
         <b-col class="my-cols">
           <b-form-group label="Name" class="custom-font">
@@ -183,5 +183,9 @@ export default {
 }
 #submit-btn {
   margin-top: 20px;
+}
+
+#account-form {
+  max-width: 550px;
 }
 </style>

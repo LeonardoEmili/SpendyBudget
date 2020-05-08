@@ -181,6 +181,11 @@ export function loadWallets(onSuccess) {
     xmlHttp.send();
 }
 
+/**
+ * 
+ * @param {Object} data the user's data to be updated
+ * @param {Function} onSuccess the callback called after the update is done
+ */
 export function updateUserData(data, onSuccess) {
     let xmlHttp = new XMLHttpRequest()
     RELEASE ? xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/updateUserData", true) :
