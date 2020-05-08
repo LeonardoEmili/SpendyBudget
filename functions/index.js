@@ -78,6 +78,35 @@ exports.signInSilently = functions.https.onRequest(async (req, res) => {
 
 });
 
+function parseUserData(data) {
+    let result = {
+        ...data["name"] && { name: data["name"] },
+        ...data["surname"] && { surname: data["surname"] },
+        ...data["profPic"] && { profPic: data["profPic"] },
+        ...data["email"] && { email: data["email"] },
+        ...data["password"] && { password: data["password"] },
+        ...data["birthdate"] && { birthdate: data["birthdate"] }
+    };
+    return result;
+}
+
+exports.updateUserData = functions.https.onRequest(async (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Headers", "Authorization");
+
+    const userDoc = await authenticateRequest(req);
+    if (userDoc === null) {
+        res.send({ "error": "Invalid auth token" });
+        return;
+    }
+
+    const data = JSON.parse(req.body)
+    const userData = parseUserData(data);
+    await db.collection('users').doc(userDoc.id).update(userData);
+
+    res.send({ "message": "User data updated successfully" });
+});
+
 exports.uploadProfilePhoto = functions.https.onRequest(async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Headers", "Authorization");
@@ -89,7 +118,7 @@ exports.uploadProfilePhoto = functions.https.onRequest(async (req, res) => {
     }
 
     await db.collection('users').doc(userDoc.id).update({ "profPic": req.body });
-    res.send({"message": "Image uploaded successfully"});
+    res.send({ "message": "Image uploaded successfully" });
 });
 
 exports.loadWallets = functions.https.onRequest(async (req, res) => {

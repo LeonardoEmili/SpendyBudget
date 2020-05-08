@@ -181,6 +181,28 @@ export function loadWallets(onSuccess) {
     xmlHttp.send();
 }
 
+export function updateUserData(data, onSuccess) {
+    let xmlHttp = new XMLHttpRequest()
+    RELEASE ? xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/updateUserData", true) :
+        xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/updateUserData", true);
+    xmlHttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken)
+    xmlHttp.onreadystatechange = () => {
+        if (xmlHttp.readyState === 4) {
+            onSuccess(xmlHttp.responseText);
+
+            if (data.profPic) {
+                // If present, update the local profile picture
+                app.user.profPic = data.profPic;
+            }
+        }
+    }
+    if (data.profPic) {
+        data.profPic = utils.b64EncodeUnicode(data.profPic);
+    }
+    console.log(JSON.stringify(data).length);
+    xmlHttp.send(JSON.stringify(data));
+}
+
 /**
  * Uploads the profile picture and stores it as a BLOB.
  * @param {String} blob utf-8 encoded image

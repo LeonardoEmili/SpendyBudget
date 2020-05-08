@@ -48,7 +48,7 @@
                 height="180px"
                 :src="picture"
                 class="rounded-circle"
-                style="opacity: 1;"
+                style="object-fit:cover;"
               />
             </b-button>
 
@@ -73,6 +73,7 @@
           <b-button
             size="sm"
             type="submit"
+            v-on:click="sendInfo"
             :variant="btnVariant"
             block
             style="margin-top:50px;"
@@ -109,6 +110,7 @@
               placeholder="Your surname"
               required
             ></b-form-input>
+
             <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
           </b-form-group>
         </ValidationProvider>
@@ -126,20 +128,14 @@
 </template>
 
 <script>
-//import * as functions from "../plugins/firebase";
 //import router from "../router";
+import * as functions from "../plugins/firebase";
 import { isMobileView } from "../utils";
 
 export default {
   name: "MoreInfo",
   data() {
     return {
-      dropzoneOptions: {
-        url: "https://httpbin.org/post",
-        thumbnailWidth: 200
-        //addRemoveLinks: true,
-        //maxFiles: 1
-      },
       borderStyle: {
         color: "blue",
         borderStyle: "dashed",
@@ -170,6 +166,16 @@ export default {
     }
   },
   methods: {
+    sendInfo() {
+      //console.log(this.picture);
+      console.log("Sending user data ... ");
+      const data = {
+        name: this.name,
+        surname: this.surname,
+        profPic: this.$picture
+      };
+      functions.updateUserData(data, res => console.log(res));
+    },
     remove() {
       this.picture = null;
       this.imgKey += 1;
@@ -185,19 +191,25 @@ export default {
       }
     },
     uploadImage(e) {
-      const image = e.target.files[0];
+      const file = e.target.files[0];
+      if (!file.type.match(/image.*/)) {
+        alert("Nice try!");
+        return;
+      }
       const reader = new FileReader();
-      reader.readAsDataURL(image);
+      reader.readAsDataURL(file);
       reader.onload = e => {
-        this.picture = e.target.result;
+        var canvas = document.createElement("canvas");
+
+        var ctx = canvas.getContext("2d");
+        
+        ctx.drawImage(e.target.result, 10, 10);
+
+        //this.picture = e.target.result;
         //functions.uploadProfilePhoto(this.picture);
       };
     },
-    async onSubmit() {
-      console.log("NEXT");
-      if (this.finished) {
-        console.log("DASHBOARD!");
-      }
+    onSubmit() {
       this.finished = true;
     }
   }
