@@ -124,7 +124,8 @@ export default {
       },
       borderStyle: {
         color: "blue",
-        borderStyle: "dotted"
+        borderStyle: "dotted",
+        borderWidth: "thin"
       }
     };
   },

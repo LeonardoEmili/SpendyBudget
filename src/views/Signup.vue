@@ -98,6 +98,7 @@ import router from "../router";
 import { isMobileView } from "../utils";
 
 export default {
+  name: "Signup",
   data() {
     return {
       email: "",
@@ -155,7 +156,8 @@ export default {
         console.log(xmlHttp.getAllResponseHeaders());
         localStorage.authToken = xmlHttp.getResponseHeader("Authentication");
 
-        router.replace("/dashboard");
+        router.replace("/more");
+        //router.replace("/dashboard");
       });
     }
   }
