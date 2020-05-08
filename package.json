@@ -20,6 +20,7 @@
     "js-sha512": "^0.8.0",
     "vee-validate": "^3.3.0",
     "vue": "^2.6.11",
+    "vue-croppie": "^2.0.1",
     "vue-i18n": "^8.17.3",
     "vue-router": "^3.1.6",
     "vuetify": "^2.2.11"

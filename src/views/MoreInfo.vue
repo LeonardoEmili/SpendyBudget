@@ -7,64 +7,46 @@
       </b-navbar-brand>
     </b-navbar>
 
-    <div style="width: 400px; margin-left: auto; margin-right: auto; margin-top: 15vh;">
-      <p style="font-size:32px; text-align:center;">
+    <div id="wrapper">
+      <p id="title">
         More about
         <strong>you</strong>
       </p>
 
-      <b-spinner
-        variant="primary"
-        label="Spinning"
-        v-show="isLoading"
-        style="position: absolute; top:50%; left:50%;"
-      ></b-spinner>
+      <b-spinner variant="primary" label="Spinning" v-show="isLoading" id="spinner"></b-spinner>
+
+      <vue-croppie id="my-croppie" ref="croppieRef"></vue-croppie>
 
       <div v-show="finished">
-        <div id="photo-wrapper" style="text-align: center; margin-top: 40px;">
-          <div style="width: auto; height: 180px; position: relative;">
-            <div
-              class="middle"
-              style="height: 180px; width: 180px; position: absolute; left: 110px; text-align: center;"
-            >
-              <xcircle-fill
-                v-show="picture"
-                style="margin: 65px; width: 50px; height: 50px; color: grey;"
-              ></xcircle-fill>
+        <div id="photo-wrapper">
+          <div id="photo-avatar">
+            <div class="middle">
+              <xcircle-fill v-show="picture" id="clear-img"></xcircle-fill>
             </div>
 
-            <b-button
-              v-on:click="remove"
-              v-show="picture"
-              :style="borderStyle"
-              variant="light"
-              id="user-img"
-              style="height: 180px; width: 180px; position: absolute; left: 110px; text-align: center; border-radius: 50%; padding: 0; margin: 0; border-color:grey;"
-            >
+            <b-button v-on:click="remove" v-show="picture" variant="light" id="user-img">
               <img
                 ref="userImg"
                 v-show="picture"
                 width="180px"
                 height="180px"
                 :src="picture"
-                class="rounded-circle"
-                style="object-fit:cover;"
+                class="rounded-circle cover-img"
               />
             </b-button>
 
+            <!-- Force input to consider the same photo as different (for UX purposes) -->
             <input type="file" ref="file" v-on:change="uploadImage" id="custom-input" :key="imgKey" />
-
             <b-button
               v-show="!picture"
-              :style="borderStyle"
               v-on:click="$refs.file.click()"
               variant="light"
-              style="height: 180px; width: 180px; position: absolute; left: 110px; text-align: center; opacity: 1; border-radius: 50%; padding:20px; border-color:grey;"
+              id="placeholder-img"
             >
               <b-col>
-                <span style="color:black;">Click here to upload a photo</span>
+                <span>Click here to upload a photo</span>
                 <div>
-                  <upload-icon style="width:40px; height: 40px; margin-top:14px; color:grey;"></upload-icon>
+                  <upload-icon id="my-upload"></upload-icon>
                 </div>
               </b-col>
             </b-button>
@@ -76,7 +58,7 @@
             v-on:click="sendInfo"
             :variant="btnVariant"
             block
-            style="margin-top:50px;"
+            id="proceed-btn"
           >{{btnName}}</b-button>
         </div>
       </div>
@@ -115,13 +97,7 @@
           </b-form-group>
         </ValidationProvider>
 
-        <b-button
-          size="sm"
-          type="submit"
-          :variant="variant"
-          block
-          style="margin-top:40px; margin-bottom: 30px"
-        >Next</b-button>
+        <b-button size="sm" type="submit" :variant="variant" block id="next-btn">Next</b-button>
       </b-form>
     </div>
   </div>
@@ -136,11 +112,6 @@ export default {
   name: "MoreInfo",
   data() {
     return {
-      borderStyle: {
-        color: "blue",
-        borderStyle: "dashed",
-        borderWidth: "thin"
-      },
       imgKey: 0,
       finished: false,
       picture: null,
@@ -172,7 +143,7 @@ export default {
       const data = {
         name: this.name,
         surname: this.surname,
-        profPic: this.$picture
+        profPic: this.picture
       };
       functions.updateUserData(data, res => console.log(res));
     },
@@ -190,6 +161,17 @@ export default {
         this.$parent.$refs.footer.classList.remove("when-keyboard");
       }
     },
+    crop() {
+      // Current option will return a base64 version of the uploaded image with a size of 600px X 450px.
+      let options = {
+        type: "base64",
+        size: { width: 256, height: 256 },
+        format: "jpeg"
+      };
+      this.$refs.croppieRef.result(options, output => {
+        this.picture = output;
+      });
+    },
     uploadImage(e) {
       const file = e.target.files[0];
       if (!file.type.match(/image.*/)) {
@@ -197,17 +179,17 @@ export default {
         return;
       }
       const reader = new FileReader();
-      reader.readAsDataURL(file);
       reader.onload = e => {
-        var canvas = document.createElement("canvas");
-
-        var ctx = canvas.getContext("2d");
-        
-        ctx.drawImage(e.target.result, 10, 10);
-
         //this.picture = e.target.result;
+        this.$refs.croppieRef
+          .bind({
+            url: e.target.result
+          })
+          .then(() => this.crop());
         //functions.uploadProfilePhoto(this.picture);
       };
+      reader.readAsDataURL(file);
+      //this.crop();
     },
     onSubmit() {
       this.finished = true;
@@ -237,6 +219,18 @@ export default {
 .subtitle {
   color: #314b5f;
 }
+#user-img {
+  height: 180px;
+  width: 180px;
+  position: absolute;
+  left: 110px;
+  text-align: center;
+  border-radius: 50%;
+  padding: 0;
+  margin: 0;
+  border-color: grey;
+}
+
 #user-img:hover {
   opacity: 0.3;
   transition: 0.5s ease;
@@ -245,5 +239,89 @@ export default {
 #user-img:not(:hover) {
   opacity: 1;
   transition: 0.5s ease;
+}
+
+#my-croppie {
+  opacity: 0;
+  width: 0px;
+  height: 0px;
+}
+
+#wrapper {
+  width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15vh;
+}
+
+#title {
+  font-size: 32px;
+  text-align: center;
+}
+
+#spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+#photo-wrapper {
+  text-align: center;
+  margin-top: 40px;
+}
+
+#clear-img {
+  margin: 65px;
+  width: 50px;
+  height: 50px;
+  color: grey;
+}
+
+.middle {
+  height: 180px;
+  width: 180px;
+  position: absolute;
+  left: 110px;
+  text-align: center;
+}
+
+#photo-avatar {
+  width: auto;
+  height: 180px;
+  position: relative;
+}
+
+.cover-img {
+  object-fit: cover;
+}
+
+#placeholder-img {
+  height: 180px;
+  width: 180px;
+  position: absolute;
+  left: 110px;
+  text-align: center;
+  opacity: 1;
+  border-radius: 50%;
+  padding: 20px;
+  border-color: grey;
+  border-style: dashed;
+  border-width: thin;
+}
+
+#my-upload {
+  width: 40px;
+  height: 40px;
+  margin-top: 14px;
+  color: grey;
+}
+
+#next-btn {
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
+
+#proceed-btn {
+  margin-top: 50px;
 }
 </style>

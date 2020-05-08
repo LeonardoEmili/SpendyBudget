@@ -3,6 +3,7 @@ import i18n from './plugins/i18n-vue'
 import './plugins/bootstrap-vue'
 import { user } from './plugins/firebase'
 import './plugins/vee-validate'
+import './plugins/vue-croppie';
 import App from './App.vue'
 import router from './router'
 import vuetify from './plugins/vuetify';
