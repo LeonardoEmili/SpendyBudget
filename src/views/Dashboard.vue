@@ -13,7 +13,6 @@
       </b-navbar-nav>
     </b-navbar>
 
-    <center>
       <div id="welcome-div">
         <b-container fluid>
           <b-row>
@@ -72,7 +71,6 @@
           </b-collapse>
         </b-container>
       </div>
-    </center>
   </div>
 </template>
 
@@ -156,6 +154,8 @@ export default {
 <style scoped>
 #welcome-div {
   padding-top: 100px;
+  padding-bottom: 100px;
+  text-align: center;
 }
 
 .wallet-thumbnails {

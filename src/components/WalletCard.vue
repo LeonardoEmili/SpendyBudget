@@ -1,7 +1,42 @@
 <template>
   <b-card style="background-color: cyan">
      <h2>{{walletName}}</h2>
-    <p>{{convertFromEUR(walletBalanceEUR, walletCurrency)}} {{walletCurrency}}</p>
+     <!-- Wallet balance -->
+    <p>Balance: {{convertFromEUR(walletBalanceEUR, walletCurrency)}} {{walletCurrency}}</p>
+    <!-- Wallet budget -->
+    <h3>Budget</h3>
+    <div v-if="walletBudget.expiryDate._seconds*1000 > Date.now()">
+      <!-- Budget valid -->
+      <p>Your budget for this wallet is: {{convertFromEUR(walletBudget.budgetEUR, walletCurrency)}} {{walletCurrency}}</p>
+      <p>You've reached the {{(walletBudget.spentEUR*100/walletBudget.budgetEUR).toFixed(0)}}% of it.</p>
+      <p>The budget is set until {{new Date(walletBudget.expiryDate._seconds*1000).toLocaleDateString()}}</p>
+    </div>
+    <div v-else> 
+      <!-- Budget expired -->
+      <p>You don't have a budget set for this wallet.</p>
+       
+    </div>
+    <!-- Edit budget modal -->
+     <div>
+          <b-button v-b-modal.edit_budget_modal>Edit budget</b-button>
+
+          <b-modal id="edit_budget_modal" title="Edit budget" hide-footer>
+            <form id="edit_budget_form">
+              Amount ({{walletCurrency}}):
+              <br >
+              <input type="number" name="amount" required />
+              <br >
+              <br >
+              Until:
+            <br >
+            <input type="date" name="expiryDate" required/>
+            </form>
+            <br >
+            <br >
+            <b-button v-on:click="onEditBudgetPressed">Edit budget</b-button>
+          </b-modal>
+        </div>
+      <br><br>
     <h3>Transactions</h3>
     <div>
         <div v-for="i in walletTransactions.length" :key="i">
@@ -41,7 +76,8 @@
 
 <script>
 import * as utils from "../utils"
-import { createNewTransaction } from '../plugins/firebase'
+import { createNewTransaction, editBudget } from '../plugins/firebase'
+import { firestore } from 'firebase'
 
 export default {
     
@@ -54,6 +90,10 @@ export default {
         walletName: function () {return  this.wallet !== null ? this.wallet.name : ""},
         walletBalanceEUR:  function () {return this.wallet !== null ? this.wallet.balanceEUR : 0.0},
         walletCurrency:  function () {return this.wallet !== null ? this.wallet.currency : ""},
+        walletBudget:  function () {return this.wallet !== null ? this.wallet.budget : {
+          budgetEUR: 0.0,
+          expiryDate: firestore.Timestamp.fromMillis(0),
+          spentEUR: 0.0}},
         walletTransactions:  function () {return this.wallet !== null ? this.wallet.transactions : []}
     },
     methods: {
@@ -80,10 +120,35 @@ export default {
       createNewTransaction(this.walletId, formData, transaction => 
             this.wallet.transactions.push(transaction)
             );
-        this.wallet.balanceEUR = parseFloat(amountEUR) + this.wallet.balanceEUR
+        this.wallet.balanceEUR = amountEUR + this.wallet.balanceEUR
+        this.wallet.budget.spentEUR = amountEUR + this.wallet.budget.spentEUR
 
 
       this.$bvModal.hide("new_transaction_modal");
+    },
+    /**
+     * Called when the "edit budget" button is pressed.
+     */
+    onEditBudgetPressed() {
+      let form = document.getElementById("edit_budget_form");
+      if (form.amount.value === "" || form.expiryDate.value === "") {
+        alert("Fill out all the fields");
+        return;
+      }
+
+      const budgetEUR = utils.convertToEUR(parseFloat(form.amount.value), this.walletCurrency)
+      const expiryDate = new Date(form.expiryDate.value)
+
+        const formData = {
+        budgetEUR: budgetEUR,
+        expiryDate: expiryDate.getTime()
+      };
+
+      editBudget(this.walletId, formData, budget => 
+            this.wallet.budget = budget
+            );
+
+      this.$bvModal.hide("edit_budget_modal");
     },
     }
 }

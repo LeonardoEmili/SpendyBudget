@@ -210,9 +210,11 @@ exports.createNewTransaction = functions.https.onRequest(async (req, res) => {
 
     let transaction = {
         description: data.transaction.description,
-        amount: parseFloat(data.transaction.amount),
+        amount: data.transaction.amount,
         instant: admin.firestore.Timestamp.now()
     }
+
+    const addition = data.transaction.amount >= 0 ? data.transaction.amount : 0
 
     const doc = await db.collection('users')
         .doc(userDoc.id)
@@ -220,10 +222,44 @@ exports.createNewTransaction = functions.https.onRequest(async (req, res) => {
         .doc(data.walletId)
         .update({
             transactions: admin.firestore.FieldValue.arrayUnion(transaction),
-            balanceEUR: admin.firestore.FieldValue.increment(parseFloat(data.transaction.amount))
+            balanceEUR: admin.firestore.FieldValue.increment(data.transaction.amount),
+            budget: {
+                spentEUR: admin.firestore.FieldValue.increment(addition)
+            }
         })
 
     res.send(transaction)
+});
+
+
+
+exports.editBudget = functions.https.onRequest(async (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Headers", "Authorization");
+
+    const userDoc = await authenticateRequest(req);
+    if (userDoc === null) {
+        res.send({ "error": "Invalid auth token" });
+        return;
+    }
+
+    const data = JSON.parse(req.body);
+
+    let budget = {
+        budgetEUR: data.budget.budgetEUR,
+        expiryDate: admin.firestore.Timestamp.fromMillis(data.budget.expiryDate),
+        spentEUR: 0.0
+    }
+
+    const doc = await db.collection('users')
+        .doc(userDoc.id)
+        .collection("wallets")
+        .doc(data.walletId)
+        .set({
+            budget: budget
+        }, {merge: true})
+
+    res.send(budget)
 });
 
 /**

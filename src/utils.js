@@ -96,10 +96,10 @@ export function fetchUserData(onSuccess, forceUpdate = false) {
 export function convertFromEUR(value, currency) {
     switch (currency) {
         case "USD":
-            return (value * 1.09).toFixed(2);
+            return parseFloat((value * 1.09).toFixed(2));
         case "EUR":
         default:
-            return value.toFixed(2);
+            return parseFloat(value.toFixed(2));
     }
 }
 
@@ -111,9 +111,9 @@ export function convertFromEUR(value, currency) {
 export function convertToEUR(value, currency) {
     switch (currency) {
         case "USD":
-            return (value * 0, 92).toFixed(2);
+            return parseFloat((value * 0, 92).toFixed(2));
         case "EUR":
         default:
-            return value.toFixed(2);
+            return parseFloat(value.toFixed(2));
     }
 }
