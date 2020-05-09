@@ -221,9 +221,9 @@ exports.createNewTransaction = functions.https.onRequest(async (req, res) => {
         .collection("wallets")
         .doc(data.walletId)
         .update({
-            transactions: admin.firestore.FieldValue.arrayUnion(transaction),
-            balanceEUR: admin.firestore.FieldValue.increment(data.transaction.amount),
-            "budget.spentEUR": admin.firestore.FieldValue.increment(addition)
+            transactions: FieldValue.arrayUnion(transaction),
+            balanceEUR: FieldValue.increment(data.transaction.amount),
+            "budget.spentEUR": FieldValue.increment(addition)
         })
 
     res.send(transaction)

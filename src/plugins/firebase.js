@@ -24,7 +24,7 @@ firebase.analytics()
  */
 export let user;
 
-const RELEASE = false;
+const RELEASE = process.env.NODE_ENV === "production"
 
 // --------------- Define calls to Google Cloud Functions down here
 
