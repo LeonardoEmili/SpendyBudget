@@ -121,7 +121,9 @@ export default {
             this.wallet.transactions.push(transaction)
             );
         this.wallet.balanceEUR = amountEUR + this.wallet.balanceEUR
-        this.wallet.budget.spentEUR = amountEUR + this.wallet.budget.spentEUR
+        this.wallet.budget.spentEUR = amountEUR >= 0 
+          ? amountEUR + this.wallet.budget.spentEUR
+          : this.wallet.budget.spentEUR
 
 
       this.$bvModal.hide("new_transaction_modal");
@@ -149,7 +151,7 @@ export default {
             );
 
       this.$bvModal.hide("edit_budget_modal");
-    },
+    }
     }
 }
 </script>

@@ -223,9 +223,7 @@ exports.createNewTransaction = functions.https.onRequest(async (req, res) => {
         .update({
             transactions: admin.firestore.FieldValue.arrayUnion(transaction),
             balanceEUR: admin.firestore.FieldValue.increment(data.transaction.amount),
-            budget: {
-                spentEUR: admin.firestore.FieldValue.increment(addition)
-            }
+            "budget.spentEUR": admin.firestore.FieldValue.increment(addition)
         })
 
     res.send(transaction)
