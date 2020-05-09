@@ -101,7 +101,14 @@ export default {
   name: "AccountSettings",
   created() {
     let vm = this;
-    //utils.fetchUserProfilePicture(profPic => (vm.profPic = profPic));
+    utils.fetchUserName(name => (vm.user.name = name));
+    utils.fetchUserSurname(surname => (vm.user.surname = surname));
+    utils.fetchUserProfilePicture(profPic => (vm.user.profPic = profPic));
+    utils.fetchUserGender(gender => (vm.user.gender = gender));
+    utils.fetchUserBirthdate(birthdate => (vm.user.birthdate = birthdate));
+    utils.fetchUserEmail(email => (vm.user.email = email));
+
+    /*
     utils.fetchUserData(user => {
       vm.user.profPic = user.profPic || vm.user.profPic;
       vm.user.name = user.name || vm.user.name;
@@ -110,17 +117,18 @@ export default {
       vm.user.birthdate = user.birthdate || vm.user.birthdate;
       vm.user.email = user.email || vm.user.email;
       vm.user.locale = user.locale || vm.user.locale;
-    });
+    }); */
   },
   data() {
     return {
       cropper: null,
       user: {
-        name: "GINO",
-        surname: "LEGEND",
+        name: "",
+        surname: "",
+        email: "",
         profPic: null,
-        gender: "F",
-        birthdate: "2020-05-06"
+        gender: "",
+        birthdate: ""
       },
       borderStyle: {
         color: "blue",

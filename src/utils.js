@@ -50,18 +50,100 @@ export function b64EncodeUnicode(str) {
 }
 
 /**
- * Fetches the user's profile picture from Firestore.
+ * Fetches the user's profile picture from cache if present, otherwise queries Firestore.
  * @param {Function} onSuccess called when data is available
- * @param {*} forceUpdate force update the data available
+ * @param {Boolean} forceUpdate force update the data available
  */
 export function fetchUserProfilePicture(onSuccess, forceUpdate = false) {
-    if (app.user.profPic !== "") {
+    if (app.user.profPic) {
         onSuccess(app.user.profPic);
     } else {
-        // Update the user but return only the profile picture
         fetchUserData(user => onSuccess(user.profPic), forceUpdate);
     }
 }
+
+/**
+ * Fetches the user's name from cache if present, otherwise queries Firestore.
+ * @param {Function} onSuccess called when data is available
+ * @param {Boolean} forceUpdate force update the data available
+ */
+export function fetchUserName(onSuccess, forceUpdate = false) {
+    if (app.user.name) {
+        onSuccess(app.user.name);
+    } else {
+        fetchUserData(user => onSuccess(user.name), forceUpdate);
+    }
+}
+
+
+/**
+ * Fetches the user's surname from cache if present, otherwise queries Firestore.
+ * @param {Function} onSuccess called when data is available
+ * @param {Boolean} forceUpdate force update the data available
+ */
+export function fetchUserSurname(onSuccess, forceUpdate = false) {
+    if (app.user.surname) {
+        onSuccess(app.user.surname);
+    } else {
+        fetchUserData(user => onSuccess(user.surname), forceUpdate);
+    }
+}
+
+
+/**
+ * Fetches the user's password (hashed) from cache if present, otherwise queries Firestore.
+ * @param {Function} onSuccess called when data is available
+ * @param {Boolean} forceUpdate force update the data available
+ */
+export function fetchUserPassword(onSuccess, forceUpdate = false) {
+    if (app.user.password) {
+        onSuccess(app.user.password);
+    } else {
+        fetchUserData(user => onSuccess(user.password), forceUpdate);
+    }
+}
+
+
+/**
+ * Fetches the user's email from cache if present, otherwise queries Firestore.
+ * @param {Function} onSuccess called when data is available
+ * @param {Boolean} forceUpdate force update the data available
+ */
+export function fetchUserEmail(onSuccess, forceUpdate = false) {
+    if (app.user.email) {
+        onSuccess(app.user.email);
+    } else {
+        fetchUserData(user => onSuccess(user.email), forceUpdate);
+    }
+}
+
+
+/**
+ * Fetches the user's birthdate from cache if present, otherwise queries Firestore.
+ * @param {Function} onSuccess called when data is available
+ * @param {Boolean} forceUpdate force update the data available
+ */
+export function fetchUserBirthdate(onSuccess, forceUpdate = false) {
+    if (app.user.birthdate) {
+        onSuccess(app.user.birthdate);
+    } else {
+        fetchUserData(user => onSuccess(user.birthdate), forceUpdate);
+    }
+}
+
+/**
+ * Fetches the user's gender from cache if present, otherwise queries Firestore.
+ * @param {Function} onSuccess called when data is available
+ * @param {Boolean} forceUpdate force update the data available
+ */
+export function fetchUserGender(onSuccess, forceUpdate = false) {
+    if (app.user.gender) {
+        onSuccess(app.user.gender);
+    } else {
+        fetchUserData(user => onSuccess(user.gender), forceUpdate);
+    }
+}
+
 
 /**
  * Fetches all the user's data from Firestore and updates local data.
