@@ -218,6 +218,7 @@ export function updateUserData(data) {
                 data.profPic = utils.b64DecodeUnicode(data.profPic);
             }
             updateLocalUser(data);
+            console.log(xmlHttp.responseText);
         }
     }
 
