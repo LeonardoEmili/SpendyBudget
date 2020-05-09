@@ -125,7 +125,6 @@ export default {
 
       functions.loginWithEmailAndPassword(user, function(xmlHttp) {
         vm.isLoading = false;
-        console.log(xmlHttp.responseText);
 
         let response = JSON.parse(xmlHttp.responseText);
         if (response.error !== undefined) {

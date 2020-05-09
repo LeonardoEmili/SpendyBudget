@@ -152,7 +152,7 @@ export default {
         surname: this.surname,
         profPic: this.picture
       };
-      await functions.updateUserData(data, res => console.log(res));
+      await functions.updateUserData(data);
       router.replace("/dashboard").catch(() => {});
     },
     remove() {

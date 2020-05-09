@@ -51,6 +51,7 @@ export const signUpWithEmailAndPassword = function (user, handleResponse) {
 
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
+            updateLocalUser(user);
             handleResponse(xmlHttp);
         }
     };
@@ -65,6 +66,13 @@ export const loginWithEmailAndPassword = function (user, handleResponse) {
 
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
+            let response = JSON.parse(xmlHttp.responseText);
+            if (response.profPic) {
+                // Encode the profile picture before using it
+                response.profPic = utils.b64DecodeUnicode(response.profPic);
+            }
+            updateLocalUser(response);
+            // TODO: pass JSON directly here
             handleResponse(xmlHttp);
         }
     };
@@ -118,7 +126,13 @@ export const signInSilently = async function () {
                 utils.resetSession();
                 return;
             }
-            console.log("Successfully signed-in silently! Here's the user:\n" + xmlHttp.responseText);
+            console.log("Successfully signed-in silently! Welcome back " + response.email);
+
+            if (response.profPic) {
+                // Decode the profile picture before using it
+                response.profPic = utils.b64DecodeUnicode(response.profPic);
+            }
+            updateLocalUser(response);
             router.replace("/dashboard").catch(() => { });
         }
     };
@@ -126,7 +140,7 @@ export const signInSilently = async function () {
 }
 
 /**
- * Fetches user data from Google Cloud Firestore.
+ * Fetches and returns user data from Google Cloud Firestore.
  * @param {Function} onSuccess called when data is available
  */
 export const fetchUserData = async function (onSuccess) {
@@ -181,29 +195,37 @@ export function loadWallets(onSuccess) {
     xmlHttp.send();
 }
 
+function updateLocalUser(data) {
+    app.user.name = data.name || app.user.name;
+    app.user.surname = data.surname || app.user.surname;
+    app.user.email = data.email || app.user.email;
+    app.user.password = data.password || app.user.password;
+    app.user.profPic = data.profPic || app.user.profPic;
+}
+
 /**
  * 
  * @param {Object} data the user's data to be updated
- * @param {Function} onSuccess the callback called after the update is done
  */
-export function updateUserData(data, onSuccess) {
+export function updateUserData(data) {
     let xmlHttp = new XMLHttpRequest()
     RELEASE ? xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/updateUserData", true) :
         xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/updateUserData", true);
     xmlHttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken)
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
-            onSuccess(xmlHttp.responseText);
-
             if (data.profPic) {
-                // If present, update the local profile picture
-                app.user.profPic = data.profPic;
+                data.profPic = utils.b64DecodeUnicode(data.profPic);
             }
+            updateLocalUser(data);
         }
     }
+
     if (data.profPic) {
+        // Encode the profile picture before sending it
         data.profPic = utils.b64EncodeUnicode(data.profPic);
     }
+
     console.log(JSON.stringify(data).length);
     xmlHttp.send(JSON.stringify(data));
 }
@@ -304,7 +326,10 @@ export function initUserData() {
     app.user = {
         name: "",
         surname: "",
+        password: "",
         email: "",
         profPic: "",
+        birthdate: "",
+        gender: "",
     };
 }
