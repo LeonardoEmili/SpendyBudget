@@ -2,9 +2,9 @@
   <!-- navbar -->
   <div id="app">
     <!-- Currently loaded page (through the router) -->
-    <router-view />
+    <router-view id="router-view" />
     <div v-show="footerVisible" ref="footer">
-      <v-footer padless dark fixed>
+      <v-footer padless dark absolute>
         <v-card class="flex" flat tile id="footer">
           <v-card-title>
             <div>
@@ -54,6 +54,7 @@ export default {
 <style scoped>
 #footer {
   background-color: #24292e;
+  height: 70px;
 }
 
 .when-keyboard {
@@ -62,6 +63,10 @@ export default {
 
 #app {
   position: relative;
-  height: 100vh;
+  min-height: 100vh;
+}
+
+#router-view {
+  padding-bottom: 70px;
 }
 </style>
