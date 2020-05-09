@@ -10,6 +10,9 @@
       <p>Your budget for this wallet is: {{convertFromEUR(walletBudget.budgetEUR, walletCurrency)}} {{walletCurrency}}</p>
       <p>You've reached the {{(walletBudget.spentEUR*100/walletBudget.budgetEUR).toFixed(0)}}% of it.</p>
       <p>The budget is set until {{new Date(walletBudget.expiryDate._seconds*1000).toLocaleDateString()}}</p>
+
+      <pie-chart class="chart" :chartdata="budgetChartData" :options="null"></pie-chart>
+      <br><br>
     </div>
     <div v-else> 
       <!-- Budget expired -->
@@ -78,6 +81,7 @@
 import * as utils from "../utils"
 import { createNewTransaction, editBudget } from '../plugins/firebase'
 import { firestore } from 'firebase'
+import PieChart from './PieChart.vue'
 
 export default {
     
@@ -85,6 +89,9 @@ export default {
     props: [
         "wallet"
     ],
+    components: {
+      pieChart: PieChart
+    },
     computed: {
         walletId: function () {return  this.wallet !== null ? this.wallet.id : ""},
         walletName: function () {return  this.wallet !== null ? this.wallet.name : ""},
@@ -94,7 +101,23 @@ export default {
           budgetEUR: 0.0,
           expiryDate: firestore.Timestamp.fromMillis(0),
           spentEUR: 0.0}},
-        walletTransactions:  function () {return this.wallet !== null ? this.wallet.transactions : []}
+        walletTransactions:  function () {return this.wallet !== null ? this.wallet.transactions : []},
+        budgetChartData: function() {return {
+          labels: ["Available", "Spent"],
+          datasets: [
+            {
+              label: 'Budget data',
+              backgroundColor: ['#22cc22', '#cc2222'],
+              data: [
+                this.walletBudget.spentEUR <= this.walletBudget.budgetEUR 
+                ? utils.convertFromEUR(this.walletBudget.budgetEUR-this.walletBudget.spentEUR,
+                this.walletCurrency)
+                : 0,
+                utils.convertFromEUR(this.walletBudget.spentEUR,
+                this.walletCurrency)]
+            }
+          ]
+        }}
     },
     methods: {
     convertFromEUR(quantityEUR, currency) {
@@ -127,6 +150,7 @@ export default {
 
 
       this.$bvModal.hide("new_transaction_modal");
+
     },
     /**
      * Called when the "edit budget" button is pressed.
@@ -158,4 +182,8 @@ export default {
 
 <style>
 
+.chart {
+  width: 50%;
+  display: inline-block;
+}
 </style>
