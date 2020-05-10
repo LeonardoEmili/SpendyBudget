@@ -51,7 +51,7 @@ export const signUpWithEmailAndPassword = function (user, handleResponse) {
 
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
-            updateLocalUser(user);
+            utils.updateLocalUser(user);
             handleResponse(xmlHttp);
         }
     };
@@ -71,7 +71,7 @@ export const loginWithEmailAndPassword = function (user, handleResponse) {
                 // Encode the profile picture before using it
                 response.profPic = utils.b64DecodeUnicode(response.profPic);
             }
-            updateLocalUser(response);
+            utils.updateLocalUser(response);
             // TODO: pass JSON directly here
             handleResponse(xmlHttp);
         }
@@ -132,7 +132,7 @@ export const signInSilently = async function () {
                 // Decode the profile picture before using it
                 response.profPic = utils.b64DecodeUnicode(response.profPic);
             }
-            updateLocalUser(response);
+            utils.updateLocalUser(response);
             router.replace("/dashboard").catch(() => { });
         }
     };
@@ -195,13 +195,6 @@ export function loadWallets(onSuccess) {
     xmlHttp.send();
 }
 
-function updateLocalUser(data) {
-    app.user.name = data.name || app.user.name;
-    app.user.surname = data.surname || app.user.surname;
-    app.user.email = data.email || app.user.email;
-    app.user.password = data.password || app.user.password;
-    app.user.profPic = data.profPic || app.user.profPic;
-}
 
 /**
  * 
@@ -217,7 +210,7 @@ export function updateUserData(data) {
             if (data.profPic) {
                 data.profPic = utils.b64DecodeUnicode(data.profPic);
             }
-            updateLocalUser(data);
+            utils.updateLocalUser(data);
             console.log(xmlHttp.responseText);
         }
     }
@@ -249,6 +242,7 @@ export function uploadProfilePhoto(blob) {
         }
     }
     const encodedImg = utils.b64EncodeUnicode(blob);
+    console.log(encodedImg.length);
     xmlHttp.send(encodedImg);
 }
 

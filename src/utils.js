@@ -50,6 +50,18 @@ export function b64EncodeUnicode(str) {
 }
 
 /**
+ * Utility function that updates the local copy of user's data.
+ * @param {Object} data the new data
+ */
+export function updateLocalUser(data) {
+    app.user.name = data.name || app.user.name;
+    app.user.surname = data.surname || app.user.surname;
+    app.user.email = data.email || app.user.email;
+    app.user.password = data.password || app.user.password;
+    app.user.profPic = data.profPic || app.user.profPic;
+}
+
+/**
  * Fetches the user's profile picture from cache if present, otherwise queries Firestore.
  * @param {Function} onSuccess called when data is available
  * @param {Boolean} forceUpdate force update the data available

@@ -10,7 +10,6 @@
         ref="img"
         :src="user.profPic"
         class="rounded-circle"
-        :style="borderStyle"
       />
 
       <img
@@ -24,12 +23,14 @@
         :style="borderStyle"
       />
 
-      <input type="file" ref="file" v-on:change="uploadImage" id="custom-input" />
+      <input type="file" ref="file" v-on:change="uploadImage" accept="image/*" id="custom-input" />
       <b-button size="sm" variant="primary" id="custom-btn" v-on:click="$refs.file.click()">
         <upload-icon></upload-icon>
         <span>Upload photo</span>
       </b-button>
     </div>
+
+    <vue-croppie id="my-croppie" ref="croppieRef"></vue-croppie>
 
     <h6 class="my-headers">General Settings</h6>
 
@@ -95,8 +96,6 @@
 import * as utils from "../utils";
 import * as functions from "../plugins/firebase";
 
-// import Cropper from "cropperjs";
-
 export default {
   name: "AccountSettings",
   created() {
@@ -107,17 +106,6 @@ export default {
     utils.fetchUserGender(gender => (vm.user.gender = gender));
     utils.fetchUserBirthdate(birthdate => (vm.user.birthdate = birthdate));
     utils.fetchUserEmail(email => (vm.user.email = email));
-
-    /*
-    utils.fetchUserData(user => {
-      vm.user.profPic = user.profPic || vm.user.profPic;
-      vm.user.name = user.name || vm.user.name;
-      vm.user.surname = user.surname || vm.user.surname;
-      vm.user.sex = user.sex || vm.user.sex;
-      vm.user.birthdate = user.birthdate || vm.user.birthdate;
-      vm.user.email = user.email || vm.user.email;
-      vm.user.locale = user.locale || vm.user.locale;
-    }); */
   },
   data() {
     return {
@@ -147,14 +135,30 @@ export default {
     onSubmit() {
       console.log(this.user);
     },
-    uploadImage(e) {
-      const image = e.target.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(image);
-      reader.onload = e => {
-        this.user.profPic = e.target.result;
-        functions.uploadProfilePhoto(this.user.profPic);
+    crop() {
+      // Current option will return a base64 version of the uploaded image with a size of 256px X 256px.
+      let options = {
+        type: "base64",
+        size: { width: 256, height: 256 },
+        format: "jpeg"
       };
+      this.$refs.croppieRef.result(options, output => {
+        this.user.profPic = output;
+        functions.uploadProfilePhoto(this.user.profPic);
+        utils.updateLocalUser({profPic : this.profPic});
+      });
+    },
+    uploadImage(e) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = e => {
+        this.$refs.croppieRef
+          .bind({
+            url: e.target.result
+          })
+          .then(() => this.crop());
+      };
+      reader.readAsDataURL(file);
     }
   }
 };
@@ -195,5 +199,11 @@ export default {
 
 #account-form {
   max-width: 550px;
+}
+
+#my-croppie {
+  opacity: 0;
+  width: 0px;
+  height: 0px;
 }
 </style>

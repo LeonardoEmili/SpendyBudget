@@ -170,7 +170,7 @@ export default {
       }
     },
     crop() {
-      // Current option will return a base64 version of the uploaded image with a size of 600px X 450px.
+      // Current option will return a base64 version of the uploaded image with a size of 256px X 256px.
       let options = {
         type: "base64",
         size: { width: 256, height: 256 },
@@ -184,16 +184,13 @@ export default {
       const file = e.target.files[0];
       const reader = new FileReader();
       reader.onload = e => {
-        //this.picture = e.target.result;
         this.$refs.croppieRef
           .bind({
             url: e.target.result
           })
           .then(() => this.crop());
-        //functions.uploadProfilePhoto(this.picture);
       };
       reader.readAsDataURL(file);
-      //this.crop();
     },
     onSubmit() {
       this.finished = true;
