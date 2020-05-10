@@ -62,6 +62,76 @@ export function updateLocalUser(data) {
 }
 
 /**
+ * Converts a PNG to JPEG file.
+ * @param {File} image the image to converted
+ * @param {Function} onSuccess called when the conversion is completed
+ */
+export function pngToJpeg(image, onSuccess) {
+    // Load the image into an <img> tag
+    const img = document.createElement("img");
+    img.onload = function () {
+        // Paint the PNG into a 2d plane
+        let canvas = document.createElement("canvas");
+        canvas.width = this.width;
+        canvas.height = this.height;
+
+        // Store white pixels instead of transparency
+        let ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#FFF";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Once the image is ready, convert it to BASE64 format
+        ctx.drawImage(this, 0, 0);
+        let resultImage = canvas.toDataURL("image/jpeg");
+        onSuccess(resultImage);
+    }
+    img.src = image;
+}
+
+/**
+ * 
+ * @param {File} file the image to be resized
+ * @param {Croppie} croppie an instance of croppie
+ * @param {Function} onSuccess called when the process is completed
+ */
+export function resizeImage(file, croppie, onSuccess) {
+    const reader = new FileReader();
+
+    reader.onload = evt => {
+        const sourceImage = evt.target.result;
+        if (isPNG(file.name)) {
+            // In order:
+            // 1. PNG -> JPGE
+            // 2. Resize the image
+            // 3. Return it.
+            pngToJpeg(sourceImage, jpeg => croppie.bind({ url: jpeg }).then(() => crop(croppie, onSuccess)));
+        } else {
+            // Same as before, but avoid step. 1
+            croppie.bind({ url: sourceImage }).then(() => crop(croppie, onSuccess));
+        }
+    };
+    reader.readAsDataURL(file);
+}
+
+export function crop(croppie, onSuccess) {
+    // Current option will return a base64 version of the uploaded image with a size of 256px X 256px.
+    let options = {
+        type: "base64",
+        size: { width: 256, height: 256 },
+        format: "jpeg"
+    };
+    croppie.result(options, output => onSuccess(output));
+}
+
+/**
+ * Checks wheter a file endswith '.png' or '.PNG'
+ * @param {String} filename the filename
+ */
+export function isPNG(filename) {
+    return filename.split(".").pop().toLowerCase() === "png";
+}
+
+/**
  * Fetches the user's profile picture from cache if present, otherwise queries Firestore.
  * @param {Function} onSuccess called when data is available
  * @param {Boolean} forceUpdate force update the data available

@@ -113,7 +113,7 @@
 <script>
 import router from "../router";
 import * as functions from "../plugins/firebase";
-import { isMobileView } from "../utils";
+import { isMobileView, resizeImage } from "../utils";
 
 export default {
   name: "MoreInfo",
@@ -169,28 +169,12 @@ export default {
         this.$parent.$refs.footer.classList.remove("when-keyboard");
       }
     },
-    crop() {
-      // Current option will return a base64 version of the uploaded image with a size of 256px X 256px.
-      let options = {
-        type: "base64",
-        size: { width: 256, height: 256 },
-        format: "jpeg"
-      };
-      this.$refs.croppieRef.result(options, output => {
-        this.picture = output;
-      });
-    },
     uploadImage(e) {
       const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.onload = e => {
-        this.$refs.croppieRef
-          .bind({
-            url: e.target.result
-          })
-          .then(() => this.crop());
-      };
-      reader.readAsDataURL(file);
+      const croppie = this.$refs.croppieRef;
+      resizeImage(file, croppie, result => {
+        this.picture = result;
+      });
     },
     onSubmit() {
       this.finished = true;
