@@ -1,5 +1,6 @@
 <template>
   <!-- navbar -->
+  <v-app>
   <div id="app">
     <!-- Currently loaded page (through the router) -->
     <router-view id="router-view" />
@@ -24,6 +25,7 @@
       </v-footer>
     </div>
   </div>
+  </v-app>
 </template>
 
 <script>
