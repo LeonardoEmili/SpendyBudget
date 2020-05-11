@@ -3,10 +3,10 @@ import VueRouter from 'vue-router'
 import Index from '../views/Index.vue'
 import Login from '../views/Login.vue'
 import SignUp from '../views/Signup.vue'
-import Hello from '../views/HelloI18n.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Settings from '../views/Settings.vue'
 import MoreInfo from '../views/MoreInfo.vue'
+import About from '../views/About'
 
 Vue.use(VueRouter);
 
@@ -22,8 +22,8 @@ const routes = [
     component: Login
   },
   {
-    path: '/signup',
-    name: 'Sign up',
+    path: '/signIp',
+    name: 'SignUp',
     component: SignUp
   },
   {
@@ -33,8 +33,8 @@ const routes = [
   },
   {
     path: '/about',
-    name: 'About Us',
-    component: Hello
+    name: 'AboutUs',
+    component: About
   },
   {
     path: '/dashboard',

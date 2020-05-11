@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'About Us',
+  name: 'AboutUs',
   props: {
     
   }

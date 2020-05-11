@@ -98,7 +98,7 @@ import router from "../router";
 import { isMobileView } from "../utils";
 
 export default {
-  name: "Signup",
+  name: "SignUp",
   data() {
     return {
       email: "",
