@@ -1,6 +1,7 @@
 import router from './router'
 import * as functions from './plugins/firebase'
 import { app } from './main'
+import i18n from "./plugins/i18n-vue";
 
 // General purpose utility function
 
@@ -62,9 +63,13 @@ export function updateLocalUser(data) {
 }
 
 /**
- * Returns the language used by the browser.
+ * Returns the language to be used, which is either the user's preference or the language used from the browser.
  */
 export function getUserLocale() {
+    let userPreference = localStorage.getItem("userLocale");
+    if (userPreference) {
+        return userPreference;
+    }
     const isoList = locales.map((locale) => locale.iso);
     const userLocales = navigator.languages.filter((locale) => isoList.includes(locale.toLowerCase()));
     return userLocales[0].split('-')[0].toLowerCase() || "en";
@@ -75,7 +80,7 @@ export function getUserLocale() {
  * @param {String} iso the code representing the language (ISO 639)
  */
 export function languageFromISO(iso) {
-    const ISO = iso.toLowerCase()
+    const ISO = iso.toLowerCase();
     return locales.filter((locale) => locale.iso === ISO)[0].name;
 }
 
@@ -201,6 +206,23 @@ export function fetchUserPassword(onSuccess, forceUpdate = false) {
     } else {
         fetchUserData(user => onSuccess(user.password), forceUpdate);
     }
+}
+
+/**
+ * Initializes the local copy of the user's data.
+ */
+export function initUserData() {
+    app.user = {
+        name: "",
+        surname: "",
+        password: "",
+        email: "",
+        profPic: "",
+        birthdate: "",
+        gender: "",
+        locale: getUserLocale()
+    };
+    i18n.locale = app.user.locale;
 }
 
 

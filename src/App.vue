@@ -1,35 +1,36 @@
 <template>
   <!-- navbar -->
   <v-app>
-  <div id="app">
-    <!-- Currently loaded page (through the router) -->
-    <router-view id="router-view" />
-    <div v-show="footerVisible" ref="footer">
-      <v-footer padless dark absolute>
-        <v-card class="flex" flat tile id="footer">
-          <v-card-title>
-            <div>
-              <v-card-text class="py-2 white--text">
-                <strong>SpendyBudget</strong>
-                {{ new Date().getFullYear() }}
-              </v-card-text>
-            </div>
+    <div id="app">
+      <!-- Currently loaded page (through the router) -->
+      <router-view id="router-view" />
+      <div v-show="footerVisible" ref="footer">
+        <v-footer padless dark absolute>
+          <v-card class="flex" flat tile id="footer">
+            <v-card-title>
+              <div>
+                <v-card-text class="py-2 white--text">
+                  <strong>SpendyBudget</strong>
+                  {{ new Date().getFullYear() }}
+                </v-card-text>
+              </div>
 
-            <v-spacer></v-spacer>
+              <v-spacer></v-spacer>
 
-            <v-btn class="mx-4 white--text" v-on:click="openGithub" icon>
-              <v-icon large>mdi-github</v-icon>
-            </v-btn>
-          </v-card-title>
-        </v-card>
-      </v-footer>
+              <v-btn class="mx-4 white--text" v-on:click="openGithub" icon>
+                <v-icon large>mdi-github</v-icon>
+              </v-btn>
+            </v-card-title>
+          </v-card>
+        </v-footer>
+      </div>
     </div>
-  </div>
   </v-app>
 </template>
 
 <script>
-import { signInSilently, initUserData } from "./plugins/firebase";
+import { signInSilently } from "./plugins/firebase";
+import { initUserData } from "./utils";
 
 export default {
   created() {

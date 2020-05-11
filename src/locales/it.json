@@ -1,4 +1,6 @@
 {
   "message": "ciao i18n !!",
-  "welcome": "benvenuto!!"
+  "welcome": "benvenuto!!",
+  "same_spending_tracker": "Stesso traccia spese, nuovo stile",
+  "a_simple_expense_tracker": "Un semplice strumento per aiutarti a gestire le spese."
 }

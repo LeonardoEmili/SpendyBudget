@@ -1,4 +1,6 @@
 {
   "message": "hello i18n !!",
-  "welcome": "welcome!!"
+  "welcome": "welcome!!",
+  "same_spending_tracker": "Same spending tracker, new style",
+  "a_simple_expense_tracker": "A simple expense tracker to help you manage your money."
 }

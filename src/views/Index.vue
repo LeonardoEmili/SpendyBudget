@@ -12,9 +12,9 @@
           <b-nav-item-dropdown :text="userLanguage" right>
             <b-dropdown-item
               variant="dark"
-              v-for="locale in locales"
+              v-for="(locale, index) in locales"
               :key="locale.iso"
-              v-on:click="userLocale=locale.iso"
+              v-on:click="updateLocale(index)"
             >
               <img
                 :src="require('../assets/flags/' + locale.iso + '.png')"
@@ -23,11 +23,11 @@
                 alt="."
                 style="margin-left: -15px; margin-right: 8px;"
               />
-              <span :class="{ 'selected' : locale.iso == currentLocale}">{{locale.name}}</span>
+              <span :class="{ 'selected' : locale.iso == currentISO}">{{locale.name}}</span>
             </b-dropdown-item>
           </b-nav-item-dropdown>
 
-          <b-nav-item to="/about">About Us</b-nav-item>
+          <b-nav-item to="/about">About us</b-nav-item>
           <b-nav-item to="/login">Login</b-nav-item>
           <b-button variant="outline-success" style="padding: 0px 10px; margin-left: 10px;" pill>
             <b-nav-item to="/signup">Sign up</b-nav-item>
@@ -38,8 +38,9 @@
 
     <center>
       <div id="welcome-div">
-        <h1>Same spending tracker, new style</h1>
-        <p>A simpe expense tracker to help you manage your money.</p>
+        {{$t()}}
+        <h1>{{ $t('same_spending_tracker') }}</h1>
+        <p>{{$t('a_simple_expense_tracker')}}</p>
         <div style="margin-top:50px">
           <img src="../assets/chart1.png" width="240px" alt="." style="margin-right:50px" />
 
@@ -52,27 +53,37 @@
 
 <script>
 import { getUserLocale, locales, languageFromISO } from "../utils";
+import i18n from "../plugins/i18n-vue";
 
 export default {
   name: "Index",
-  mounted: function() {
-    console.log(getUserLocale());
-    //console.log(locales.includes(getUserLocale()));
+  created() {
+    // Initialize the locale to be used
+    this.userLocaleIndex = locales.findIndex(
+      locale => locale.iso === getUserLocale()
+    );
   },
   data() {
     return {
-      userLocale: ""
+      userLocaleIndex: 0
     };
   },
   computed: {
     locales: function() {
       return locales;
     },
-    currentLocale: function() {
-      return this.userLocale || getUserLocale();
+    currentISO: function() {
+      return locales[this.userLocaleIndex].iso || getUserLocale();
     },
     userLanguage: function() {
-      return languageFromISO(this.currentLocale);
+      return languageFromISO(this.currentISO);
+    }
+  },
+  methods: {
+    updateLocale: function(index) {
+      this.userLocaleIndex = index;
+      i18n.locale = this.currentISO;
+      localStorage.setItem("userLocale", i18n.locale);
     }
   }
 };
