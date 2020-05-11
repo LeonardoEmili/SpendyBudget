@@ -8,7 +8,7 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <!-- Right aligned nav items -->
-        <b-navbar-nav class="ml-auto" style="margin: 0; padding: 0">
+        <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown :text="userLanguage" right>
             <b-dropdown-item
               variant="dark"
@@ -27,9 +27,9 @@
             </b-dropdown-item>
           </b-nav-item-dropdown>
 
-          <b-nav-item to="/about">About us</b-nav-item>
+          <b-nav-item to="/about" class="border-right" style="margin-left: 10px;">About us</b-nav-item>
           <b-nav-item to="/login">Login</b-nav-item>
-          <b-button variant="outline-success" style="padding: 0px 10px; margin-left: 10px;" pill>
+          <b-button variant="outline-success" style="padding: 0px 10px; margin-left: 20px;" pill>
             <b-nav-item to="/signup">Sign up</b-nav-item>
           </b-button>
         </b-navbar-nav>
