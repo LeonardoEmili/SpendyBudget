@@ -29,8 +29,16 @@
 
           <b-nav-item to="/about" class="border-right" style="margin-left: 10px;">About us</b-nav-item>
           <b-nav-item to="/login">Login</b-nav-item>
-          <b-button variant="outline-success" style="padding: 0px 10px; margin-left: 20px;" pill>
-            <b-nav-item to="/signup">Sign up</b-nav-item>
+          <b-button
+            variant="outline-success"
+            style="padding: 0px 10px; margin-left: 20px;"
+            pill
+            v-on:mouseover="hovering = true"
+            v-on:mouseleave="hovering = false"
+          >
+            <b-nav-item to="/signup">
+              <span :class="{ 'hovering' : hovering == true}">Sign up</span>
+            </b-nav-item>
           </b-button>
         </b-navbar-nav>
       </b-collapse>
@@ -65,7 +73,8 @@ export default {
   },
   data() {
     return {
-      userLocaleIndex: 0
+      userLocaleIndex: 0,
+      hovering: false
     };
   },
   computed: {
@@ -96,5 +105,8 @@ export default {
 }
 .selected {
   font-weight: bold;
+}
+.hovering {
+  color: white;
 }
 </style>
