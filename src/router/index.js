@@ -22,7 +22,7 @@ const routes = [
     component: Login
   },
   {
-    path: '/signIp',
+    path: '/signup',
     name: 'SignUp',
     component: SignUp
   },
