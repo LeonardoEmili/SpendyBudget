@@ -4,6 +4,7 @@
       <b-navbar-brand to="/">
         <img src="../assets/logo.png" height="60px" width="60px" alt="." />
         SpendyBudget
+        
       </b-navbar-brand>
 
       <b-collapse id="nav-collapse" is-nav>
