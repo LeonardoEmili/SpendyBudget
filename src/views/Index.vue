@@ -9,42 +9,21 @@
       <b-collapse id="nav-collapse" is-nav>
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto" style="margin: 0; padding: 0">
-          <b-nav-item-dropdown text="English " right>
-            <b-dropdown-item variant="dark">
+          <b-nav-item-dropdown :text="userLanguage" right>
+            <b-dropdown-item
+              variant="dark"
+              v-for="locale in locales"
+              :key="locale.iso"
+              v-on:click="userLocale=locale.iso"
+            >
               <img
-                src="../assets/flags/usa.png"
+                :src="require('../assets/flags/' + locale.iso + '.png')"
                 height="20px"
                 width="20px"
                 alt="."
-                style="margin-left: -15px; margin-right: 5px;"
-              /> English
-            </b-dropdown-item>
-            <b-dropdown-item variant="dark">
-              <img
-                src="../assets/flags/it.png"
-                height="20px"
-                width="20px"
-                alt="."
-                style="margin-left: -15px; margin-right: 5px;"
-              /> Italian
-            </b-dropdown-item>
-            <b-dropdown-item variant="dark">
-              <img
-                src="../assets/flags/de.png"
-                height="20px"
-                width="20px"
-                alt="."
-                style="margin-left: -15px; margin-right: 5px;"
-              /> German
-            </b-dropdown-item>
-            <b-dropdown-item variant="dark">
-              <img
-                src="../assets/flags/es.png"
-                height="20px"
-                width="20px"
-                alt="."
-                style="margin-left: -15px; margin-right: 5px;"
-              /> Spanish
+                style="margin-left: -15px; margin-right: 8px;"
+              />
+              <span :class="{ 'selected' : locale.iso == currentLocale}">{{locale.name}}</span>
             </b-dropdown-item>
           </b-nav-item-dropdown>
 
@@ -72,8 +51,30 @@
 </template>
 
 <script>
+import { getUserLocale, locales, languageFromISO } from "../utils";
+
 export default {
-  name: "Index"
+  name: "Index",
+  mounted: function() {
+    console.log(getUserLocale());
+    //console.log(locales.includes(getUserLocale()));
+  },
+  data() {
+    return {
+      userLocale: ""
+    };
+  },
+  computed: {
+    locales: function() {
+      return locales;
+    },
+    currentLocale: function() {
+      return this.userLocale || getUserLocale();
+    },
+    userLanguage: function() {
+      return languageFromISO(this.currentLocale);
+    }
+  }
 };
 </script>
 
@@ -81,5 +82,8 @@ export default {
 <style scoped>
 #welcome-div {
   padding-top: 100px;
+}
+.selected {
+  font-weight: bold;
 }
 </style>

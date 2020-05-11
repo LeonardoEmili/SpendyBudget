@@ -62,6 +62,24 @@ export function updateLocalUser(data) {
 }
 
 /**
+ * Returns the language used by the browser.
+ */
+export function getUserLocale() {
+    const isoList = locales.map((locale) => locale.iso);
+    const userLocales = navigator.languages.filter((locale) => isoList.includes(locale.toLowerCase()));
+    return userLocales[0].split('-')[0].toLowerCase() || "en";
+}
+
+/**
+ * Returns the language corresponding to the input iso (if available)
+ * @param {String} iso the code representing the language (ISO 639)
+ */
+export function languageFromISO(iso) {
+    const ISO = iso.toLowerCase()
+    return locales.filter((locale) => locale.iso === ISO)[0].name;
+}
+
+/**
  * Converts a PNG to JPEG file.
  * @param {File} image the image to converted
  * @param {Function} onSuccess called when the conversion is completed
@@ -268,7 +286,13 @@ export function convertFromEUR(value, currency) {
 }
 
 export const currencies = ["EUR", "USD"];
-export const locales = ["it", "en"];
+//export const locales = ["it", "en"];
+export const locales = [
+    { iso: "en", name: "English" },
+    { iso: "it", name: "Italian" },
+    { iso: "es", name: "Spanish" },
+    { iso: "de", name: "German" }
+];
 
 /**
  * Converts the value into the desidered currency.

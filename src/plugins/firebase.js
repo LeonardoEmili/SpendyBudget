@@ -326,5 +326,6 @@ export function initUserData() {
         profPic: "",
         birthdate: "",
         gender: "",
+        locale: ""
     };
 }
