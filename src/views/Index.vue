@@ -37,7 +37,7 @@
             v-on:mouseleave="hovering = false"
           >
             <b-nav-item to="/signup">
-              <span :class="{ 'hovering' : hovering == true}">Sign up</span>
+              <span :class="{ 'hovering' : hovering}">Sign up</span>
             </b-nav-item>
           </b-button>
         </b-navbar-nav>
