@@ -267,6 +267,9 @@ export function convertFromEUR(value, currency) {
     }
 }
 
+export const currencies = ["EUR", "USD"];
+export const locales = ["it", "en"];
+
 /**
  * Converts the value into the desidered currency.
  * @param {Number} value the value to be converted in [currency]

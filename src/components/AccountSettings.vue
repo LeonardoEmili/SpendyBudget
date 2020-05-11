@@ -32,9 +32,8 @@
 
     <vue-croppie id="my-croppie" ref="croppieRef"></vue-croppie>
 
-    <h6 class="my-headers">General Settings</h6>
-
     <b-form v-on:submit.prevent="onSubmit" id="account-form">
+      <h6 class="my-headers">General Settings</h6>
       <b-row>
         <b-col class="my-cols">
           <b-form-group label="Name" class="custom-font">
@@ -82,13 +81,40 @@
         </b-col>
         <b-col></b-col>
       </b-row>
+
+      <h6 class="my-headers">Localization settings</h6>
+
       <b-row>
-        <b-col>
-          <b-button id="submit-btn" block size="sm" type="submit">Update settings</b-button>
+        <b-col class="my-cols">
+          <b-form-group label="Account currency" size="sm" class="custom-font">
+            <b-form-select v-model="user.currency" size="sm">
+              <b-form-select-option value="null" disabled>Sex</b-form-select-option>
+              <b-form-select-option value="M">Male</b-form-select-option>
+              <b-form-select-option value="F">Female</b-form-select-option>
+            </b-form-select>
+          </b-form-group>
         </b-col>
-        <b-col></b-col>
+        <b-col class="my-cols">
+          <b-form-group label="Language" size="sm" class="custom-font">
+            <b-form-select v-model="user.locale" size="sm">
+              <b-form-select-option
+                v-for="locale in locales"
+                :value="locale"
+                :key="locale"
+                style="font-weight: bold"
+              >{{locale}}</b-form-select-option>
+            </b-form-select>
+          </b-form-group>
+        </b-col>
       </b-row>
     </b-form>
+
+    <b-row>
+      <b-col>
+        <b-button id="submit-btn" block size="sm" type="submit">Update settings</b-button>
+      </b-col>
+      <b-col></b-col>
+    </b-row>
   </div>
 </template>
 
@@ -116,7 +142,8 @@ export default {
         email: "",
         profPic: null,
         gender: "",
-        birthdate: ""
+        birthdate: "",
+        locale: ""
       },
       borderStyle: {
         color: "blue",
@@ -129,6 +156,9 @@ export default {
     locale() {
       // ["it-IT", "us-US"]
       return "it-IT";
+    },
+    locales() {
+      return utils.locales;
     }
   },
   methods: {
@@ -148,7 +178,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #custom-btn {
   margin-left: 20px;
 }
@@ -167,6 +197,7 @@ export default {
 .my-headers {
   margin-top: 10px;
   margin-bottom: 20px;
+  font-size: 16px;
 }
 #photo-wrapper {
   margin-bottom: 30px;
@@ -189,5 +220,6 @@ export default {
   opacity: 0;
   width: 0px;
   height: 0px;
+  margin-top: -10px;
 }
 </style>

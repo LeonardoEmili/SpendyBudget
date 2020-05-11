@@ -309,4 +309,8 @@ export default {
 #proceed-btn {
   margin-top: 50px;
 }
+
+#custom-input {
+  display: none;
+}
 </style>

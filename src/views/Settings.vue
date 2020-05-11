@@ -1,5 +1,5 @@
 <template>
-  <b-container id="wrapper">
+  <div id="settings-wrapper">
     <b-row style="min-width: 400px;">
       <b-col cols="2" style="min-width:200px;">
         <div v-for="(item,index) of items" :key="item">
@@ -15,7 +15,7 @@
         <component v-bind:is="selectedTab"></component>
       </b-col>
     </b-row>
-  </b-container>
+  </div>
 </template>
 
 <script>
@@ -97,8 +97,9 @@ export default {
   margin-bottom: 30px;
 }
 
-#wrapper {
+#settings-wrapper {
   width: 50vw;
+  margin: auto;
   min-width: 500px;
 }
 </style>
