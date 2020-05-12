@@ -87,6 +87,7 @@ function parseUserData(data) {
         ...data["profPic"] && { profPic: data["profPic"] },
         ...data["email"] && { email: data["email"] },
         ...data["password"] && { password: data["password"] },
+        ...data["locale"] && { locale: data["locale"] },
         ...data["birthdate"] && { birthdate: data["birthdate"] }
     };
     return result;

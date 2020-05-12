@@ -4,16 +4,16 @@
 
     <div id="photo-wrapper">
       <img
-        v-show="user.profPic"
+        v-show="profPic"
         width="110px"
         height="110px"
         ref="img"
-        :src="user.profPic"
+        :src="profPic"
         class="rounded-circle"
       />
 
       <img
-        v-show="!user.profPic"
+        v-show="!profPic"
         id="default-img"
         width="110px"
         height="110px"
@@ -133,7 +133,7 @@ export default {
     let vm = this;
     utils.fetchUserName(name => (vm.user.name = name));
     utils.fetchUserSurname(surname => (vm.user.surname = surname));
-    utils.fetchUserProfilePicture(profPic => (vm.user.profPic = profPic));
+    utils.fetchUserProfilePicture(profPic => (vm.profPic = profPic));
     utils.fetchUserGender(gender => (vm.user.gender = gender));
     utils.fetchUserBirthdate(birthdate => (vm.user.birthdate = birthdate));
     utils.fetchUserEmail(email => (vm.user.email = email));
@@ -141,12 +141,11 @@ export default {
   },
   data() {
     return {
-      cropper: null,
+      profPic: null,
       user: {
         name: "",
         surname: "",
         email: "",
-        profPic: null,
         gender: "",
         birthdate: "",
         locale: ""
@@ -169,15 +168,14 @@ export default {
   },
   methods: {
     onSubmit() {
-      // Change webapp language
-      utils.changeLanguage(this.user.locale);
       utils.updateLocalUser(this.user);
+      functions.updateUserData(this.user);
     },
     uploadImage(e) {
       const file = e.target.files[0];
       const croppie = this.$refs.croppieRef;
       utils.resizeImage(file, croppie, result => {
-        this.user.profPic = result;
+        this.profPic = result;
         functions.uploadProfilePhoto(result);
         utils.updateLocalUser({ profPic: result });
       });
