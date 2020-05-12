@@ -2,45 +2,45 @@
   <b-card style="background-color: cyan">
      <h2>{{walletName}}</h2>
      <!-- Wallet balance -->
-    <p>Balance: {{convertFromEUR(walletBalanceEUR, walletCurrency)}} {{walletCurrency}}</p>
+    <p>{{$t('balance')}} {{convertFromEUR(walletBalanceEUR, walletCurrency)}} {{walletCurrency}}</p>
     <!-- Wallet budget -->
-    <h3>Budget</h3>
+    <h3>{{$t('budget')}}</h3>
     <div v-if="walletBudget.expiryDate._seconds*1000 > Date.now()">
       <!-- Budget valid -->
-      <p>Your budget for this wallet is: {{convertFromEUR(walletBudget.budgetEUR, walletCurrency)}} {{walletCurrency}}</p>
-      <p>You've reached the {{(walletBudget.spentEUR*100/walletBudget.budgetEUR).toFixed(0)}}% of it.</p>
-      <p>The budget is set until {{new Date(walletBudget.expiryDate._seconds*1000).toLocaleDateString()}}</p>
+      <p>{{$t('your_budget_for')}} {{convertFromEUR(walletBudget.budgetEUR, walletCurrency)}} {{walletCurrency}}</p>
+      <p>{{$t('you_have_reached')}} {{(walletBudget.spentEUR*100/walletBudget.budgetEUR).toFixed(0)}}%.</p>
+      <p>{{$t('the_budget_is_set')}} {{new Date(walletBudget.expiryDate._seconds*1000).toLocaleDateString()}}</p>
 
       <pie-chart class="chart" :chartdata="budgetChartData" :options="null"></pie-chart>
       <br><br>
     </div>
     <div v-else> 
       <!-- Budget expired -->
-      <p>You don't have a budget set for this wallet.</p>
+      <p>{{$t('you_do_not_have_a_budget')}}</p>
        
     </div>
     <!-- Edit budget modal -->
      <div>
-          <b-button v-b-modal.edit_budget_modal>Edit budget</b-button>
+          <b-button v-b-modal.edit_budget_modal>{{$t('edit_budget')}}</b-button>
 
-          <b-modal id="edit_budget_modal" title="Edit budget" hide-footer>
+          <b-modal id="edit_budget_modal" v-bind:title="$t('edit_budget')" hide-footer>
             <form id="edit_budget_form">
-              Amount ({{walletCurrency}}):
+              {{$t('amount')}} ({{walletCurrency}}):
               <br >
               <input type="number" name="amount" required />
               <br >
               <br >
-              Until:
+              {{$t('until')}}
             <br >
             <input type="date" name="expiryDate" required/>
             </form>
             <br >
             <br >
-            <b-button v-on:click="onEditBudgetPressed">Edit budget</b-button>
+            <b-button v-on:click="onEditBudgetPressed">{{$t('edit_budget')}}</b-button>
           </b-modal>
         </div>
       <br><br>
-    <h3>Transactions</h3>
+    <h3>{{$t('transactions')}}</h3>
     <div>
         <div v-for="i in walletTransactions.length" :key="i">
         {{convertFromEUR(walletTransactions[walletTransactions.length-i].amountEUR, walletCurrency)}}
@@ -58,28 +58,28 @@
     </div>
        <!-- " New transaction" modal view -->
         <div>
-          <b-button v-b-modal.new_transaction_modal>New transaction</b-button>
+          <b-button v-b-modal.new_transaction_modal>{{$t('new_transaction')}}</b-button>
 
-          <b-modal id="new_transaction_modal" title="New transaction" hide-footer>
+          <b-modal id="new_transaction_modal" v-bind:title="$t('new_transaction')" hide-footer>
             <form id="new_transaction_form">
-              Amount ({{walletCurrency}}):
+              {{$t('amount')}} ({{walletCurrency}}):
               <br >
               <input type="number" name="amount" required />
               <br >
               <br >
-             Description:
+             {{$t('description')}}:
             <br >
             <input type="text" name="description" />
             <br><br>
             <select name="category" v-model="transactionFormSelectedCategory">
-                <option value="Other" selected>Other</option>
+                <option v-bind:value="$t('other')" selected>{{$t('other')}}</option>
                 <option v-for="category in userCategories" :key="category.name" 
                   v-bind:value="userCategories[i].name">{{userCategories[i].name}}</option>
               </select>
             </form>
             <br >
             <br >
-            <b-button v-on:click="onNewTransactionPressed">Create</b-button>
+            <b-button v-on:click="onNewTransactionPressed">{{$t('create')}}</b-button>
           </b-modal>
         </div>
     
@@ -140,7 +140,7 @@ export default {
           return categories
         },        
         budgetChartData: function() {return {
-          labels: ["Available", "Spent"],
+          labels: [this.$t('available'), this.$t('spent')],
           datasets: [
             {
               label: 'Budget data',

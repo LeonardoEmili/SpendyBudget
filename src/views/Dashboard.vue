@@ -7,8 +7,8 @@
       </b-navbar-brand>
 
       <b-navbar-nav class="ml-auto">
-        <b-nav-item to="/about">About us</b-nav-item>
-        <b-nav-item to="/settings">Settings</b-nav-item>
+        <b-nav-item to="/about">{{$t('about_us')}}</b-nav-item>
+        <b-nav-item to="/settings">{{$t('settings')}}</b-nav-item>
         <b-nav-item v-on:click="logout">Logout</b-nav-item>
       </b-navbar-nav>
     </b-navbar>
@@ -17,21 +17,21 @@
         <b-container fluid>
           <b-row>
             <b-col sm="5" md="3">
-              <h1>My wallets</h1>
+              <h1>{{$t('my_wallets')}}</h1>
             </b-col>
             <b-col sm="5" md="7"></b-col>
             <b-col cols="2">
               <!-- " New wallet" modal view -->
               <div>
-                <b-button v-b-modal.new_wallet_modal>New wallet</b-button>
+                <b-button v-b-modal.new_wallet_modal>{{$t('new_wallet')}}</b-button>
 
                 <b-modal id="new_wallet_modal" title="New wallet" hide-footer>
                   <form id="new_wallet_form">
-                    Wallet name:
+                    {{$t('wallet_name')}}
                     <br />
                     <input type="text" name="name" maxlength="30" required />
                     <br />
-                    <br />Wallet currency:
+                    <br />{{$t('wallet_currency')}}
                     <br />
                     <select name="currency" v-model="selectedCurrency">
                       <option value="EUR" selected>EUR</option>
@@ -40,7 +40,7 @@
                   </form>
                   <br />
                   <br />
-                  <b-button v-on:click="onNewWalletPressed">Create</b-button>
+                  <b-button v-on:click="onNewWalletPressed">{{$t('create')}}</b-button>
                 </b-modal>
               </div>
             </b-col>
