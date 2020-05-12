@@ -210,7 +210,7 @@ exports.createNewTransaction = functions.https.onRequest(async (req, res) => {
 
     let transaction = {
         description: data.transaction.description,
-        amount: data.transaction.amount,
+        amountEUR: data.transaction.amount,
         instant: admin.firestore.Timestamp.now(),
         category: data.transaction.category
     }

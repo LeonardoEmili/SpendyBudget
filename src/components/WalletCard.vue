@@ -43,7 +43,7 @@
     <h3>Transactions</h3>
     <div>
         <div v-for="i in walletTransactions.length" :key="i">
-        {{convertFromEUR(walletTransactions[walletTransactions.length-i].amount, walletCurrency)}}
+        {{convertFromEUR(walletTransactions[walletTransactions.length-i].amountEUR, walletCurrency)}}
         {{walletCurrency}}
         <br>
         <div class="small_icon" v-bind:style="transactionCategoryIconStyle(walletTransactions[walletTransactions.length-i].category)"> </div>
@@ -54,6 +54,7 @@
         {{new Date(walletTransactions[walletTransactions.length-i].instant._seconds*1000).toLocaleDateString()}}
         <br><br>
         </div>
+        <pie-chart class="chart" :chartdata="transactionsChartData" :options="null"></pie-chart>
     </div>
        <!-- " New transaction" modal view -->
         <div>
@@ -72,8 +73,8 @@
             <br><br>
             <select name="category" v-model="transactionFormSelectedCategory">
                 <option value="Other" selected>Other</option>
-                <option v-for="category in user.categories" :key="category.name" 
-                  v-bind:value="user.categories[i].name">{{user.categories[i].name}}</option>
+                <option v-for="category in userCategories" :key="category.name" 
+                  v-bind:value="userCategories[i].name">{{userCategories[i].name}}</option>
               </select>
             </form>
             <br >
@@ -116,6 +117,28 @@ export default {
           expiryDate: firestore.Timestamp.fromMillis(0),
           spentEUR: 0.0}},
         walletTransactions:  function () {return this.wallet !== null ? this.wallet.transactions : []},
+        userCategories:  function () {return this.user !== null && this.user.categories !== null 
+            ? this.user.categories : []},      
+        walletTransactionsCategories:  function () {
+          let categories = []
+          for (let transaction of this.walletTransactions) {
+            let present = false
+            for (let i = 0; i < categories.length; i++) {
+              if (categories[i].name === transaction.category.name) {
+                present = true
+                categories[i].amountEUR = categories[i].amountEUR + transaction.amountEUR
+              }
+            }
+            if (!present) {
+              categories.push({
+                name: transaction.category.name,
+                color: transaction.category.color,
+                amountEUR: transaction.amountEUR
+            })
+            }
+          }
+          return categories
+        },        
         budgetChartData: function() {return {
           labels: ["Available", "Spent"],
           datasets: [
@@ -131,7 +154,21 @@ export default {
                 this.walletCurrency)]
             }
           ]
-        }}
+        }
+        },
+        transactionsChartData: function() {return {
+          labels: this.walletTransactionsCategories.map(category => category.name),
+          datasets: [
+            {
+              label: 'Transactions data',
+              backgroundColor: this.walletTransactionsCategories.map(category => category.color),
+              data: this.walletTransactionsCategories.map(category => utils.convertFromEUR(category.amountEUR, this.walletCurrency))
+            }
+          ]
+        }
+        
+        
+      }
 
     },
     methods: {
