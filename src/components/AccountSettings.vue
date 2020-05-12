@@ -99,10 +99,9 @@
             <b-form-select v-model="user.locale" size="sm">
               <b-form-select-option
                 v-for="locale in locales"
-                :value="locale"
-                :key="locale"
-                style="font-weight: bold"
-              >{{locale}}</b-form-select-option>
+                :value="locale.iso"
+                :key="locale.iso"
+              >{{locale.name}}</b-form-select-option>
             </b-form-select>
           </b-form-group>
         </b-col>
@@ -111,7 +110,13 @@
 
     <b-row>
       <b-col>
-        <b-button id="submit-btn" block size="sm" type="submit">Update settings</b-button>
+        <b-button
+          id="submit-btn"
+          block
+          size="sm"
+          type="submit"
+          v-on:click="onSubmit"
+        >Update settings</b-button>
       </b-col>
       <b-col></b-col>
     </b-row>
@@ -132,6 +137,7 @@ export default {
     utils.fetchUserGender(gender => (vm.user.gender = gender));
     utils.fetchUserBirthdate(birthdate => (vm.user.birthdate = birthdate));
     utils.fetchUserEmail(email => (vm.user.email = email));
+    utils.fetchUserLocale(locale => (vm.user.locale = locale));
   },
   data() {
     return {
@@ -163,7 +169,9 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log(this.user);
+      // Change webapp language
+      utils.changeLanguage(this.user.locale);
+      utils.updateLocalUser(this.user);
     },
     uploadImage(e) {
       const file = e.target.files[0];

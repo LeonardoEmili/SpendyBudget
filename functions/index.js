@@ -40,6 +40,7 @@ exports.signUpWithEmailAndPassword = functions.https.onRequest(async (req, res) 
     const data = JSON.parse(req.body)
     const email = data['email'];
     const password = data['password'];
+    const locale = data['locale'];
 
     // Check if already exists a user with that email
     const snaps = await db.collection('users').where('email', '==', email).limit(1).get();
@@ -50,6 +51,7 @@ exports.signUpWithEmailAndPassword = functions.https.onRequest(async (req, res) 
         const user = {
             email: email,
             password: password,
+            locale: locale,
             authTokens: [authToken]
         };
 

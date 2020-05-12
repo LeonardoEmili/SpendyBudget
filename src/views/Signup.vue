@@ -95,7 +95,7 @@
 import * as functions from "../plugins/firebase";
 import sha512 from "js-sha512";
 import router from "../router";
-import { isMobileView } from "../utils";
+import { isMobileView, getCurrentLocale } from "../utils";
 
 export default {
   name: "SignUp",
@@ -135,7 +135,8 @@ export default {
       this.isLoading = true;
       const user = {
         email: this.email,
-        password: sha512(this.password)
+        password: sha512(this.password),
+        locale: getCurrentLocale()
       };
 
       // The view model.

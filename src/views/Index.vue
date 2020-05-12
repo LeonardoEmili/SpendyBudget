@@ -4,7 +4,6 @@
       <b-navbar-brand to="/">
         <img src="../assets/logo.png" height="60px" width="60px" alt="." />
         SpendyBudget
-        
       </b-navbar-brand>
 
       <b-collapse id="nav-collapse" is-nav>
@@ -61,15 +60,15 @@
 </template>
 
 <script>
-import { getUserLocale, locales, languageFromISO } from "../utils";
-import i18n from "../plugins/i18n-vue";
+import * as utils from "../utils";
 
 export default {
   name: "Index",
   created() {
     // Initialize the locale to be used
-    this.userLocaleIndex = locales.findIndex(
-      locale => locale.iso === getUserLocale()
+    // TODO: check if this conditions still holds (probably not)
+    this.userLocaleIndex = utils.locales.findIndex(
+      locale => locale.iso === utils.getCurrentLocale()
     );
   },
   data() {
@@ -80,20 +79,21 @@ export default {
   },
   computed: {
     locales: function() {
-      return locales;
+      return utils.locales;
     },
     currentISO: function() {
-      return locales[this.userLocaleIndex].iso || getUserLocale();
+      return (
+        utils.locales[this.userLocaleIndex].iso || utils.getCurrentLocale()
+      );
     },
     userLanguage: function() {
-      return languageFromISO(this.currentISO);
+      return utils.languageFromISO(this.currentISO);
     }
   },
   methods: {
     updateLocale: function(index) {
       this.userLocaleIndex = index;
-      i18n.locale = this.currentISO;
-      localStorage.setItem("userLocale", i18n.locale);
+      utils.changeLanguage(this.currentISO);
     }
   }
 };
