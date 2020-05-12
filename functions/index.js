@@ -211,7 +211,8 @@ exports.createNewTransaction = functions.https.onRequest(async (req, res) => {
     let transaction = {
         description: data.transaction.description,
         amount: data.transaction.amount,
-        instant: admin.firestore.Timestamp.now()
+        instant: admin.firestore.Timestamp.now(),
+        category: data.transaction.category
     }
 
     const addition = data.transaction.amount >= 0 ? data.transaction.amount : 0

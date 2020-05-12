@@ -46,6 +46,9 @@
         {{convertFromEUR(walletTransactions[walletTransactions.length-i].amount, walletCurrency)}}
         {{walletCurrency}}
         <br>
+        <div class="small_icon" v-bind:style="transactionCategoryIconStyle(walletTransactions[walletTransactions.length-i].category)"> </div>
+        {{walletTransactions[walletTransactions.length-i].category.name}}
+        <br>
         {{walletTransactions[walletTransactions.length-i].description}}
         <br>
         {{new Date(walletTransactions[walletTransactions.length-i].instant._seconds*1000).toLocaleDateString()}}
@@ -66,6 +69,12 @@
              Description:
             <br >
             <input type="text" name="description" />
+            <br><br>
+            <select name="category" v-model="transactionFormSelectedCategory">
+                <option value="Other" selected>Other</option>
+                <option v-for="category in user.categories" :key="category.name" 
+                  v-bind:value="user.categories[i].name">{{user.categories[i].name}}</option>
+              </select>
             </form>
             <br >
             <br >
@@ -84,10 +93,15 @@ import { firestore } from 'firebase'
 import PieChart from './PieChart.vue'
 
 export default {
-    
     name: "WalletCard",
+    data: function() {
+    return {
+      transactionFormSelectedCategory: "Other",
+    }
+    },
     props: [
-        "wallet"
+        "wallet",
+        "user"
     ],
     components: {
       pieChart: PieChart
@@ -118,11 +132,18 @@ export default {
             }
           ]
         }}
+
     },
     methods: {
     convertFromEUR(quantityEUR, currency) {
       return utils.convertFromEUR(quantityEUR, currency);
     },
+    
+        transactionCategoryIconStyle(category) {
+          return {
+            background: category.color
+          }
+        },
     /**
      * Called when the "new transaction" button is pressed.
      */
@@ -137,7 +158,8 @@ export default {
 
         const formData = {
         amount: amountEUR,
-        description: form.description.value
+        description: form.description.value,
+        category: this.getCategoryByName(this.transactionFormSelectedCategory)
       };
 
       createNewTransaction(this.walletId, formData, transaction => 
@@ -175,8 +197,27 @@ export default {
             );
 
       this.$bvModal.hide("edit_budget_modal");
+    },
+
+    /**
+     * Returns the right category for the given name.
+     */
+    getCategoryByName(name) {
+      if (this.user.categories !== undefined) {
+
+      
+      this.user.categories.forEach((category) => {
+        if (category.name === name) {
+          return category
+        }
+      }
+      )
+      }
+      return {name:"Other", color:"#788D93"}
     }
     }
+
+    
 }
 </script>
 
@@ -185,5 +226,14 @@ export default {
 .chart {
   width: 50%;
   display: inline-block;
+}
+
+.small_icon {
+  width: 25px;
+      height: 25px;
+      -webkit-border-radius: 25px;
+      -moz-border-radius: 25px;
+      border-radius: 25px;
+      display: inline-block;
 }
 </style>
