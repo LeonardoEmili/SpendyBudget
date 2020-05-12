@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'"
+    "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
+    "generate-icons": "vsvg -s ./src/assets/categories/ -t ./src/compiled-icons"
   },
   "dependencies": {
     "bootstrap-vue": "^2.1.0",
@@ -25,6 +26,7 @@
     "vue-croppie": "^2.0.1",
     "vue-i18n": "^8.17.3",
     "vue-router": "^3.1.6",
+    "vue-svgicon": "^3.2.6",
     "vuetify": "^2.2.11"
   },
   "devDependencies": {
