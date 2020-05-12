@@ -32,100 +32,130 @@
 
     <vue-croppie id="my-croppie" ref="croppieRef"></vue-croppie>
 
-    <b-form v-on:submit.prevent="onSubmit" id="account-form">
-      <h6 class="my-headers">General Settings</h6>
-      <b-row>
-        <b-col class="my-cols">
-          <b-form-group label="Name" class="custom-font">
-            <b-form-input size="sm" type="text" v-model="user.name" placeholder="Your name"></b-form-input>
-          </b-form-group>
-        </b-col>
-        <b-col class="my-cols">
-          <b-form-group label="Surname" class="custom-font">
-            <b-form-input size="sm" type="text" v-model="user.surname" placeholder="Your surname"></b-form-input>
-          </b-form-group>
-        </b-col>
-      </b-row>
+    <ValidationObserver v-slot="{ handleSubmit }">
+      <b-form v-on:submit.prevent="handleSubmit(onSubmit)" id="account-form">
+        <h6 class="my-headers">General Settings</h6>
+        <b-row>
+          <b-col class="my-cols">
+            <ValidationProvider rules="required" v-slot="{ errors }">
+              <b-form-group label="Name" class="custom-font">
+                <b-form-input
+                  size="sm"
+                  type="text"
+                  v-model="user.name"
+                  placeholder="Your name"
+                  :state="errors[0]? false : null"
+                ></b-form-input>
+                <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
+              </b-form-group>
+            </ValidationProvider>
+          </b-col>
+          <b-col class="my-cols">
+            <ValidationProvider rules="required" v-slot="{ errors }">
+              <b-form-group label="Surname" class="custom-font">
+                <b-form-input
+                  size="sm"
+                  type="text"
+                  v-model="user.surname"
+                  placeholder="Your surname"
+                  :state="errors[0]? false : null"
+                ></b-form-input>
+                <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
+              </b-form-group>
+            </ValidationProvider>
+          </b-col>
+        </b-row>
 
-      <b-row>
-        <b-col class="my-cols">
-          <b-form-group label="Sex (optional)" size="sm" class="custom-font">
-            <b-form-select v-model="user.gender" size="sm">
-              <b-form-select-option value="null" disabled>Sex</b-form-select-option>
-              <b-form-select-option value="M">Male</b-form-select-option>
-              <b-form-select-option value="F">Female</b-form-select-option>
-            </b-form-select>
-          </b-form-group>
-        </b-col>
-        <b-col class="my-cols">
-          <b-form-group label="Date of birth (optional)" size="sm" class="custom-font">
-            <b-form-datepicker
+        <b-row>
+          <b-col class="my-cols">
+            <b-form-group label="Sex (optional)" size="sm" class="custom-font">
+              <b-form-select v-model="user.gender" size="sm">
+                <b-form-select-option value="null" disabled></b-form-select-option>
+                <b-form-select-option value="M">Male</b-form-select-option>
+                <b-form-select-option value="F">Female</b-form-select-option>
+                <b-form-select-option value="O">Other</b-form-select-option>
+              </b-form-select>
+            </b-form-group>
+          </b-col>
+
+          <b-col class="my-cols">
+            <ValidationProvider rules="birthdate" v-slot="{ errors }">
+              <b-form-group label="Date of birth (optional)" size="sm" class="custom-font">
+                <b-form-datepicker
+                  size="sm"
+                  v-model="user.birthdate"
+                  :locale="locale"
+                  placeholder="Choose a date"
+                  :state="errors[0]? false : null"
+                ></b-form-datepicker>
+                <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
+              </b-form-group>
+            </ValidationProvider>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col class="my-cols">
+            <b-form-group label="Email address:" class="custom-font">
+              <b-form-input
+                size="sm"
+                type="email"
+                v-model="user.email"
+                placeholder="example@gmail.com"
+                disabled
+              ></b-form-input>
+            </b-form-group>
+          </b-col>
+          <b-col></b-col>
+        </b-row>
+
+        <h6 class="my-headers">Localization settings</h6>
+
+        <b-row>
+          <b-col class="my-cols">
+            <b-form-group label="Account currency" size="sm" class="custom-font">
+              <b-form-select v-model="user.currency" size="sm">
+                <b-form-select-option
+                  v-for="currency in currencies"
+                  :value="currency.iso"
+                  :key="currency.iso"
+                >{{currency.name}}</b-form-select-option>
+              </b-form-select>
+            </b-form-group>
+          </b-col>
+          <b-col class="my-cols">
+            <b-form-group label="Language" size="sm" class="custom-font">
+              <b-form-select v-model="user.locale" size="sm">
+                <b-form-select-option
+                  v-for="locale in locales"
+                  :value="locale.iso"
+                  :key="locale.iso"
+                >{{locale.name}}</b-form-select-option>
+              </b-form-select>
+            </b-form-group>
+          </b-col>
+        </b-row>
+
+        <b-row>
+          <b-col>
+            <b-button
+              id="submit-btn"
+              block
               size="sm"
-              v-model="user.birthdate"
-              :locale="locale"
-              placeholder="Choose a date"
-            ></b-form-datepicker>
-          </b-form-group>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col class="my-cols">
-          <b-form-group label="Email address:" class="custom-font">
-            <b-form-input
-              size="sm"
-              type="email"
-              v-model="user.email"
-              placeholder="example@gmail.com"
-            ></b-form-input>
-          </b-form-group>
-        </b-col>
-        <b-col></b-col>
-      </b-row>
-
-      <h6 class="my-headers">Localization settings</h6>
-
-      <b-row>
-        <b-col class="my-cols">
-          <b-form-group label="Account currency" size="sm" class="custom-font">
-            <b-form-select v-model="user.currency" size="sm">
-              <b-form-select-option value="null" disabled>Sex</b-form-select-option>
-              <b-form-select-option value="M">Male</b-form-select-option>
-              <b-form-select-option value="F">Female</b-form-select-option>
-            </b-form-select>
-          </b-form-group>
-        </b-col>
-        <b-col class="my-cols">
-          <b-form-group label="Language" size="sm" class="custom-font">
-            <b-form-select v-model="user.locale" size="sm">
-              <b-form-select-option
-                v-for="locale in locales"
-                :value="locale.iso"
-                :key="locale.iso"
-              >{{locale.name}}</b-form-select-option>
-            </b-form-select>
-          </b-form-group>
-        </b-col>
-      </b-row>
-    </b-form>
-
-    <b-row>
-      <b-col>
-        <b-button
-          id="submit-btn"
-          block
-          size="sm"
-          type="submit"
-          v-on:click="onSubmit"
-        >Update settings</b-button>
-      </b-col>
-      <b-col></b-col>
-    </b-row>
+              type="submit"
+              :variant="btnVariant"
+            >Update settings</b-button>
+          </b-col>
+          <b-col></b-col>
+        </b-row>
+      </b-form>
+    </ValidationObserver>
   </div>
 </template>
 
 <script>
 import * as utils from "../utils";
 import * as functions from "../plugins/firebase";
+import { app } from "../main";
 
 export default {
   name: "AccountSettings",
@@ -138,17 +168,20 @@ export default {
     utils.fetchUserBirthdate(birthdate => (vm.user.birthdate = birthdate));
     utils.fetchUserEmail(email => (vm.user.email = email));
     utils.fetchUserLocale(locale => (vm.user.locale = locale));
+    utils.fetchUserCurrency(currency => (vm.user.currency = currency));
   },
   data() {
     return {
       profPic: null,
+      validFields: false,
       user: {
         name: "",
         surname: "",
         email: "",
         gender: "",
         birthdate: "",
-        locale: ""
+        locale: "",
+        currency: ""
       },
       borderStyle: {
         color: "blue",
@@ -164,12 +197,42 @@ export default {
     },
     locales() {
       return utils.locales;
+    },
+    currencies() {
+      return utils.currencies;
+    },
+    updatedFields() {
+      return (
+        this.user.name !== app.user.name ||
+        this.user.surname !== app.user.surname ||
+        this.user.locale !== app.user.locale ||
+        this.user.email !== app.user.email ||
+        this.user.gender !== app.user.gender ||
+        this.user.birthdate !== app.user.birthdate ||
+        this.user.currency !== app.user.currency
+      );
+    },
+    btnVariant: function() {
+      let missingRequiredFields =
+        !this.user.name || !this.user.surname || !this.user.email;
+
+      let userComesFromFuture =
+        this.user.birthdate !== "" &&
+        new Date() < new Date(this.user.birthdate);
+
+      return !missingRequiredFields &&
+        this.updatedFields &&
+        !userComesFromFuture
+        ? "success"
+        : "";
     }
   },
   methods: {
     onSubmit() {
-      utils.updateLocalUser(this.user);
-      functions.updateUserData(this.user);
+      // No need to check for required fields (they are handled in the observer)
+      if (this.updatedFields) {
+        functions.updateUserData(this.user);
+      }
     },
     uploadImage(e) {
       const file = e.target.files[0];

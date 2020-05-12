@@ -26,3 +26,11 @@ extend("password", {
     },
     message: "Password confirmation does not match"
 });
+
+extend("birthdate", {
+    params: ["target"],
+    validate(value) {
+        return new Date() >= new Date(value);
+    },
+    message: "Do you come from the future?"
+});

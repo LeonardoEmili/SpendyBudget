@@ -61,6 +61,9 @@ export function updateLocalUser(data) {
     app.user.password = data.password || app.user.password;
     app.user.profPic = data.profPic || app.user.profPic;
     app.user.locale = data.locale || app.user.locale;
+    app.user.gender = data.gender || app.user.gender;
+    app.user.birthdate = data.birthdate || app.user.birthdate;
+    app.user.currency = data.currency || app.user.currency;
     changeLanguage(app.user.locale);
 }
 
@@ -239,6 +242,7 @@ export function initUserData() {
         profPic: "",
         birthdate: "",
         gender: "",
+        currency: "",
         locale: getFallbackLocale(), // the user is not authenticated
         categories: []
     };
@@ -281,6 +285,18 @@ export function fetchUserEmail(onSuccess, forceUpdate = false) {
     }
 }
 
+/**
+ * Fetches the user's currency from cache if present, otherwise queries Firestore.
+ * @param {Function} onSuccess called when data is available
+ * @param {Boolean} forceUpdate force update the data available
+ */
+export function fetchUserCurrency(onSuccess, forceUpdate = false) {
+    if (app.user.currency) {
+        onSuccess(app.user.currency);
+    } else {
+        fetchUserData(user => onSuccess(user.currency), forceUpdate);
+    }
+}
 
 /**
  * Fetches the user's birthdate from cache if present, otherwise queries Firestore.
@@ -330,12 +346,15 @@ export function fetchUserData(onSuccess, forceUpdate = false) {
         app.user.email = (userDoc.email && userDoc.email.length > 0) ? userDoc.email : app.user.email;
         app.user.profPic = (userDoc.profPic && userDoc.profPic.length > 0) ? userDoc.profPic : app.user.profPic;
         app.user.locale = (userDoc.locale && userDoc.locale.length === 2) ? userDoc.locale : app.user.locale;
+        app.user.birthdate = (userDoc.birthdate && userDoc.birthdate.length > 0) ? userDoc.birthdate : app.user.birthdate;
+        app.user.currency = (userDoc.currency && userDoc.currency.length > 0) ? userDoc.currency : app.user.currency;
         // TODO: uncomment this
         // app.user.categories = (userDoc.categories && userDoc.categories.length > 0) ? userDoc.categories : [];
-
         onSuccess(app.user);
     });
 }
+
+export const DEFAULT_CURRENCY = "EUR"
 
 /**
  * Converts the value into the desidered currency.
@@ -352,8 +371,12 @@ export function convertFromEUR(value, currency) {
     }
 }
 
-export const currencies = ["EUR", "USD"];
-//export const locales = ["it", "en"];
+export const currencies = [
+    { iso: "EUR", name: "Euro" },
+    { iso: "USD", name: "United States Dollar" },
+    { iso: "GBP", name: "Pound Sterling" }
+];
+
 export const locales = [
     { iso: "en", name: "English" },
     { iso: "it", name: "Italian" },

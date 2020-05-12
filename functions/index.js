@@ -41,6 +41,7 @@ exports.signUpWithEmailAndPassword = functions.https.onRequest(async (req, res) 
     const email = data['email'];
     const password = data['password'];
     const locale = data['locale'];
+    const currency = data['currency'];
 
     // Check if already exists a user with that email
     const snaps = await db.collection('users').where('email', '==', email).limit(1).get();
@@ -52,6 +53,7 @@ exports.signUpWithEmailAndPassword = functions.https.onRequest(async (req, res) 
             email: email,
             password: password,
             locale: locale,
+            currency: currency,
             authTokens: [authToken]
         };
 
@@ -88,6 +90,8 @@ function parseUserData(data) {
         ...data["email"] && { email: data["email"] },
         ...data["password"] && { password: data["password"] },
         ...data["locale"] && { locale: data["locale"] },
+        ...data["gender"] && { gender: data["gender"] },
+        ...data["currency"] && { currency: data["currency"] },
         ...data["birthdate"] && { birthdate: data["birthdate"] }
     };
     return result;
@@ -259,7 +263,7 @@ exports.editBudget = functions.https.onRequest(async (req, res) => {
         .doc(data.walletId)
         .set({
             budget: budget
-        }, {merge: true})
+        }, { merge: true })
 
     res.send(budget)
 });
