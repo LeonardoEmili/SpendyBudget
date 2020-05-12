@@ -30,11 +30,12 @@
 
 <script>
 import { signInSilently } from "./plugins/firebase";
-import { initUserData } from "./utils";
+import { initUserData, initLanguage } from "./utils";
 
 export default {
   created() {
     initUserData();
+    initLanguage();
   },
   data() {
     return {

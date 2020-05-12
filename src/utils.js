@@ -60,12 +60,14 @@ export function updateLocalUser(data) {
     app.user.email = data.email || app.user.email;
     app.user.password = data.password || app.user.password;
     app.user.profPic = data.profPic || app.user.profPic;
+    app.user.locale = data.locale || app.user.locale;
+    changeLanguage(app.user.locale);
 }
 
 /**
  * Returns the language to be used, which is either the user's preference or the language used from the browser.
  */
-export function getUserLocale() {
+function getFallbackLocale() {
     let userPreference = localStorage.getItem("userLocale");
     if (userPreference) {
         return userPreference;
@@ -73,6 +75,7 @@ export function getUserLocale() {
     const isoList = locales.map((locale) => locale.iso);
     const userLocales = navigator.languages.filter((locale) => isoList.includes(locale.toLowerCase()));
     return userLocales[0].split('-')[0].toLowerCase() || "en";
+
 }
 
 /**
@@ -168,6 +171,22 @@ export function fetchUserProfilePicture(onSuccess, forceUpdate = false) {
 }
 
 /**
+ * Fetches the user's locale from cache if present, otherwise queries Firestore.
+ * @param {Function} onSuccess called when data is available
+ * @param {Boolean} forceUpdate force update the data available
+ */
+export function fetchUserLocale(onSuccess, forceUpdate = false) {
+    if (app.user.locale) {
+        onSuccess(app.user.locale);
+    } else {
+        fetchUserData(user => {
+            let currentLocale = user.locale || getFallbackLocale();
+            onSuccess(currentLocale);
+        }, forceUpdate);
+    }
+}
+
+/**
  * Fetches the user's name from cache if present, otherwise queries Firestore.
  * @param {Function} onSuccess called when data is available
  * @param {Boolean} forceUpdate force update the data available
@@ -220,10 +239,32 @@ export function initUserData() {
         profPic: "",
         birthdate: "",
         gender: "",
-        categories: [],
-        locale: getUserLocale()
+        locale: getFallbackLocale(), // the user is not authenticated
+        categories: []
     };
-    i18n.locale = app.user.locale;
+    // Try to get the user's preference from Firestore (if the user is logged)
+    // TODO: remove this update, this should all done when the user session is established (or restored from Firestore)
+    //fetchUserLocale((locale) => changeLanguage(locale));
+}
+
+/**
+ * Sets the website's language and updates the language inside user's preference.
+ * @param {String} languageISO the code representing the language (ISO 639)
+ */
+export function changeLanguage(languageISO) {
+    if (i18n.locale !== languageISO) {
+        app.user.locale = languageISO;
+        i18n.locale = languageISO;
+        localStorage.setItem("userLocale", i18n.locale);
+    }
+}
+
+/**
+ * Initializes the locale for unauthenticated users.
+ */
+export function initLanguage() {
+    let currentLanguage = app.user.locale || getFallbackLocale();
+    return changeLanguage(currentLanguage);
 }
 
 
@@ -275,7 +316,7 @@ export function fetchUserGender(onSuccess, forceUpdate = false) {
  */
 export function fetchUserData(onSuccess, forceUpdate = false) {
 
-    let shouldFetchNewData = forceUpdate || app.user.name === "" || app.user.surname === "" || app.user.email === "" || app.user.profPic === "" || app.user.categories === [];
+    let shouldFetchNewData = forceUpdate || !app.user.name || !app.user.surname || !app.user.email || !app.user.profPic || !app.user.categories.length || !app.user.locale;
     if (!shouldFetchNewData) {
         onSuccess(app.user);
         return;
@@ -288,8 +329,9 @@ export function fetchUserData(onSuccess, forceUpdate = false) {
         app.user.surname = (userDoc.surname && userDoc.surname.length > 0) ? userDoc.surname : app.user.surname;
         app.user.email = (userDoc.email && userDoc.email.length > 0) ? userDoc.email : app.user.email;
         app.user.profPic = (userDoc.profPic && userDoc.profPic.length > 0) ? userDoc.profPic : app.user.profPic;
+        app.user.locale = (userDoc.locale && userDoc.locale.length === 2) ? userDoc.locale : app.user.locale;
         // TODO: uncomment this
-       // app.user.categories = (userDoc.categories && userDoc.categories.length > 0) ? userDoc.categories : [];
+        // app.user.categories = (userDoc.categories && userDoc.categories.length > 0) ? userDoc.categories : [];
 
         onSuccess(app.user);
     });
@@ -332,4 +374,10 @@ export function convertToEUR(value, currency) {
         default:
             return parseFloat(value.toFixed(2));
     }
+}
+/**
+ * Returns the current locale used in the app.
+ */
+export function getCurrentLocale() {
+    return app.user.locale || getFallbackLocale();
 }
