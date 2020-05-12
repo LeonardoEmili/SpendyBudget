@@ -22,5 +22,7 @@
     "transactions": "Transaktionen",
     "new_transaction": "Neue Transaktion",
     "description": "Beschreibung",
-    "other": "Andere"
+    "other": "Andere",
+    "available": "Verfügbar",
+  "spent": "Ausgegeben"
 }

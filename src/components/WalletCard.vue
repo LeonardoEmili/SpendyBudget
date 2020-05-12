@@ -140,7 +140,7 @@ export default {
           return categories
         },        
         budgetChartData: function() {return {
-          labels: ["Available", "Spent"],
+          labels: [this.$t('available'), this.$t('spent')],
           datasets: [
             {
               label: 'Budget data',

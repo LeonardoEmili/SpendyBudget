@@ -22,5 +22,7 @@
   "transactions": "Transactions",
   "new_transaction": "New transaction",
   "description": "Description",
-  "other": "Other"
+  "other": "Other",
+  "available": "Available",
+  "spent": "Spent"
 }

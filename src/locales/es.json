@@ -22,5 +22,7 @@
     "transactions": "Transacciones",
     "new_transaction": "Nueva transacción",
     "description": "Descripción",
-    "other": "Otro"
+    "other": "Otro",
+    "available": "Disponible",
+  "spent": "Gastado"
 }
