@@ -54,7 +54,13 @@
         {{new Date(walletTransactions[walletTransactions.length-i].instant._seconds*1000).toLocaleDateString()}}
         <br><br>
         </div>
-        <pie-chart class="chart" :chartdata="transactionsChartData" :options="null"></pie-chart>
+        Expense:
+        <br>
+        <pie-chart class="chart" :chartdata="expenseTransactionsChartData" :options="null"></pie-chart>
+        <br>
+        Revenue:
+        <br>
+        <pie-chart class="chart" :chartdata="revenueTransactionsChartData" :options="null"></pie-chart>
     </div>
        <!-- " New transaction" modal view -->
         <div>
@@ -71,10 +77,11 @@
             <br >
             <input type="text" name="description" />
             <br><br>
+            <!-- TODO: Differentiate expense and revenue categories-->
             <select name="category" v-model="transactionFormSelectedCategory">
                 <option v-bind:value="$t('other')" selected>{{$t('other')}}</option>
-                <option v-for="category in userCategories" :key="category.name" 
-                  v-bind:value="userCategories[i].name">{{userCategories[i].name}}</option>
+                <option v-for="category in userExpenseCategories" :key="category.name" 
+                  v-bind:value="userExpenseCategories[i].name">{{userExpenseCategories[i].name}}</option>
               </select>
             </form>
             <br >
@@ -97,7 +104,7 @@ export default {
     name: "WalletCard",
     data: function() {
     return {
-      transactionFormSelectedCategory: "Other",
+      transactionFormSelectedCategory: this.$t("other"),
     }
     },
     props: [
@@ -117,11 +124,16 @@ export default {
           expiryDate: firestore.Timestamp.fromMillis(0),
           spentEUR: 0.0}},
         walletTransactions:  function () {return this.wallet !== null ? this.wallet.transactions : []},
-        userCategories:  function () {return this.user !== null && this.user.categories !== null 
-            ? this.user.categories : []},      
-        walletTransactionsCategories:  function () {
+        userExpenseCategories:  function () {return this.user !== null && this.user.expenseCategories !== null 
+            ? this.user.expenseCategories : []},     
+        userRevenueCategories:  function () {return this.user !== null && this.user.revenueCategories !== null 
+            ? this.user.revenueCategories : []},   
+        walletExpenseTransactionsCategories:  function () {
           let categories = []
           for (let transaction of this.walletTransactions) {
+            if (transaction.amountEUR >= 0) {
+              continue
+            }
             let present = false
             for (let i = 0; i < categories.length; i++) {
               if (categories[i].name === transaction.category.name) {
@@ -138,7 +150,30 @@ export default {
             }
           }
           return categories
-        },        
+        },
+        walletRevenueTransactionsCategories:  function () {
+          let categories = []
+          for (let transaction of this.walletTransactions) {
+            if (transaction.amountEUR < 0) {
+              continue
+            }
+            let present = false
+            for (let i = 0; i < categories.length; i++) {
+              if (categories[i].name === transaction.category.name) {
+                present = true
+                categories[i].amountEUR = categories[i].amountEUR + transaction.amountEUR
+              }
+            }
+            if (!present) {
+              categories.push({
+                name: transaction.category.name,
+                color: transaction.category.color,
+                amountEUR: transaction.amountEUR
+            })
+            }
+          }
+          return categories
+        },          
         budgetChartData: function() {return {
           labels: [this.$t('available'), this.$t('spent')],
           datasets: [
@@ -156,13 +191,24 @@ export default {
           ]
         }
         },
-        transactionsChartData: function() {return {
-          labels: this.walletTransactionsCategories.map(category => category.name),
+        expenseTransactionsChartData: function() {return {
+          labels: this.walletExpenseTransactionsCategories.map(category => category.name),
           datasets: [
             {
-              label: 'Transactions data',
-              backgroundColor: this.walletTransactionsCategories.map(category => category.color),
-              data: this.walletTransactionsCategories.map(category => utils.convertFromEUR(category.amountEUR, this.walletCurrency))
+              label: 'Expense transactions data',
+              backgroundColor: this.walletExpenseTransactionsCategories.map(category => category.color),
+              data: this.walletExpenseTransactionsCategories.map(category => utils.convertFromEUR(category.amountEUR, this.walletCurrency))
+            }
+          ]
+        }
+        },
+        revenueTransactionsChartData: function() {return {
+          labels: this.walletRevenueTransactionsCategories.map(category => category.name),
+          datasets: [
+            {
+              label: 'Revenue transactions data',
+              backgroundColor: this.walletRevenueTransactionsCategories.map(category => category.color),
+              data: this.walletRevenueTransactionsCategories.map(category => utils.convertFromEUR(category.amountEUR, this.walletCurrency))
             }
           ]
         }
@@ -240,17 +286,23 @@ export default {
      * Returns the right category for the given name.
      */
     getCategoryByName(name) {
-      if (this.user.categories !== undefined) {
+      if (this.user.expenseCategories !== undefined) {
 
       
-      this.user.categories.forEach((category) => {
+      this.user.expenseCategories.forEach((category) => {
         if (category.name === name) {
           return category
         }
+      })
       }
-      )
+      if (this.user.revenueCategories !== undefined) {
+      this.user.revenueCategories.forEach((category) => {
+        if (category.name === name) {
+          return category
+        }
+      })
       }
-      return {name:"Other", color:"#788D93"}
+      return {name:this.$t("other"), color:"#788D93"}
     }
     }
 
