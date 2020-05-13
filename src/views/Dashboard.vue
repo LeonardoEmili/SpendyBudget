@@ -6,12 +6,29 @@
         SpendyBudget
       </b-navbar-brand>
 
+      
+
       <b-navbar-nav class="ml-auto">
-        <b-nav-item to="/about">{{$t('about_us')}}</b-nav-item>
-        <b-nav-item to="/settings">{{$t('settings')}}</b-nav-item>
-        <b-nav-item v-on:click="logout">Logout</b-nav-item>
+
+
+        <b-nav-item-dropdown variant=""   right>
+
+            <template v-slot:button-content>
+      <img v-if="userProfPic.length > 0" v-bind:src="userProfPic" height="20px" width="20px"/>
+      <img v-else src="../assets/user.png" height="40px" width="40px"/>  <span>{{userName}}</span>
+    </template>
+    <b-dropdown-item></b-dropdown-item>
+     <b-dropdown-item to="/about">{{$t('about_us')}}</b-dropdown-item>
+        <b-dropdown-item to="/settings">{{$t('settings')}}</b-dropdown-item>
+        <b-dropdown-item v-on:click="logout">Logout</b-dropdown-item>
+
+          </b-nav-item-dropdown>
+
+
+       
       </b-navbar-nav>
     </b-navbar>
+
 
       <div id="welcome-div">
         <b-container fluid>
@@ -95,6 +112,12 @@ export default {
   components: {
     walletThumbnail: WalletThumbnail,
     walletCard: WalletCard
+  },
+  computed: {
+      userName: function () {return this.user !== null ? this.user.name : ""},
+      userProfPic: function () {return this.user !== null   
+      ? this.user.profPic 
+      : ""}
   },
   methods: {
     /**
