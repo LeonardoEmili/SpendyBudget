@@ -142,7 +142,8 @@ export default {
           budgetEUR: 0.0,
           expiryDate: firestore.Timestamp.fromMillis(0),
           spentEUR: 0.0}},
-        walletTransactions:  function () {return this.wallet !== null ? this.wallet.transactions : []},
+        walletTransactions:  function () {return this.wallet !== null && this.wallet.transactions !== undefined
+           ? this.wallet.transactions : []},
         userExpenseCategories:  function () {return this.user !== null && this.user.expenseCategories !== null 
             ? this.user.expenseCategories : []},     
         userRevenueCategories:  function () {return this.user !== null && this.user.revenueCategories !== null 
@@ -216,7 +217,7 @@ export default {
             {
               label: 'Expense transactions data',
               backgroundColor: this.walletExpenseTransactionsCategories.map(category => category.color),
-              data: this.walletExpenseTransactionsCategories.map(category => utils.convertFromEUR(category.amountEUR, this.walletCurrency))
+              data: this.walletExpenseTransactionsCategories.map(category => -utils.convertFromEUR(category.amountEUR, this.walletCurrency))
             }
           ]
         }

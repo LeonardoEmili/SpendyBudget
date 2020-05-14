@@ -68,6 +68,7 @@ export default {
 #app {
   position: relative;
   min-height: 100vh;
+  background-color:whitesmoke;
 }
 
 #router-view {
