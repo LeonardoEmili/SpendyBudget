@@ -59,7 +59,7 @@
           id="my-form-name"
           size="sm"
           type="text"
-          
+
           v-model="newCategory.name"
           placeholder="New category name"
         ></b-form-input>
@@ -303,6 +303,7 @@ export default {
     },
     openEditCategory(index, categoryType) {
       this.currentCategoryIndex = index;
+      this.currentCategoryType = categoryType;
       if (categoryType === "income") {
         this.currentCategory = { ...this.incomeCategories[index] };
       } else {
