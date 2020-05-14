@@ -100,6 +100,6 @@ export default {
 #settings-wrapper {
   width: 50vw;
   margin: auto;
-  min-width: 500px;
+  min-width: 800px;
 }
 </style>

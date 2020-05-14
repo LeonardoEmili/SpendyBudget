@@ -1,5 +1,6 @@
 /* eslint-disable */
 require('./bgift')
+require('./circle')
 require('./coinup')
 require('./gaming')
 require('./necktie')
