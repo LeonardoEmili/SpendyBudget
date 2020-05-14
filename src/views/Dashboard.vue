@@ -53,6 +53,7 @@
                     <select name="currency" v-model="selectedCurrency">
                       <option value="EUR" selected>EUR</option>
                       <option value="USD">USD</option>
+                      <option value="GBP">GBP</option>
                     </select>
                   </form>
                   <br />

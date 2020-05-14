@@ -365,6 +365,8 @@ export function convertFromEUR(value, currency) {
     switch (currency) {
         case "USD":
             return parseFloat((value * 1.09).toFixed(2));
+        case "GBP":
+            return parseFloat((value * 0.89).toFixed(2));
         case "EUR":
         default:
             return parseFloat(value.toFixed(2));
@@ -392,7 +394,9 @@ export const locales = [
 export function convertToEUR(value, currency) {
     switch (currency) {
         case "USD":
-            return parseFloat((value * 0, 92).toFixed(2));
+            return parseFloat((value * 0.92).toFixed(2));
+        case "GBP":
+            return parseFloat((value * 1.13).toFixed(2));
         case "EUR":
         default:
             return parseFloat(value.toFixed(2));
