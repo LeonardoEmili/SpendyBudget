@@ -96,6 +96,8 @@ function parseUserData(data) {
         ...data["locale"] && { locale: data["locale"] },
         ...data["gender"] && { gender: data["gender"] },
         ...data["currency"] && { currency: data["currency"] },
+        ...data["revenueCategories"] && { revenueCategories: data["revenueCategories"] },
+        ...data["expenseCategories"] && { expenseCategories: data["expenseCategories"] },
         ...data["birthdate"] && { birthdate: data["birthdate"] }
     };
     return result;

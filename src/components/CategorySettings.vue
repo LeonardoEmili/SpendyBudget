@@ -57,7 +57,7 @@
         <p style="font-size:13px; margin-bottom: 0px; color: #546e7a">New category name:</p>
 
         <b-form-input
-          id="my-form-name"
+          class="my-form-name"
           size="sm"
           type="text"
           v-on:update="uniqueCategory"
@@ -87,7 +87,7 @@
     <!-- Create a new category stats here -->
 
     <h6 class="my-headers">Income categories</h6>
-    <draggable class="list-group">
+    <draggable class="list-group" :list="incomeCategories" v-on:change="onChange">
       <!-- Category item starts here -->
       <div class="draggable-row" v-for="(element,index) in incomeCategories" :key="index">
         <svgicon
@@ -130,7 +130,7 @@
     <!-- End of income categories and begin of expense -->
 
     <h6 class="my-headers" id="expense-header">Expense categories</h6>
-    <draggable class="list-group">
+    <draggable class="list-group" :list="expenseCategories" v-on:change="onChange">
       <!-- Category item starts here -->
       <div class="draggable-row" v-for="(element,index) in expenseCategories" :key="index">
         <svgicon
@@ -231,7 +231,7 @@
         <div id="input-category-name">
           <p style="font-size:13px; margin-bottom: 0px; color: #546e7a">Category name:</p>
           <b-form-input
-            id="my-form-name"
+            class="my-form-name"
             size="sm"
             type="text"
             v-model="currentCategory.name"
@@ -248,6 +248,7 @@
 import "../compiled-icons/";
 import draggable from "vuedraggable";
 import * as utils from "../utils";
+import { updateUserData } from "../plugins/firebase";
 
 export default {
   name: "CategorySettings",
@@ -300,18 +301,31 @@ export default {
     }
   },
   methods: {
+    onChange() {
+      updateUserData({
+        revenueCategories: this.incomeCategories,
+        expenseCategories: this.expenseCategories
+      });
+    },
     createCategory() {
       let createdCategory = {
         name: this.newCategory.name,
         icon: this.newCategoryIcon,
-        color: this.newCategoryColor,
+        color: this.newCategoryColor
       };
 
       if (this.newCategory.type === "income") {
         this.incomeCategories.push(createdCategory);
+        updateUserData({ revenueCategories: this.incomeCategories });
       } else {
         this.expenseCategories.push(createdCategory);
+        updateUserData({ expenseCategories: this.expenseCategories });
       }
+
+      updateUserData({
+        revenueCategories: this.incomeCategories,
+        expenseCategories: this.expenseCategories
+      });
 
       // Reset the name field
       this.newCategory.name = "";
@@ -335,12 +349,18 @@ export default {
       cat.name = this.currentCategory.name;
       cat.color = this.currentCategory.color;
       cat.icon = this.currentCategory.icon;
+      updateUserData({
+        revenueCategories: this.incomeCategories,
+        expenseCategories: this.expenseCategories
+      });
     },
     removeCategory(index, categoryType) {
       if (categoryType === "income") {
         this.incomeCategories.splice(index, 1);
+        updateUserData({ revenueCategories: this.incomeCategories });
       } else {
         this.expenseCategories.splice(index, 1);
+        updateUserData({ expenseCategories: this.expenseCategories });
       }
     },
     uniqueCategory() {
@@ -455,7 +475,7 @@ export default {
   display: inline-block;
 }
 
-#my-form-name {
+.my-form-name {
   margin-top: 3px;
 }
 
