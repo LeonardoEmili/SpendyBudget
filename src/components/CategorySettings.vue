@@ -132,7 +132,7 @@
     <h6 class="my-headers" id="expense-header">Expense categories</h6>
     <draggable class="list-group">
       <!-- Category item starts here -->
-      <div class="draggable-row" v-for="(element,index) in expenseCategories" :key="element">
+      <div class="draggable-row" v-for="(element,index) in expenseCategories" :key="index">
         <svgicon
           :icon="element.icon"
           width="32"
