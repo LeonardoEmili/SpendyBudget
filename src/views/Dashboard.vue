@@ -43,22 +43,25 @@
                 <b-button v-b-modal.new_wallet_modal>{{$t('new_wallet')}}</b-button>
 
                 <b-modal id="new_wallet_modal" title="New wallet" hide-footer>
-                  <form id="new_wallet_form">
+
+                  <b-form id="new_wallet_form">
                     {{$t('wallet_name')}}
                     <br />
-                    <input type="text" name="name" maxlength="30" required />
+                    <b-form-input type="text" name="name" maxlength="30" required />
                     <br />
                     <br />{{$t('wallet_currency')}}
                     <br />
-                    <select name="currency" v-model="selectedCurrency">
+                    <b-form-select name="currency" v-model="selectedCurrency">
                       <option value="EUR" selected>EUR</option>
                       <option value="USD">USD</option>
                       <option value="GBP">GBP</option>
-                    </select>
-                  </form>
-                  <br />
-                  <br />
-                  <b-button v-on:click="onNewWalletPressed">{{$t('create')}}</b-button>
+                    </b-form-select>
+                  </b-form>
+
+                   <br />
+                <br />
+                <b-button v-on:click="onNewWalletPressed">{{$t('create')}}</b-button>
+       
                 </b-modal>
               </div>
             </b-col>
@@ -145,6 +148,7 @@ export default {
       createNewWallet(formData, wallet => this.wallets.push(wallet));
 
       this.$bvModal.hide("new_wallet_modal");
+
     },
     /**
      * Sets the selected wallet id.

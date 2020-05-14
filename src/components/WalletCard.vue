@@ -24,16 +24,16 @@
           <b-button v-b-modal.edit_budget_modal>{{$t('edit_budget')}}</b-button>
 
           <b-modal id="edit_budget_modal" v-bind:title="$t('edit_budget')" hide-footer>
-            <form id="edit_budget_form">
+            <b-form id="edit_budget_form">
               {{$t('amount')}} ({{walletCurrency}}):
               <br >
-              <input type="number" name="amount" required />
+              <b-form-input type="number" name="amount" required />
               <br >
               <br >
               {{$t('until')}}
             <br >
-            <input type="date" name="expiryDate" required/>
-            </form>
+            <b-form-input type="date" name="expiryDate" required/>
+            </b-form>
             <br >
             <br >
             <b-button v-on:click="onEditBudgetPressed">{{$t('edit_budget')}}</b-button>
@@ -56,34 +56,50 @@
         </div>
         Expense:
         <br>
-        <pie-chart class="chart" :chartdata="expenseTransactionsChartData" :options="null"></pie-chart>
+        <doughnut-chart class="chart" :chartdata="expenseTransactionsChartData" :options="null"></doughnut-chart>
         <br>
         Revenue:
         <br>
-        <pie-chart class="chart" :chartdata="revenueTransactionsChartData" :options="null"></pie-chart>
+        <doughnut-chart class="chart" :chartdata="revenueTransactionsChartData" :options="null"></doughnut-chart>
     </div>
        <!-- " New transaction" modal view -->
         <div>
           <b-button v-b-modal.new_transaction_modal>{{$t('new_transaction')}}</b-button>
 
           <b-modal id="new_transaction_modal" v-bind:title="$t('new_transaction')" hide-footer>
-            <form id="new_transaction_form">
+            <b-form id="new_transaction_form">
+              Type:
+              <br ><br>
+              <b-form-radio  value="expense" name="type" v-model="transactionFormSelectedType" selected>
+              Expense
+            </b-form-radio>
+              <b-form-radio type="radio"  value="revenue" name="type" v-model="transactionFormSelectedType">
+              Revenue
+            </b-form-radio>
+              <br><br>
               {{$t('amount')}} ({{walletCurrency}}):
               <br >
-              <input type="number" name="amount" required />
+              <div v-if="transactionFormSelectedType === 'expense'">-</div>
+              <b-form-input type="number" name="amount" required />
               <br >
               <br >
              {{$t('description')}}:
             <br >
-            <input type="text" name="description" />
+            <b-form-input type="text" name="description" />
             <br><br>
             <!-- TODO: Differentiate expense and revenue categories-->
-            <select name="category" v-model="transactionFormSelectedCategory">
+            <b-form-select name="category" v-model="transactionFormSelectedCategory">
                 <option v-bind:value="$t('other')" selected>{{$t('other')}}</option>
+                <div  v-if="transactionFormSelectedType === 'expense'">
                 <option v-for="category in userExpenseCategories" :key="category.name" 
                   v-bind:value="userExpenseCategories[i].name">{{userExpenseCategories[i].name}}</option>
-              </select>
-            </form>
+                </div>
+                <div  v-else>
+                <option v-for="category in userRevenueCategories" :key="category.name" 
+                  v-bind:value="userRevenueCategories[i].name">{{userRevenueCategories[i].name}}</option>
+                </div>
+              </b-form-select>
+            </b-form>
             <br >
             <br >
             <b-button v-on:click="onNewTransactionPressed">{{$t('create')}}</b-button>
@@ -99,12 +115,14 @@ import * as utils from "../utils"
 import { createNewTransaction, editBudget } from '../plugins/firebase'
 import { firestore } from 'firebase'
 import PieChart from './PieChart.vue'
+import DoughnutChart from './DoughnutChart.vue'
 
 export default {
     name: "WalletCard",
     data: function() {
     return {
       transactionFormSelectedCategory: this.$t("other"),
+      transactionFormSelectedType: "expense"
     }
     },
     props: [
@@ -112,7 +130,8 @@ export default {
         "user"
     ],
     components: {
-      pieChart: PieChart
+      pieChart: PieChart,
+      doughnutChart: DoughnutChart
     },
     computed: {
         walletId: function () {return  this.wallet !== null ? this.wallet.id : ""},
@@ -237,8 +256,12 @@ export default {
         return;
       }
 
-      const amountEUR = utils.convertToEUR(parseFloat(form.amount.value), this.walletCurrency)
+      let amountEUR = utils.convertToEUR(parseFloat(form.amount.value), this.walletCurrency)
 
+      // Turning into negative if it's an expense
+      if (this.transactionFormSelectedType === "expense") {
+        amountEUR = -amountEUR
+      }
         const formData = {
         amount: amountEUR,
         description: form.description.value,
@@ -249,8 +272,8 @@ export default {
             this.wallet.transactions.push(transaction)
             );
         this.wallet.balanceEUR = amountEUR + this.wallet.balanceEUR
-        this.wallet.budget.spentEUR = amountEUR >= 0 
-          ? amountEUR + this.wallet.budget.spentEUR
+        this.wallet.budget.spentEUR = amountEUR < 0 
+          ? - amountEUR + this.wallet.budget.spentEUR
           : this.wallet.budget.spentEUR
 
 

@@ -222,7 +222,7 @@ exports.createNewTransaction = functions.https.onRequest(async (req, res) => {
         category: data.transaction.category
     }
 
-    const addition = data.transaction.amount >= 0 ? data.transaction.amount : 0
+    const addition = data.transaction.amount < 0 ? data.transaction.amount : 0
 
     const doc = await db.collection('users')
         .doc(userDoc.id)
