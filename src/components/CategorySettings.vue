@@ -74,13 +74,7 @@
 
     <h6 class="my-headers">Income categories</h6>
     <b-overlay :show="show" rounded="sm">
-      <draggable
-        :list="incomeCategories"
-        class="list-group"
-        :move="checkMove"
-        @start="dragging = true"
-        @end="dragging = false"
-      >
+      <draggable class="list-group">
         <div
           style="height: 40px; margin: 2px 0; width: 100%; position: relative;"
           class="draggable-row"
@@ -105,13 +99,13 @@
               style="padding: 0px; background-color: transparent; border-color: transparent;"
               v-on:click="openSettings(index)"
             >
-              <settings-icon style="color: #43a047;"></settings-icon>
+              <settings-icon class="settings-icon"></settings-icon>
             </b-button>
             <b-button
-              v-on:click="deleteCategory(index)"
+              v-on:click="removeCategory(index)"
               style="padding: 0px;background-color: transparent; border-color: transparent; margin-left: 6px; height: 40px"
             >
-              <trash-icon style="color: #ff3d00;"></trash-icon>
+              <trash-icon class="trash-icon"></trash-icon>
             </b-button>
           </span>
         </div>
@@ -188,7 +182,7 @@
               <b-form-select-option value="income">Income</b-form-select-option>
             </b-form-select>
           </div>
-          <b-button size="sm" variant="success" v-on:click="editCategory">Edit category</b-button>
+          <b-button size="sm" variant="success" v-on:click="editCategory">Done</b-button>
         </div>
       </template>
     </b-overlay>
@@ -277,8 +271,8 @@ export default {
   data() {
     return {
       categoryType: "income",
-      show: false,
 
+      show: false,
       newCategory: "",
       pickerIcon: "",
       pickerColor: "",
@@ -292,7 +286,6 @@ export default {
       },
 
       categories: [],
-      dragging: false,
       draggableKey: 0
     };
   },
@@ -324,15 +317,12 @@ export default {
     }
   },
   methods: {
-    log(e) {
-      console.log(e);
-    },
-    deleteCategory(index) {
+    removeCategory(index) {
       console.log("Deleting element " + index);
-
       this.incomeCategories.splice(index, 1);
-      //this.show = true;
-      //this.show = false;
+      //TODO: check this behaviour, this is an ugly fix to avoid reloading the components.
+      this.show = true;
+      this.show = false;
     },
     editCategory() {
       console.log(this.settings.incomeCategory);
@@ -362,15 +352,12 @@ export default {
       this.settings.name = this.incomeSettingsCategory.name;
 
       this.show = true;
-    },
-    checkMove: function(e) {
-      window.console.log("Future index: " + e.draggedContext.futureIndex);
     }
   }
 };
 </script>
 
-<style >
+<style>
 .draggable-row:hover {
   background-color: #e0e0e0;
   cursor: grab;
@@ -380,6 +367,26 @@ export default {
   min-width: 0rem;
   max-height: 200px;
   overflow-y: auto;
+}
+
+.trash-icon {
+  color: #ff3d00;
+}
+
+.trash-icon:hover {
+  color: #9a2500;
+}
+
+.settings-icon {
+  color: #43a047;
+}
+
+.settings-icon:hover {
+  color: #255827;
+}
+
+.message-wrapper {
+  width: 600px;
 }
 
 #ajeje {
