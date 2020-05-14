@@ -42,6 +42,8 @@ exports.signUpWithEmailAndPassword = functions.https.onRequest(async (req, res) 
     const password = data['password'];
     const locale = data['locale'];
     const currency = data['currency'];
+    const revenueCategories = data['revenueCategories'];
+    const expenseCategories = data['expenseCategories'];
 
     // Check if already exists a user with that email
     const snaps = await db.collection('users').where('email', '==', email).limit(1).get();
@@ -54,6 +56,8 @@ exports.signUpWithEmailAndPassword = functions.https.onRequest(async (req, res) 
             password: password,
             locale: locale,
             currency: currency,
+            revenueCategories: revenueCategories,
+            expenseCategories: expenseCategories,
             authTokens: [authToken]
         };
 

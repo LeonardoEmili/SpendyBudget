@@ -95,7 +95,13 @@
 import * as functions from "../plugins/firebase";
 import sha512 from "js-sha512";
 import router from "../router";
-import { isMobileView, getCurrentLocale, DEFAULT_CURRENCY } from "../utils";
+import {
+  isMobileView,
+  getCurrentLocale,
+  DEFAULT_CURRENCY,
+  userIncomeCategories,
+  userExpenseCategories
+} from "../utils";
 
 export default {
   name: "SignUp",
@@ -137,7 +143,9 @@ export default {
         email: this.email,
         password: sha512(this.password),
         locale: getCurrentLocale(),
-        currency: DEFAULT_CURRENCY
+        currency: DEFAULT_CURRENCY,
+        revenueCategories: userIncomeCategories,
+        expenseCategories: userExpenseCategories
       };
 
       // The view model.

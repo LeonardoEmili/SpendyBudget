@@ -64,6 +64,8 @@ export function updateLocalUser(data) {
     app.user.gender = data.gender || app.user.gender;
     app.user.birthdate = data.birthdate || app.user.birthdate;
     app.user.currency = data.currency || app.user.currency;
+    app.user.revenueCategories = data.revenueCategories || app.user.revenueCategories;
+    app.user.expenseCategories = data.expenseCategories || app.user.expenseCategories;
     changeLanguage(app.user.locale);
 }
 
@@ -174,6 +176,32 @@ export function fetchUserProfilePicture(onSuccess, forceUpdate = false) {
 }
 
 /**
+ * Fetches the user's revenue categories from cache if present, otherwise queries Firestore.
+ * @param {Function} onSuccess called when data is available
+ * @param {Boolean} forceUpdate force update the data available
+ */
+export function fetchUserRevenueCategories(onSuccess, forceUpdate = false) {
+    if (app.user.revenueCategories) {
+        onSuccess(app.user.revenueCategories);
+    } else {
+        fetchUserData(user => onSuccess(user.revenueCategories), forceUpdate);
+    }
+}
+
+/**
+ * Fetches the user's expense categories from cache if present, otherwise queries Firestore.
+ * @param {Function} onSuccess called when data is available
+ * @param {Boolean} forceUpdate force update the data available
+ */
+export function fetchUserExpenseCategories(onSuccess, forceUpdate = false) {
+    if (app.user.expenseCategories) {
+        onSuccess(app.user.expenseCategories);
+    } else {
+        fetchUserData(user => onSuccess(user.expenseCategories), forceUpdate);
+    }
+}
+
+/**
  * Fetches the user's locale from cache if present, otherwise queries Firestore.
  * @param {Function} onSuccess called when data is available
  * @param {Boolean} forceUpdate force update the data available
@@ -244,7 +272,8 @@ export function initUserData() {
         gender: "",
         currency: "",
         locale: getFallbackLocale(), // the user is not authenticated
-        categories: []
+        revenueCategories: [],
+        expenseCategories: [],
     };
     // Try to get the user's preference from Firestore (if the user is logged)
     // TODO: remove this update, this should all done when the user session is established (or restored from Firestore)
@@ -332,7 +361,8 @@ export function fetchUserGender(onSuccess, forceUpdate = false) {
  */
 export function fetchUserData(onSuccess, forceUpdate = false) {
 
-    let shouldFetchNewData = forceUpdate || !app.user.name || !app.user.surname || !app.user.email || !app.user.profPic || !app.user.categories.length || !app.user.locale;
+    let shouldFetchNewData = forceUpdate || !app.user.name || !app.user.surname || !app.user.email || !app.user.locale
+        || !app.user.profPic || !app.user.expenseCategories.length || !app.user.revenueCategories.length;
     if (!shouldFetchNewData) {
         onSuccess(app.user);
         return;
@@ -348,8 +378,8 @@ export function fetchUserData(onSuccess, forceUpdate = false) {
         app.user.locale = (userDoc.locale && userDoc.locale.length === 2) ? userDoc.locale : app.user.locale;
         app.user.birthdate = (userDoc.birthdate && userDoc.birthdate.length > 0) ? userDoc.birthdate : app.user.birthdate;
         app.user.currency = (userDoc.currency && userDoc.currency.length > 0) ? userDoc.currency : app.user.currency;
-        // TODO: uncomment this
-        // app.user.categories = (userDoc.categories && userDoc.categories.length > 0) ? userDoc.categories : [];
+        app.user.revenueCategories = (userDoc.revenueCategories && userDoc.revenueCategories.length > 0) ? userDoc.revenueCategories : app.user.revenueCategories;
+        app.user.expenseCategories = (userDoc.expenseCategories && userDoc.expenseCategories.length > 0) ? userDoc.expenseCategories : app.user.expenseCategories;
         onSuccess(app.user);
     });
 }
@@ -379,7 +409,7 @@ export function convertFromEUR(value, currency) {
  * @param {Array} categoryList 
  */
 export function uniqueCategory(categoryName, categoryList) {
-    return categoryList.map((cat)=>cat.name.toLowerCase()).includes(categoryName.toLowerCase());
+    return categoryList.map((cat) => cat.name.toLowerCase()).includes(categoryName.toLowerCase());
 }
 
 export const currencies = [
@@ -417,31 +447,23 @@ export const categoryColors = [
 export let userIncomeCategories = [
     {
         name: "Business",
-        id: 0,
         icon: defaultCategoryIcons[0],
         color: categoryColors[0],
-        transactions: 5
     },
     {
         name: "Extra credit",
-        id: 1,
         icon: defaultCategoryIcons[1],
         color: categoryColors[1],
-        transactions: 3
     },
     {
         name: "Gifts",
-        id: 2,
         icon: defaultCategoryIcons[2],
         color: categoryColors[2],
-        transactions: 2
     },
     {
         name: "Salary",
-        id: 3,
         icon: defaultCategoryIcons[3],
         color: categoryColors[3],
-        transactions: 1
     },
 ];
 
@@ -449,24 +471,18 @@ export let userIncomeCategories = [
 export let userExpenseCategories = [
     {
         name: "Entertainment",
-        id: 0,
         icon: defaultCategoryIcons[4],
         color: categoryColors[4],
-        transactions: 0
     },
     {
         name: "Sport",
-        id: 1,
         icon: defaultCategoryIcons[5],
         color: categoryColors[5],
-        transactions: 3
     },
     {
         name: "Taxes",
-        id: 2,
         icon: defaultCategoryIcons[6],
         color: categoryColors[6],
-        transactions: 4
     }
 ];
 

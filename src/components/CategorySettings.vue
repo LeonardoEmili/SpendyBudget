@@ -89,7 +89,7 @@
     <h6 class="my-headers">Income categories</h6>
     <draggable class="list-group">
       <!-- Category item starts here -->
-      <div class="draggable-row" v-for="(element,index) in incomeCategories" :key="element.id">
+      <div class="draggable-row" v-for="(element,index) in incomeCategories" :key="index">
         <svgicon
           :icon="element.icon"
           width="32"
@@ -101,8 +101,11 @@
 
         <span class="category-details">
           <span>{{ element.name }}</span>
+          <!-- Transactions here
           <span class="category-transactions">{{ element.transactions }} transactions</span>
+          -->
         </span>
+
         <span class="category-btns">
           <b-button
             id="settings-btn"
@@ -129,7 +132,7 @@
     <h6 class="my-headers" id="expense-header">Expense categories</h6>
     <draggable class="list-group">
       <!-- Category item starts here -->
-      <div class="draggable-row" v-for="(element,index) in expenseCategories" :key="element.id">
+      <div class="draggable-row" v-for="(element,index) in expenseCategories" :key="element">
         <svgicon
           :icon="element.icon"
           width="32"
@@ -141,7 +144,9 @@
 
         <span class="category-details">
           <span>{{ element.name }}</span>
+          <!-- Transactions here
           <span class="category-transactions">{{ element.transactions }} transactions</span>
+          -->
         </span>
         <span class="category-btns">
           <b-button
@@ -247,8 +252,13 @@ import * as utils from "../utils";
 export default {
   name: "CategorySettings",
   created() {
-    this.incomeCategories = utils.userIncomeCategories.slice();
-    this.expenseCategories = utils.userExpenseCategories.slice();
+    let vm = this;
+    utils.fetchUserRevenueCategories(
+      categories => (vm.incomeCategories = categories)
+    );
+    utils.fetchUserExpenseCategories(
+      categories => (vm.expenseCategories = categories)
+    );
   },
   data() {
     return {
@@ -284,18 +294,17 @@ export default {
       return utils.categoryColors;
     },
     btnVariant() {
-      return this.newCategory.name && !this.duplicateCategoryName? "success" : "";
+      return this.newCategory.name && !this.duplicateCategoryName
+        ? "success"
+        : "";
     }
   },
   methods: {
     createCategory() {
-      const nextID = this.getNextID();
       let createdCategory = {
-        id: nextID,
         name: this.newCategory.name,
         icon: this.newCategoryIcon,
         color: this.newCategoryColor,
-        transactions: 0
       };
 
       if (this.newCategory.type === "income") {
@@ -333,17 +342,6 @@ export default {
       } else {
         this.expenseCategories.splice(index, 1);
       }
-    },
-    getNextID() {
-      let vector =
-        this.newCategory.type === "income"
-          ? this.incomeCategories
-          : this.expenseCategories;
-
-      const maxCallback = (max, cur) => Math.max(max, cur);
-      let initValue = -1;
-      let maxID = vector.map(x => x.id).reduce(maxCallback, initValue);
-      return maxID + 1;
     },
     uniqueCategory() {
       let categories =
