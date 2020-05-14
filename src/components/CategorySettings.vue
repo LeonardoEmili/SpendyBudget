@@ -73,8 +73,7 @@
     </b-form>
 
     <h6 class="my-headers">Income categories</h6>
-    <b-overlay :show="show" rounded="sm">
-      <draggable class="list-group">
+      <draggable class="list-group" :key="draggableKey">
         <div
           style="height: 40px; margin: 2px 0; width: 100%; position: relative;"
           class="draggable-row"
@@ -97,6 +96,7 @@
           <span style="position: absolute; right: 0;  line-height: 40px; vertical-align: middle; ">
             <b-button
               style="padding: 0px; background-color: transparent; border-color: transparent;"
+              v-b-modal.modal-center
               v-on:click="openSettings(index)"
             >
               <settings-icon class="settings-icon"></settings-icon>
@@ -110,82 +110,89 @@
           </span>
         </div>
       </draggable>
-      <template v-slot:overlay>
-        <div style="width: 600px; margin-left: 40px;">
-          <div style="display: inline-block">
-            <p style="font-size:13px; margin-bottom: 0px; margin-left: 12px; color: #546e7a">Icon:</p>
-            <b-dropdown class="lang-dropdown" variant="light">
-              <template v-slot:button-content>
-                <svgicon
-                  :icon="settings.iconPicker"
-                  width="30"
-                  height="30"
-                  color="#fff"
-                  :style="'background-color:' + settings.colorPicker"
-                  id="ajeja"
-                />
-              </template>
-              <b-dropdown-item v-for="icon in icons" :key="icon" style="margin-left: -25px;">
-                <svgicon
-                  :icon="icon"
-                  width="30"
-                  height="30"
-                  color="#fff"
-                  :style="'background-color:' + settings.colorPicker"
-                  id="ajeja"
-                  v-on:click="settings.iconPicker=icon"
-                />
-              </b-dropdown-item>
-            </b-dropdown>
-          </div>
 
-          <div style="display: inline-block">
-            <p style="font-size:13px; margin-bottom: 0px; margin-left: 12px; color: #546e7a">Color:</p>
-            <b-dropdown class="lang-dropdown" variant="light">
-              <template v-slot:button-content>
-                <svgicon
-                  icon="circle"
-                  width="26"
-                  height="26"
-                  :color="settings.colorPicker"
-                  id="ajeja"
-                />
-              </template>
-              <b-dropdown-item
-                v-for="color in colors"
-                :key="color"
-                style="margin-left: -25px;"
-                v-on:click="settings.colorPicker=color"
-              >
-                <svgicon icon="circle" width="30" height="30" :color="color" id="ajeja" />
-              </b-dropdown-item>
-            </b-dropdown>
-          </div>
-
-          <div style="margin-left: 10px; display: inline-block;">
-            <p style="font-size:13px; margin-bottom: 0px; color: #546e7a">Color:</p>
-            <ValidationProvider rules="required" v-slot="{ errors }">
-              <b-form-input
-                style="margin-top: 3px;"
-                size="sm"
-                type="text"
-                v-model="settings.name"
-                placeholder="Category name"
-              ></b-form-input>
-              <span>{{ errors[0] }}</span>
-            </ValidationProvider>
-          </div>
-          <div style="margin-left: 10px; margin-right: 20px; display: inline-block;">
-            <p style="font-size:13px; margin-bottom: 0px; color: #546e7a">Type:</p>
-            <b-form-select size="sm" style="margin-top: 3px;" v-model="settings.categoryType">
-              <b-form-select-option value="expense" selected>Expense</b-form-select-option>
-              <b-form-select-option value="income">Income</b-form-select-option>
-            </b-form-select>
-          </div>
-          <b-button size="sm" variant="success" v-on:click="editCategory">Done</b-button>
+    <b-modal
+      id="modal-center"
+      centered
+      title="Edit Category"
+      size="lg"
+      button-size="sm"
+      ok-title="Done"
+      v-on:ok="editCategory"
+    >
+      <div style="margin: auto; max-width: 550px">
+        <div style="display: inline-block">
+          <p style="font-size:13px; margin-bottom: 0px; margin-left: 12px; color: #546e7a">Icon:</p>
+          <b-dropdown class="lang-dropdown" variant="light">
+            <template v-slot:button-content>
+              <svgicon
+                :icon="settings.iconPicker"
+                width="30"
+                height="30"
+                color="#fff"
+                :style="'background-color:' + settings.colorPicker"
+                id="ajeja"
+              />
+            </template>
+            <b-dropdown-item v-for="icon in icons" :key="icon" style="margin-left: -25px;">
+              <svgicon
+                :icon="icon"
+                width="30"
+                height="30"
+                color="#fff"
+                :style="'background-color:' + settings.colorPicker"
+                id="ajeja"
+                v-on:click="settings.iconPicker=icon"
+              />
+            </b-dropdown-item>
+          </b-dropdown>
         </div>
-      </template>
-    </b-overlay>
+
+        <div style="display: inline-block">
+          <p style="font-size:13px; margin-bottom: 0px; margin-left: 12px; color: #546e7a">Color:</p>
+          <b-dropdown class="lang-dropdown" variant="light">
+            <template v-slot:button-content>
+              <svgicon
+                icon="circle"
+                width="26"
+                height="26"
+                :color="settings.colorPicker"
+                id="ajeja"
+              />
+            </template>
+            <b-dropdown-item
+              v-for="color in colors"
+              :key="color"
+              style="margin-left: -25px;"
+              v-on:click="settings.colorPicker=color"
+            >
+              <svgicon icon="circle" width="30" height="30" :color="color" id="ajeja" />
+            </b-dropdown-item>
+          </b-dropdown>
+        </div>
+
+        <div style="margin-left: 10px; display: inline-block;">
+          <p style="font-size:13px; margin-bottom: 0px; color: #546e7a">Color:</p>
+          <ValidationProvider rules="required" v-slot="{ errors }">
+            <b-form-input
+              style="margin-top: 3px;"
+              size="sm"
+              type="text"
+              v-model="settings.name"
+              placeholder="Category name"
+            ></b-form-input>
+            <span>{{ errors[0] }}</span>
+          </ValidationProvider>
+        </div>
+        <div style="margin-left: 10px; margin-right: 20px; display: inline-block;">
+          <p style="font-size:13px; margin-bottom: 0px; color: #546e7a">Type:</p>
+          <b-form-select size="sm" style="margin-top: 3px;" v-model="settings.categoryType">
+            <b-form-select-option value="expense" selected>Expense</b-form-select-option>
+            <b-form-select-option value="income">Income</b-form-select-option>
+          </b-form-select>
+        </div>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -271,8 +278,8 @@ export default {
   data() {
     return {
       categoryType: "income",
-
-      show: false,
+      isModalVisible: false,
+      draggableKey: 0,
       newCategory: "",
       pickerIcon: "",
       pickerColor: "",
@@ -286,7 +293,6 @@ export default {
       },
 
       categories: [],
-      draggableKey: 0
     };
   },
   components: {
@@ -317,19 +323,26 @@ export default {
     }
   },
   methods: {
+    showModal() {
+      this.isModalVisible = true;
+    },
+    closeModal() {
+      this.isModalVisible = false;
+    },
     removeCategory(index) {
       console.log("Deleting element " + index);
       this.incomeCategories.splice(index, 1);
+      this.draggableKey += 1;
       //TODO: check this behaviour, this is an ugly fix to avoid reloading the components.
-      this.show = true;
-      this.show = false;
+      //this.show = true;
+      //this.show = false;
     },
     editCategory() {
       console.log(this.settings.incomeCategory);
       this.incomeSettingsCategory.color = this.settings.colorPicker;
       this.incomeSettingsCategory.icon = this.settings.iconPicker;
       this.incomeSettingsCategory.name = this.settings.name;
-      this.show = false;
+      //this.show = false;
     },
     createCategory() {
       let maxCallback = (max, cur) => Math.max(max, cur);
@@ -350,8 +363,6 @@ export default {
       this.settings.colorPicker = this.incomeSettingsCategory.color;
       this.settings.iconPicker = this.incomeSettingsCategory.icon;
       this.settings.name = this.incomeSettingsCategory.name;
-
-      this.show = true;
     }
   }
 };
