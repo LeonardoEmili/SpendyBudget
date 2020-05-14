@@ -53,20 +53,26 @@
         </b-dropdown>
       </div>
 
-      <div id="input-category-name">
+      <div id="input-category-name" style="position:relative">
         <p style="font-size:13px; margin-bottom: 0px; color: #546e7a">New category name:</p>
+
         <b-form-input
           id="my-form-name"
           size="sm"
           type="text"
-
+          v-on:update="uniqueCategory"
           v-model="newCategory.name"
+          autocomplete="off"
           placeholder="New category name"
         ></b-form-input>
+        <span
+          v-show="duplicateCategoryName"
+          style="font-size: 12px; position: absolute; color: #b71c1c;"
+        >Please select another name</span>
       </div>
       <div id="input-category-type">
         <p style="font-size:13px; margin-bottom: 3px; color: #546e7a;">Type:</p>
-        <b-form-select size="sm" style v-model="newCategory.type">
+        <b-form-select size="sm" style v-model="newCategory.type" v-on:input="uniqueCategory">
           <b-form-select-option value="expense" selected>Expense</b-form-select-option>
           <b-form-select-option value="income">Income</b-form-select-option>
         </b-form-select>
@@ -74,7 +80,7 @@
       <b-button
         size="sm"
         :variant="btnVariant"
-        :disabled="newCategory.name === ''"
+        :disabled="newCategory.name === '' || duplicateCategoryName"
         type="submit"
       >Create new</b-button>
     </b-form>
@@ -251,6 +257,7 @@ export default {
       currentCategory: {},
       currentCategoryIndex: -1,
       currentCategoryType: "",
+      duplicateCategoryName: false,
       newCategory: {
         icon: "",
         color: "",
@@ -276,8 +283,8 @@ export default {
     categoryColors() {
       return utils.categoryColors;
     },
-    btnVariant: function() {
-      return this.newCategory.name ? "success" : "";
+    btnVariant() {
+      return this.newCategory.name && !this.duplicateCategoryName? "success" : "";
     }
   },
   methods: {
@@ -299,7 +306,6 @@ export default {
 
       // Reset the name field
       this.newCategory.name = "";
-      console.log(this.newCategory);
     },
     openEditCategory(index, categoryType) {
       this.currentCategoryIndex = index;
@@ -338,6 +344,17 @@ export default {
       let initValue = -1;
       let maxID = vector.map(x => x.id).reduce(maxCallback, initValue);
       return maxID + 1;
+    },
+    uniqueCategory() {
+      let categories =
+        this.newCategory.type === "income"
+          ? this.incomeCategories
+          : this.expenseCategories;
+
+      this.duplicateCategoryName = utils.uniqueCategory(
+        this.newCategory.name,
+        categories
+      );
     }
   }
 };

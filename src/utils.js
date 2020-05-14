@@ -373,6 +373,15 @@ export function convertFromEUR(value, currency) {
     }
 }
 
+/**
+ * Checks wheter the same category name is already taken in the 'categoryList'.
+ * @param {String} categoryName 
+ * @param {Array} categoryList 
+ */
+export function uniqueCategory(categoryName, categoryList) {
+    return categoryList.map((cat)=>cat.name.toLowerCase()).includes(categoryName.toLowerCase());
+}
+
 export const currencies = [
     { iso: "EUR", name: "Euro" },
     { iso: "USD", name: "United States Dollar" },
