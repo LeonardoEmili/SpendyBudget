@@ -115,7 +115,7 @@ export default {
   },
   computed: {
       userName: function () {return this.user !== null ? this.user.name : ""},
-      userProfPic: function () {return this.user !== null   
+      userProfPic: function () {return this.user !== null && this.user.profPic !== undefined  
       ? this.user.profPic 
       : ""}
   },
