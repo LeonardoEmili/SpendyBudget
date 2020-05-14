@@ -434,23 +434,27 @@ export let userIncomeCategories = [
         color: categoryColors[3],
         transactions: 1
     },
+];
+
+
+export let userExpenseCategories = [
     {
         name: "Entertainment",
-        id: 4,
+        id: 0,
         icon: defaultCategoryIcons[4],
         color: categoryColors[4],
         transactions: 0
     },
     {
         name: "Sport",
-        id: 5,
+        id: 1,
         icon: defaultCategoryIcons[5],
         color: categoryColors[5],
         transactions: 3
     },
     {
         name: "Taxes",
-        id: 6,
+        id: 2,
         icon: defaultCategoryIcons[6],
         color: categoryColors[6],
         transactions: 4

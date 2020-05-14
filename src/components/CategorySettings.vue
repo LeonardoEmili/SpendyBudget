@@ -59,6 +59,7 @@
           id="my-form-name"
           size="sm"
           type="text"
+          
           v-model="newCategory.name"
           placeholder="New category name"
         ></b-form-input>
@@ -98,13 +99,58 @@
         </span>
         <span class="category-btns">
           <b-button
+            id="settings-btn"
             class="category-icons"
-            v-on:click="openEditCategory(index)"
+            v-on:click="openEditCategory(index, 'income')"
             v-b-modal.modal-center
           >
             <settings-icon class="settings-icon"></settings-icon>
           </b-button>
-          <b-button class="category-icons" v-on:click="removeCategory(index)">
+          <b-button
+            class="category-icons"
+            v-on:click="removeCategory(index, 'income')"
+            id="trash-btn"
+          >
+            <trash-icon class="trash-icon"></trash-icon>
+          </b-button>
+        </span>
+      </div>
+      <!-- Category item ends here -->
+    </draggable>
+
+    <!-- End of income categories and begin of expense -->
+
+    <h6 class="my-headers" id="expense-header">Expense categories</h6>
+    <draggable class="list-group">
+      <!-- Category item starts here -->
+      <div class="draggable-row" v-for="(element,index) in expenseCategories" :key="element.id">
+        <svgicon
+          :icon="element.icon"
+          width="32"
+          height="32"
+          color="#fff"
+          class="category-icon"
+          :style="'background-color:' + element.color"
+        />
+
+        <span class="category-details">
+          <span>{{ element.name }}</span>
+          <span class="category-transactions">{{ element.transactions }} transactions</span>
+        </span>
+        <span class="category-btns">
+          <b-button
+            id="settings-btn"
+            class="category-icons"
+            v-on:click="openEditCategory(index, 'expense')"
+            v-b-modal.modal-center
+          >
+            <settings-icon class="settings-icon"></settings-icon>
+          </b-button>
+          <b-button
+            class="category-icons"
+            v-on:click="removeCategory(index, 'expense')"
+            id="trash-btn"
+          >
             <trash-icon class="trash-icon"></trash-icon>
           </b-button>
         </span>
@@ -181,7 +227,6 @@
             placeholder="Category name"
           ></b-form-input>
         </div>
-
       </div>
     </b-modal>
     <!-- Modal view ends here -->
@@ -197,12 +242,15 @@ export default {
   name: "CategorySettings",
   created() {
     this.incomeCategories = utils.userIncomeCategories.slice();
+    this.expenseCategories = utils.userExpenseCategories.slice();
   },
   data() {
     return {
       incomeCategories: [],
+      expenseCategories: [],
       currentCategory: {},
       currentCategoryIndex: -1,
+      currentCategoryType: "",
       newCategory: {
         icon: "",
         color: "",
@@ -220,10 +268,10 @@ export default {
       return utils.defaultCategoryIcons;
     },
     newCategoryIcon() {
-      return this.newCategory.icon || this.incomeCategories[0].icon; // || GENERIC_ICON;
+      return this.newCategory.icon || this.defaultCategoryIcons[0]; // || GENERIC_ICON;
     },
     newCategoryColor() {
-      return this.newCategory.color || this.incomeCategories[0].color;
+      return this.newCategory.color || this.categoryColors[0];
     },
     categoryColors() {
       return utils.categoryColors;
@@ -235,36 +283,59 @@ export default {
   methods: {
     createCategory() {
       const nextID = this.getNextID();
-
-      this.incomeCategories.push({
+      let createdCategory = {
         id: nextID,
         name: this.newCategory.name,
         icon: this.newCategoryIcon,
         color: this.newCategoryColor,
-        transactions: 17
-      });
+        transactions: 0
+      };
+
+      if (this.newCategory.type === "income") {
+        this.incomeCategories.push(createdCategory);
+      } else {
+        this.expenseCategories.push(createdCategory);
+      }
+
+      // Reset the name field
       this.newCategory.name = "";
       console.log(this.newCategory);
     },
-    openEditCategory(index) {
+    openEditCategory(index, categoryType) {
       this.currentCategoryIndex = index;
-      this.currentCategory = { ...this.incomeCategories[index] };
+      if (categoryType === "income") {
+        this.currentCategory = { ...this.incomeCategories[index] };
+      } else {
+        this.currentCategory = { ...this.expenseCategories[index] };
+      }
     },
     confirmEditCategory() {
-      let cat = this.incomeCategories[this.currentCategoryIndex];
+      let cat;
+      if (this.currentCategoryType === "income") {
+        cat = this.incomeCategories[this.currentCategoryIndex];
+      } else {
+        cat = this.expenseCategories[this.currentCategoryIndex];
+      }
       cat.name = this.currentCategory.name;
       cat.color = this.currentCategory.color;
       cat.icon = this.currentCategory.icon;
     },
-    removeCategory(index) {
-      this.incomeCategories.splice(index, 1);
+    removeCategory(index, categoryType) {
+      if (categoryType === "income") {
+        this.incomeCategories.splice(index, 1);
+      } else {
+        this.expenseCategories.splice(index, 1);
+      }
     },
     getNextID() {
+      let vector =
+        this.newCategory.type === "income"
+          ? this.incomeCategories
+          : this.expenseCategories;
+
       const maxCallback = (max, cur) => Math.max(max, cur);
       let initValue = -1;
-      let maxID = this.incomeCategories
-        .map(x => x.id)
-        .reduce(maxCallback, initValue);
+      let maxID = vector.map(x => x.id).reduce(maxCallback, initValue);
       return maxID + 1;
     }
   }
@@ -336,6 +407,23 @@ export default {
   color: #546e7a;
 }
 
+#expense-header {
+  margin-top: 30px;
+}
+
+.trash-icon {
+  color: #ff3d00;
+}
+.trash-icon:hover {
+  color: #9a2500;
+}
+.settings-icon {
+  color: #43a047;
+}
+.settings-icon:hover {
+  color: #255827;
+}
+
 .header-icon {
   border-radius: 100%;
   padding: 4px;
@@ -364,5 +452,19 @@ export default {
 #modal-edit-category {
   margin: auto;
   max-width: 360px;
+}
+
+#settings-btn {
+  padding: 0px;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+#trash-btn {
+  padding: 0px;
+  background-color: transparent;
+  border-color: transparent;
+  margin-left: 6px;
+  height: 40px;
 }
 </style>
