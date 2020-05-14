@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar>
+    <b-navbar type="dark" variant="dark">
       <b-navbar-brand>
         <img src="../assets/logo.png" height="60px" width="60px" alt="." />
         SpendyBudget
@@ -199,4 +199,5 @@ export default {
   float: none;
   cursor: pointer;
 }
+
 </style>
