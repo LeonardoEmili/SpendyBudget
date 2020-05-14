@@ -386,6 +386,77 @@ export const locales = [
     { iso: "de", name: "German" }
 ];
 
+export const defaultCategoryIcons = ["necktie",
+    "coinup",
+    "bgift",
+    "salary2",
+    "gaming",
+    "smartwatch",
+    "tax"
+];
+
+export const categoryColors = [
+    "#3949ab",
+    "#ff9800",
+    "#9575cd",
+    "#00acc1",
+    "#ec407a",
+    "#66bb6a",
+    "#fdd835"
+];
+
+export let userIncomeCategories = [
+    {
+        name: "Business",
+        id: 0,
+        icon: defaultCategoryIcons[0],
+        color: categoryColors[0],
+        transactions: 5
+    },
+    {
+        name: "Extra credit",
+        id: 1,
+        icon: defaultCategoryIcons[1],
+        color: categoryColors[1],
+        transactions: 3
+    },
+    {
+        name: "Gifts",
+        id: 2,
+        icon: defaultCategoryIcons[2],
+        color: categoryColors[2],
+        transactions: 2
+    },
+    {
+        name: "Salary",
+        id: 3,
+        icon: defaultCategoryIcons[3],
+        color: categoryColors[3],
+        transactions: 1
+    },
+    {
+        name: "Entertainment",
+        id: 4,
+        icon: defaultCategoryIcons[4],
+        color: categoryColors[4],
+        transactions: 0
+    },
+    {
+        name: "Sport",
+        id: 5,
+        icon: defaultCategoryIcons[5],
+        color: categoryColors[5],
+        transactions: 3
+    },
+    {
+        name: "Taxes",
+        id: 6,
+        icon: defaultCategoryIcons[6],
+        color: categoryColors[6],
+        transactions: 4
+    }
+];
+
 /**
  * Converts the value into the desidered currency.
  * @param {Number} value the value to be converted in [currency]
