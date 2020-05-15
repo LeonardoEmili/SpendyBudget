@@ -92,11 +92,11 @@
                 <option v-bind:value="$t('other')" selected>{{$t('other')}}</option>
                 <div  v-if="transactionFormSelectedType === 'expense'">
                 <option v-for="category in userExpenseCategories" :key="category.name" 
-                  v-bind:value="userExpenseCategories[i].name">{{userExpenseCategories[i].name}}</option>
+                  v-bind:value="category.name">{{category.name}}</option>
                 </div>
                 <div  v-else>
                 <option v-for="category in userRevenueCategories" :key="category.name" 
-                  v-bind:value="userRevenueCategories[i].name">{{userRevenueCategories[i].name}}</option>
+                  v-bind:value="category.name">{{category.name}}</option>
                 </div>
               </b-form-select>
             </b-form>
@@ -165,6 +165,7 @@ export default {
               categories.push({
                 name: transaction.category.name,
                 color: transaction.category.color,
+                icon: transaction.category.icon,
                 amountEUR: transaction.amountEUR
             })
             }
@@ -188,6 +189,7 @@ export default {
               categories.push({
                 name: transaction.category.name,
                 color: transaction.category.color,
+                icon: transaction.category.icon,
                 amountEUR: transaction.amountEUR
             })
             }
@@ -326,7 +328,7 @@ export default {
         }
       })
       }
-      return {name:this.$t("other"), color:"#788D93"}
+      return {name:this.$t("other"), color:"#788D93", icon:""}
     }
     }
 
