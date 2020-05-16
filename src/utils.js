@@ -22,10 +22,10 @@ export function logout() {
 }
 
 /**
- * Utility function to check wheter we are using a mobile browser.
+ * Utility function to check whether we are using a mobile browser.
  */
 export function isMobileView() {
-    return screen.width <= 600;
+    return window.innerWidth <= 600;
 }
 
 /**

@@ -1,7 +1,9 @@
 <template>
-  <b-card class = "shadow-sm p-3 mb-5 bg-white thumbnail_card">
-    <h5>{{wallet.name}}</h5>
-    <p>Balance: {{convertFromEUR(wallet.balanceEUR, wallet.currency)}} {{wallet.currency}}</p>
+  <b-card :class = "{'shadow-sm': true, 'p-3': true, 'mb-5': true, thumbnail_card: true,
+   thumbnail_card_selected: selected }">
+    <img src="../assets/wallet.png" width = "50px" class="wallet_img"/>
+    <h4 class="wallet_name">{{wallet.name}}</h4>
+    <h6 class="wallet_description">Balance: {{convertFromEUR(wallet.balanceEUR, wallet.currency)}} {{wallet.currency}}</h6>
     </b-card>
  
 </template>
@@ -27,5 +29,20 @@ export default {
 
   .thumbnail_card {
     border-radius: 12px;
+    width: 250px;
   }
+
+  .thumbnail_card_selected {
+    background-color:palegreen;
+  }
+
+  .wallet_img{
+    display: inline-block;
+  }
+
+  .wallet_name {
+    display: inline-block;
+  }
+
+
 </style>

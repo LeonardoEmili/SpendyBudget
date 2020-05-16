@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar type="dark" variant="dark">
+    <b-navbar type="dark" variant="primary">
       <b-navbar-brand>
         <img src="../assets/logo.png" height="60px" width="60px" alt="." />
         SpendyBudget
@@ -11,7 +11,7 @@
       <b-navbar-nav class="ml-auto">
 
 
-        <b-nav-item-dropdown variant=""   right>
+        <b-nav-item-dropdown variant="" right>
 
             <template v-slot:button-content>
       <img v-if="userProfPic.length > 0" v-bind:src="userProfPic" height="20px" width="20px"/>
@@ -33,14 +33,15 @@
       <div id="welcome-div">
         <b-container fluid>
           <b-row>
-            <b-col sm="5" md="3">
-              <h1>{{$t('my_wallets')}}</h1>
+            <b-col>
+              <p :class="{my_wallets_title: !isMobileView(), 
+                my_wallets_title_mobile: isMobileView()}"
+              >{{$t('my_wallets')}}</p>
             </b-col>
-            <b-col sm="5" md="7"></b-col>
-            <b-col cols="2">
+            <b-col >
               <!-- " New wallet" modal view -->
-              <div>
-                <b-button v-b-modal.new_wallet_modal>{{$t('new_wallet')}}</b-button>
+              <div class="new_wallet_button">
+                <b-button variant="primary" v-b-modal.new_wallet_modal>{{$t('new_wallet')}}</b-button>
 
                 <b-modal id="new_wallet_modal" title="New wallet" hide-footer>
 
@@ -68,14 +69,13 @@
           </b-row>
         </b-container>
 
+        <br><br>
+
         <!-- List of wallet thumbnails -->
         <b-container fluid>
           <b-row class="wallet-thumbnails">
             <b-col
               class="wallet-thumbnail"
-              sm="4"
-              md="2"
-              xl="6"
               v-for="wallet in wallets"
               :key="wallet.id"
               v-on:click="selectWallet(wallet)"
@@ -124,6 +124,9 @@ export default {
       : ""}
   },
   methods: {
+    isMobileView() {
+      return utils.isMobileView()
+    },
     /**
      * Logs out.
      */
@@ -190,6 +193,25 @@ export default {
   text-align: center;
 }
 
+.my_wallets_title_mobile {
+  position: absolute;
+  left: 10;
+  font-size: 24px;
+    font-weight: bold;
+}
+
+.my_wallets_title {
+  position: absolute;
+  left: 10;
+  font-weight: bold;
+font-size: 32px;
+}
+
+.new_wallet_button {
+  position: absolute;
+  right: 10px;
+}
+
 .wallet-thumbnails {
   overflow-x: auto;
   flex-wrap: nowrap;
@@ -199,5 +221,7 @@ export default {
   float: none;
   cursor: pointer;
 }
+
+
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <b-card style="background-color: cyan">
+  <b-card class="shadow-sm p-3 mb-5 wallet_card">
      <h2>{{walletName}}</h2>
      <!-- Wallet balance -->
     <p>{{$t('balance')}} {{convertFromEUR(walletBalanceEUR, walletCurrency)}} {{walletCurrency}}</p>
@@ -337,6 +337,11 @@ export default {
 </script>
 
 <style>
+
+
+  .wallet_card {
+    border-radius: 12px;
+  }
 
 .chart {
   width: 50%;
