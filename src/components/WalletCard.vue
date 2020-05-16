@@ -318,20 +318,19 @@ export default {
 
       if (this.transactionFormSelectedType === 'expense') {
 
-      this.userExpenseCategories.forEach((category) => {
+      for (let category of this.userExpenseCategories) {
         if (category.name === name) {
-       
           return category
         }
-      })
+      }
 
       } else {
 
-      this.userRevenueCategories.forEach((category) => {
+      for (let category of this.userRevenueCategories) {
         if (category.name === name) {
           return category
         }
-      })
+      }
       }
       return {name:this.$t("other"), color:"#788D93", icon:""}
     }
