@@ -378,7 +378,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .draggable-row {
   height: 40px;
   margin: 2px 0;
@@ -431,16 +431,10 @@ export default {
   display: inline-block;
 }
 
-.short-dropdown .dropdown-menu {
+.short-dropdown >>> .dropdown-menu {
   min-width: 0rem;
   max-height: 200px;
   overflow-y: auto;
-}
-
-.icon-label {
-  font-size: 13px;
-  margin: 0 0 0 12px;
-  color: #546e7a;
 }
 
 #expense-header {
@@ -502,5 +496,10 @@ export default {
   border-color: transparent;
   margin-left: 6px;
   height: 40px;
+}
+
+.b-dropdown >>> .btn-light {
+  background-color: transparent !important;
+  border-color: transparent;
 }
 </style>

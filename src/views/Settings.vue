@@ -1,21 +1,23 @@
 <template>
-  <div id="settings-wrapper">
-    <b-row style="min-width: 400px;">
-      <b-col cols="2" style="min-width:200px;">
-        <div v-for="(item,index) of items" :key="item">
-          <div
-            class="settings"
-            :class="item !== selectedItem ? 'hvr-underline-from-center':'hvr-underline'"
-            v-on:click="selectedIndex = index"
-          >{{item}}</div>
-        </div>
-      </b-col>
-      <b-col>
-        <h5 class="settings-title">{{currentTitle}}</h5>
-        <component v-bind:is="selectedTab"></component>
-      </b-col>
-    </b-row>
-  </div>
+  <b-container fluid>
+    <div id="settings-wrapper">
+      <b-row style="min-width: 400px;">
+        <b-col cols="2" style="min-width:200px;">
+          <div v-for="(item,index) of items" :key="item">
+            <div
+              class="settings"
+              :class="item !== selectedItem ? 'hvr-underline-from-center':'hvr-underline'"
+              v-on:click="selectedIndex = index"
+            >{{item}}</div>
+          </div>
+        </b-col>
+        <b-col>
+          <h5 class="settings-title">{{currentTitle}}</h5>
+          <component v-bind:is="selectedTab"></component>
+        </b-col>
+      </b-row>
+    </div>
+  </b-container>
 </template>
 
 <script>
@@ -50,7 +52,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 /* Underline From Center */
 .hvr-underline-from-center {
   display: inline-block;
