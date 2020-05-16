@@ -1,5 +1,32 @@
 <template>
-  <b-container fluid>
+  <div>
+    <b-navbar type="dark" style="background-color: #088ac7">
+      <b-navbar-brand class="small-nav">
+        <img src="../assets/logo.png" height="50px" width="50px" alt="app logo" />
+        SpendyBudget
+      </b-navbar-brand>
+
+      <b-navbar-nav class="ml-auto">
+        <b-nav-item-dropdown variant right class="short-dropdown">
+          <template v-slot:button-content>
+            <img
+              v-if="userProfPic.length > 0"
+              v-bind:src="userProfPic"
+              height="40px"
+              width="40px"
+              class="rounded-circle picture-navbar"
+            />
+
+            <span class="picture-navbar">AB</span>
+            <span style="color: white">{{userName}}</span>
+          </template>
+          <b-dropdown-item class="my-dropdown" to="/settings" variant="dark">{{$t('settings')}}</b-dropdown-item>
+          <b-dropdown-item class="my-dropdown" to="/about" variant="dark">{{$t('about_us')}}</b-dropdown-item>
+          <b-dropdown-item class="my-dropdown" v-on:click="logout" variant="dark">Logout</b-dropdown-item>
+        </b-nav-item-dropdown>
+      </b-navbar-nav>
+    </b-navbar>
+
     <div id="settings-wrapper">
       <b-row style="min-width: 400px;">
         <b-col cols="2" style="min-width:200px;">
@@ -17,7 +44,7 @@
         </b-col>
       </b-row>
     </div>
-  </b-container>
+  </div>
 </template>
 
 <script>
