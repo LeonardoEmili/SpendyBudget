@@ -1,7 +1,8 @@
 <template>
   <b-card :class = "{'shadow-sm': true, 'p-3': true, 'mb-5': true, thumbnail_card: true,
-   thumbnail_card_selected: selected }">
-    <img src="../assets/wallet.png" width = "50px" class="wallet_img"/>
+   thumbnail_card_selected: selected, thumbnail_text_selected: selected }">
+    <img v-if="!selected" src="../assets/wallet.png" width = "50px" class="wallet_img"/>
+    <img v-else src="../assets/wallet_white.png" width = "50px" class="wallet_img"/>
     <h4 class="wallet_name">{{wallet.name}}</h4>
     <h6 class="wallet_description">Balance: {{convertFromEUR(wallet.balanceEUR, wallet.currency)}} {{wallet.currency}}</h6>
     </b-card>
@@ -33,7 +34,11 @@ export default {
   }
 
   .thumbnail_card_selected {
-    background-color:palegreen;
+    background-color:dodgerblue;
+  }
+
+  .thumbnail_text_selected {
+    color: white;
   }
 
   .wallet_img{
