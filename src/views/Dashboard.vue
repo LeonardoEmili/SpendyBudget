@@ -15,7 +15,7 @@
 
             <template v-slot:button-content>
       <img v-if="userProfPic.length > 0" v-bind:src="userProfPic" height="20px" width="20px"/>
-      <img v-else src="../assets/user.png" height="40px" width="40px"/>  <span>{{userName}}</span>
+      <img v-else src="../assets/user_white.png" height="40px" width="40px"/>  <span>{{userName}}</span>
     </template>
     <b-dropdown-item></b-dropdown-item>
      <b-dropdown-item to="/about">{{$t('about_us')}}</b-dropdown-item>
