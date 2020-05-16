@@ -221,6 +221,7 @@ exports.createNewTransaction = functions.https.onRequest(async (req, res) => {
 
     const data = JSON.parse(req.body);
 
+
     let transaction = {
         description: data.transaction.description,
         amountEUR: data.transaction.amount,

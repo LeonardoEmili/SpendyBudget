@@ -271,7 +271,7 @@ export function createNewTransaction(walletId, newTransaction, onSuccess) {
     RELEASE ? xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/createNewTransaction", true) :
         xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/createNewTransaction", true);
 
-    xmlHttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken)
+        xmlHttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken)
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
             const transaction = JSON.parse(xmlHttp.responseText)

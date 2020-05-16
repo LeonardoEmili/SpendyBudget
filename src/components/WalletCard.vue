@@ -32,7 +32,7 @@
               <br >
               {{$t('until')}}
             <br >
-            <b-form-input type="date" name="expiryDate" required/>
+            <b-form-datepicker name="expiryDate" required/>
             </b-form>
             <br >
             <br >
@@ -86,18 +86,12 @@
              {{$t('description')}}:
             <br >
             <b-form-input type="text" name="description" />
-            <br><br>
-            <!-- TODO: Differentiate expense and revenue categories-->
+            <br>
+            Category:
             <b-form-select name="category" v-model="transactionFormSelectedCategory">
                 <option v-bind:value="$t('other')" selected>{{$t('other')}}</option>
-                <div  v-if="transactionFormSelectedType === 'expense'">
-                <option v-for="category in userExpenseCategories" :key="category.name" 
+                <option v-for="(category, i) in userFormSelectedCategories" :key="i" 
                   v-bind:value="category.name">{{category.name}}</option>
-                </div>
-                <div  v-else>
-                <option v-for="category in userRevenueCategories" :key="category.name" 
-                  v-bind:value="category.name">{{category.name}}</option>
-                </div>
               </b-form-select>
             </b-form>
             <br >
@@ -144,9 +138,9 @@ export default {
           spentEUR: 0.0}},
         walletTransactions:  function () {return this.wallet !== null && this.wallet.transactions !== undefined
            ? this.wallet.transactions : []},
-        userExpenseCategories:  function () {return this.user !== null && this.user.expenseCategories !== null 
+        userExpenseCategories:  function () {return this.user !== null && this.user.expenseCategories !== undefined 
             ? this.user.expenseCategories : []},     
-        userRevenueCategories:  function () {return this.user !== null && this.user.revenueCategories !== null 
+        userRevenueCategories:  function () {return this.user !== null && this.user.revenueCategories !== undefined 
             ? this.user.revenueCategories : []},   
         walletExpenseTransactionsCategories:  function () {
           let categories = []
@@ -236,8 +230,13 @@ export default {
         }
         
         
-      }
+      },
 
+      userFormSelectedCategories() {
+        return this.transactionFormSelectedType === 'expense'
+          ? this.userExpenseCategories
+          : this.userRevenueCategories
+      }
     },
     methods: {
     convertFromEUR(quantityEUR, currency) {
@@ -265,11 +264,15 @@ export default {
       if (this.transactionFormSelectedType === "expense") {
         amountEUR = -amountEUR
       }
+
+      const category = this.getCategoryByName(this.transactionFormSelectedCategory)
+        
         const formData = {
         amount: amountEUR,
         description: form.description.value,
-        category: this.getCategoryByName(this.transactionFormSelectedCategory)
+        category: category
       };
+
 
       createNewTransaction(this.walletId, formData, transaction => 
             this.wallet.transactions.push(transaction)
@@ -312,17 +315,19 @@ export default {
      * Returns the right category for the given name.
      */
     getCategoryByName(name) {
-      if (this.user.expenseCategories !== undefined) {
 
-      
-      this.user.expenseCategories.forEach((category) => {
+      if (this.transactionFormSelectedType === 'expense') {
+
+      this.userExpenseCategories.forEach((category) => {
         if (category.name === name) {
+       
           return category
         }
       })
-      }
-      if (this.user.revenueCategories !== undefined) {
-      this.user.revenueCategories.forEach((category) => {
+
+      } else {
+
+      this.userRevenueCategories.forEach((category) => {
         if (category.name === name) {
           return category
         }
@@ -330,6 +335,7 @@ export default {
       }
       return {name:this.$t("other"), color:"#788D93", icon:""}
     }
+
     }
 
     
