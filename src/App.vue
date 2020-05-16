@@ -55,7 +55,7 @@ export default {
 </script>
 
 
-<style scoped>
+<style>
 #footer {
   background-color: #24292e;
   height: 70px;
@@ -68,10 +68,30 @@ export default {
 #app {
   position: relative;
   min-height: 100vh;
-  background-color:whitesmoke;
+  background-color: whitesmoke;
 }
 
 #router-view {
   padding-bottom: 70px;
+}
+
+.picture-navbar {
+  margin-right: 10px;
+  border-radius: 50%;
+  background: #00695c;
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 30px;
+  padding: 8px;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.small-nav {
+  padding: 0;
 }
 </style>
