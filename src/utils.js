@@ -419,10 +419,10 @@ export const currencies = [
 ];
 
 export const locales = [
-    { iso: "en", name: "english" },
-    { iso: "it", name: "italian" },
-    { iso: "es", name: "spanish" },
-    { iso: "de", name: "german" }
+    { iso: "en", name: "English" },
+    { iso: "it", name: "Italiano" },
+    { iso: "es", name: "Español" },
+    { iso: "de", name: "Deutsch" }
 ];
 
 export const defaultCategoryIcons = ["necktie",

@@ -144,7 +144,7 @@
                   v-for="locale in locales"
                   :value="locale.iso"
                   :key="locale.iso"
-                >{{$t(locale.name)}}</b-form-select-option>
+                >{{locale.name}}</b-form-select-option>
               </b-form-select>
             </b-form-group>
           </b-col>
