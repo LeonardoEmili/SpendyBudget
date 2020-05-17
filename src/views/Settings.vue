@@ -30,16 +30,21 @@
 
     <div id="settings-wrapper">
       <b-row>
-        <b-col id="settings-list" cols="1">
-          <div v-for="(item,index) of items" :key="item">
-            <div
-              class="settings"
-              :class="item !== selectedItem ? 'hvr-underline-from-center':'hvr-underline'"
-              v-on:click="selectedIndex = index"
-            >{{$t(item)}}</div>
+        <b-col id="settings-list" cols="1" style="padding-right: 8vw; padding-top: 0px;">
+          <div v-for="(item,index) of items" :key="item" style="padding-right: 8vw;">
+            <div :class="item !== selectedItem ? '':'selected-tile'" style="padding-left: 20px; ">
+              <div
+                style="padding-top: 10px; "
+                class="settings"
+                :class="item !== selectedItem ? 'hvr-underline-from-center':'hvr-underline'"
+                v-on:click="selectedIndex = index"
+              >{{$t(item)}}</div>
+            </div>
           </div>
         </b-col>
-        <b-col>
+        <b-col
+          style="padding-left: 50px; padding-top: 30px; padding-right: 30px; background-color: #fafafa; border-radius: 14px;"
+        >
           <h5 class="settings-title">{{$t(currentTitle)}}</h5>
           <component v-bind:is="selectedTab"></component>
         </b-col>
@@ -106,6 +111,12 @@ export default {
   position: relative;
   overflow: hidden;
 }
+.selected-tile {
+  background-color: #fafafa;
+  padding-right: 8vw;
+  border-radius: 6px;
+}
+
 .hvr-underline {
   display: inline-block;
   border-bottom: 4px solid #2098d1;
@@ -117,7 +128,7 @@ export default {
   left: 51%;
   right: 51%;
   bottom: 0;
-  background: #2098d1;
+  background: #fafafa;
   height: 4px;
   -webkit-transition-property: left, right;
   transition-property: left, right;
@@ -135,7 +146,7 @@ export default {
 
 .settings {
   cursor: pointer;
-  padding-bottom: 5px;
+  margin-top: 5px;
   margin-bottom: 25px;
 }
 
@@ -145,13 +156,8 @@ export default {
 
 #settings-wrapper {
   width: 60vw;
-  margin: auto;
+  margin: 20px auto 0px auto;
   min-width: 800px;
-}
-
-#settings-list {
-  min-width: 200px;
-  margin-right: 6vw;
 }
 
 .my-dropdown {
