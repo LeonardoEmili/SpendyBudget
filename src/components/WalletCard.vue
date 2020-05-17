@@ -46,8 +46,13 @@
         {{convertFromEUR(walletTransactions[walletTransactions.length-i].amountEUR, walletCurrency)}}
         {{walletCurrency}}
         <br>
-        <div class="small_icon" v-bind:style="transactionCategoryIconStyle(walletTransactions[walletTransactions.length-i].category)"> </div>
-        {{walletTransactions[walletTransactions.length-i].category.name}}
+        <svgicon
+                :icon="walletTransactions[walletTransactions.length-i].category.icon"
+                color= "#fff"
+                :style="'background-color:' + walletTransactions[walletTransactions.length-i].category.color"
+                class="small_icon"
+              />
+              {{walletTransactions[walletTransactions.length-i].category.name}}
         <br>
         {{walletTransactions[walletTransactions.length-i].description}}
         <br>
@@ -110,6 +115,7 @@ import { createNewTransaction, editBudget } from '../plugins/firebase'
 import { firestore } from 'firebase'
 import PieChart from './PieChart.vue'
 import DoughnutChart from './DoughnutChart.vue'
+import "../compiled-icons";
 
 export default {
     name: "WalletCard",
@@ -242,12 +248,6 @@ export default {
     convertFromEUR(quantityEUR, currency) {
       return utils.convertFromEUR(quantityEUR, currency);
     },
-    
-        transactionCategoryIconStyle(category) {
-          return {
-            background: category.color
-          }
-        },
     /**
      * Called when the "new transaction" button is pressed.
      */
@@ -354,11 +354,11 @@ export default {
 }
 
 .small_icon {
-  width: 25px;
-      height: 25px;
-      -webkit-border-radius: 25px;
-      -moz-border-radius: 25px;
-      border-radius: 25px;
-      display: inline-block;
+  width: 30px;
+  height: 30px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  border-radius: 25px;
+  display: inline-block;
 }
 </style>
