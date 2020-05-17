@@ -30,21 +30,23 @@
 
     <div id="settings-wrapper">
       <b-row>
-        <b-col id="settings-list" cols="1" style="padding-right: 8vw; padding-top: 0px;">
-          <div v-for="(item,index) of items" :key="item" style="padding-right: 8vw;">
-            <div :class="item !== selectedItem ? '':'selected-tile'" style="padding-left: 20px; ">
+        <b-col id="settings-list" cols="1">
+          <div v-for="(item,index) of items" :key="item">
+            <div
+              class="settings-list-item"
+              :class="item !== selectedItem ? '':'selected-tile'"
+              v-on:mouseover="improveHover(0)"
+              v-on:mouseleave="improveHover(6)"
+              v-on:click="selectedIndex = index"
+            >
               <div
-                style="padding-top: 10px; "
                 class="settings"
                 :class="item !== selectedItem ? 'hvr-underline-from-center':'hvr-underline'"
-                v-on:click="selectedIndex = index"
               >{{$t(item)}}</div>
             </div>
           </div>
         </b-col>
-        <b-col
-          style="padding-left: 50px; padding-top: 30px; padding-right: 30px; background-color: #fafafa; border-radius: 14px;"
-        >
+        <b-col id="main-content-wrapper">
           <h5 class="settings-title">{{$t(currentTitle)}}</h5>
           <component v-bind:is="selectedTab"></component>
         </b-col>
@@ -96,58 +98,34 @@ export default {
   methods: {
     logout() {
       logout();
+    },
+    improveHover(radius) {
+      // Since there are only two tiles its straightforward to merge their border, otherwise an index would be required
+      let items = document.getElementsByClassName("settings-list-item");
+      let topItem = items[0];
+      let bottomElement = items[1];
+      // Merge borders of top and bottom elements
+      topItem.style.borderBottomRightRadius = radius + "px";
+      topItem.style.borderBottomLeftRadius = radius + "px";
+
+      bottomElement.style.borderTopRightRadius = radius + "px";
+      bottomElement.style.borderTopLeftRadius = radius + "px";
+      console.log(items);
     }
   }
 };
 </script>
 
 <style>
-/* Underline From Center */
-.hvr-underline-from-center {
-  display: inline-block;
-  vertical-align: middle;
-  -webkit-transform: perspective(1px) translateZ(0);
-  transform: perspective(1px) translateZ(0);
-  position: relative;
-  overflow: hidden;
-}
 .selected-tile {
   background-color: #fafafa;
-  padding-right: 8vw;
-  border-radius: 6px;
-}
-
-.hvr-underline {
-  display: inline-block;
-  border-bottom: 4px solid #2098d1;
-}
-.hvr-underline-from-center:before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  left: 51%;
-  right: 51%;
-  bottom: 0;
-  background: #fafafa;
-  height: 4px;
-  -webkit-transition-property: left, right;
-  transition-property: left, right;
-  -webkit-transition-duration: 0.3s;
-  transition-duration: 0.3s;
-  -webkit-transition-timing-function: ease-out;
-  transition-timing-function: ease-out;
-}
-.hvr-underline-from-center:hover:before,
-.hvr-underline-from-center:focus:before,
-.hvr-underline-from-center:active:before {
-  left: 0;
-  right: 0;
+  color: #39a1d2;
 }
 
 .settings {
   cursor: pointer;
-  margin-top: 5px;
-  margin-bottom: 25px;
+  padding-top: 16px;
+  padding-bottom: 16px;
 }
 
 .settings-title {
@@ -162,5 +140,30 @@ export default {
 
 .my-dropdown {
   margin-left: -22px;
+}
+
+#settings-list {
+  padding-right: 8vw;
+  padding-top: 0px;
+}
+
+.settings-list-item {
+  padding-left: 20px;
+  padding-right: 8vw;
+  border-radius: 6px;
+}
+
+.settings-list-item:hover {
+  background-color: #fafafa;
+  color: #39a1d2;
+  cursor: pointer;
+}
+
+#main-content-wrapper {
+  padding-left: 50px;
+  padding-top: 30px;
+  padding-right: 30px;
+  background-color: #fafafa;
+  border-radius: 14px;
 }
 </style>
