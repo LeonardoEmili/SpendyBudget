@@ -1,7 +1,7 @@
 <template>
   <div>
-    <b-navbar type="dark" style="background-color: #088ac7; margin-bottom: 20px;">
-      <b-navbar-brand class="small-nav">
+    <b-navbar class="custom-nav" type="dark">
+      <b-navbar-brand to="/dashboard" class="small-nav">
         <img src="../assets/logo.png" height="50px" width="50px" alt="app logo" />
         SpendyBudget
       </b-navbar-brand>
@@ -10,15 +10,16 @@
         <b-nav-item-dropdown variant right class="short-dropdown">
           <template v-slot:button-content>
             <img
-              v-if="userProfPic.length > 0"
+              id="user-profile-picture"
+              v-show="userProfPic"
               v-bind:src="userProfPic"
-              height="40px"
-              width="40px"
-              class="rounded-circle picture-navbar"
+              height="30px"
+              width="30px"
+              class="rounded-circle"
             />
 
-            <span class="picture-navbar">AB</span>
-            <span style="color: white">{{userName}}</span>
+            <span v-show="!userProfPic" class="picture-navbar">AB</span>
+            <span id="user-profile-visiblename">{{userName}}</span>
           </template>
           <b-dropdown-item class="my-dropdown" to="/settings" variant="dark">{{$t('settings')}}</b-dropdown-item>
           <b-dropdown-item class="my-dropdown" to="/about" variant="dark">{{$t('about_us')}}</b-dropdown-item>
@@ -28,8 +29,8 @@
     </b-navbar>
 
     <div id="settings-wrapper">
-      <b-row style="min-width: 400px;">
-        <b-col cols="1" style="min-width:200px; margin-right: 6vw;">
+      <b-row>
+        <b-col id="settings-list" cols="1">
           <div v-for="(item,index) of items" :key="item">
             <div
               class="settings"
@@ -50,15 +51,20 @@
 <script>
 import AccountSettings from "../components/AccountSettings";
 import CategorySettings from "../components/CategorySettings";
+import { fetchUserData, logout } from "../utils";
 
 export default {
   name: "Settings",
+  created() {
+    fetchUserData(user => (this.user = user));
+  },
   data() {
     return {
       items: ["Account", "All categories"],
       componentNames: ["accountSettings", "categorySettings"],
       titles: ["Account Settings", "Category Settings"],
-      selectedIndex: 0
+      selectedIndex: 0,
+      user: {}
     };
   },
   components: {
@@ -66,6 +72,12 @@ export default {
     categorySettings: CategorySettings
   },
   computed: {
+    userProfPic: function() {
+      return this.user && this.user.profPic ? this.user.profPic : "";
+    },
+    userName: function() {
+      return this.user.name || this.user.email || "";
+    },
     currentTitle() {
       return this.titles[this.selectedIndex];
     },
@@ -74,6 +86,11 @@ export default {
     },
     selectedItem() {
       return this.items[this.selectedIndex];
+    }
+  },
+  methods: {
+    logout() {
+      logout();
     }
   }
 };
@@ -130,5 +147,10 @@ export default {
   width: 60vw;
   margin: auto;
   min-width: 800px;
+}
+
+#settings-list {
+  min-width: 200px;
+  margin-right: 6vw;
 }
 </style>

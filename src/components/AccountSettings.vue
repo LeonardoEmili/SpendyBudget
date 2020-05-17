@@ -5,23 +5,31 @@
     <div id="photo-wrapper">
       <img
         v-show="profPic"
-        width="110px"
-        height="110px"
+        width="100px"
+        height="100px"
         ref="img"
         :src="profPic"
         class="rounded-circle"
       />
 
-      <img
+      <div
         v-show="!profPic"
-        id="default-img"
-        width="110px"
-        height="110px"
-        ref="img"
-        src="../assets/user.png"
-        class="rounded-circle"
+        id="upload-photo-wrapper"
         :style="borderStyle"
-      />
+        v-on:click="$refs.file.click()"
+      >
+        <img
+          id="default-img"
+          width="100px"
+          height="100px"
+          ref="img"
+          src="../assets/user.png"
+          class="rounded-circle"
+          :style="borderStyle"
+        />
+
+        <span id="upload-photo-text">Upload your photo</span>
+      </div>
 
       <input type="file" ref="file" v-on:change="uploadImage" accept="image/*" id="custom-input" />
       <b-button size="sm" variant="primary" id="custom-btn" v-on:click="$refs.file.click()">
@@ -184,8 +192,8 @@ export default {
         currency: ""
       },
       borderStyle: {
-        color: "blue",
-        borderStyle: "dotted",
+        color: "#088ac7",
+        borderStyle: "dashed",
         borderWidth: "thin"
       }
     };
@@ -257,6 +265,7 @@ export default {
 }
 #default-img {
   padding: 6px;
+  opacity: 0.15;
 }
 .my-cols {
   padding-top: 2px;
@@ -290,5 +299,27 @@ export default {
   width: 0px;
   height: 0px;
   margin-top: -10px;
+}
+
+#upload-photo-text {
+  position: absolute;
+  left: 00%;
+  top: 20%;
+  font-size: 14px;
+  text-align: center;
+  padding: 10px;
+  color: #222;
+}
+
+#upload-photo-wrapper {
+  display: inline-block;
+  position: relative;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+}
+
+#upload-photo-wrapper:hover {
+  cursor: pointer;
 }
 </style>

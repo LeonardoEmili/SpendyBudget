@@ -1,7 +1,7 @@
 <template>
   <div>
-    <b-navbar type="dark" style="background-color: #088ac7">
-      <b-navbar-brand class="small-nav">
+    <b-navbar class="custom-nav" type="dark">
+      <b-navbar-brand to="/dashboard" class="small-nav">
         <img src="../assets/logo.png" height="50px" width="50px" alt="app logo" />
         SpendyBudget
       </b-navbar-brand>
@@ -10,15 +10,16 @@
         <b-nav-item-dropdown variant right class="short-dropdown">
           <template v-slot:button-content>
             <img
-              v-if="userProfPic.length > 0"
+              id="user-profile-picture"
+              v-show="userProfPic"
               v-bind:src="userProfPic"
-              height="40px"
-              width="40px"
-              class="rounded-circle picture-navbar"
+              height="30px"
+              width="30px"
+              class="rounded-circle"
             />
 
-            <span class="picture-navbar">AB</span>
-            <span style="color: white">{{userName}}</span>
+            <span v-show="!userProfPic" class="picture-navbar">AB</span>
+            <span id="user-profile-visiblename">{{userName}}</span>
           </template>
           <b-dropdown-item class="my-dropdown" to="/settings" variant="dark">{{$t('settings')}}</b-dropdown-item>
           <b-dropdown-item class="my-dropdown" to="/about" variant="dark">{{$t('about_us')}}</b-dropdown-item>
@@ -101,6 +102,10 @@ import * as utils from "../utils";
 
 export default {
   name: "Dashboard",
+  created() {
+    utils.fetchUserData(user => (this.user = user));
+    loadWallets(wallets => (this.wallets = wallets));
+  },
   data: function() {
     return {
       selectedCurrency: "EUR",
@@ -176,10 +181,6 @@ export default {
       }
       return null;
     }
-  },
-  mounted: function() {
-    utils.fetchUserData(user => (this.user = user));
-    loadWallets(wallets => (this.wallets = wallets));
   }
 };
 </script>

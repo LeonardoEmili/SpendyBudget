@@ -94,4 +94,17 @@ html::-webkit-scrollbar {
 .small-nav {
   padding: 0;
 }
+
+.custom-nav {
+  background-color: #088ac7;
+  margin-bottom: 20px;
+}
+
+#user-profile-picture {
+  margin-right: 10px;
+}
+
+#user-profile-visiblename {
+  color: white
+}
 </style>
