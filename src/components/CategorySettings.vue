@@ -1,11 +1,13 @@
 <template>
   <div>
     <!-- Create a new category stats here -->
-    <h6 class="my-headers">Create a new category</h6>
+    <h6 class="my-headers">{{$t('create_a_new_category')}}</h6>
 
     <b-form v-on:submit.prevent="createCategory" id="create-category-form">
       <div class="picker-cols">
-        <p style="font-size:13px; margin-bottom: 0px; margin-left: 12px; color: #546e7a">Icon:</p>
+        <p
+          style="font-size:13px; margin-bottom: 0px; margin-left: 12px; color: #546e7a"
+        >{{$t('icon')}}:</p>
         <b-dropdown class="short-dropdown" variant="light">
           <template v-slot:button-content>
             <svgicon
@@ -31,7 +33,9 @@
         </b-dropdown>
       </div>
       <div class="picker-cols">
-        <p style="font-size:13px; margin-bottom: 0px; margin-left: 12px; color: #546e7a">Color:</p>
+        <p
+          style="font-size:13px; margin-bottom: 0px; margin-left: 12px; color: #546e7a"
+        >{{$t('color')}}:</p>
         <b-dropdown class="short-dropdown" variant="light">
           <template v-slot:button-content>
             <svgicon
@@ -54,7 +58,7 @@
       </div>
 
       <div id="input-category-name" style="position:relative">
-        <p style="font-size:13px; margin-bottom: 0px; color: #546e7a">New category name:</p>
+        <p style="font-size:13px; margin-bottom: 0px; color: #546e7a">{{$t('category_name')}}:</p>
 
         <b-form-input
           class="my-form-name"
@@ -63,30 +67,31 @@
           v-on:update="uniqueCategory"
           v-model="newCategory.name"
           autocomplete="off"
-          placeholder="New category name"
+          :placeholder="$t('new_category_name')"
         ></b-form-input>
         <span
           v-show="duplicateCategoryName"
           style="font-size: 12px; position: absolute; color: #b71c1c;"
         >Please select another name</span>
       </div>
-      <div id="input-category-type">
-        <p style="font-size:13px; margin-bottom: 3px; color: #546e7a;">Type:</p>
-        <b-form-select size="sm" style v-model="newCategory.type" v-on:input="uniqueCategory">
-          <b-form-select-option value="expense" selected>Expense</b-form-select-option>
-          <b-form-select-option value="income">Income</b-form-select-option>
+      <div id="input-category-type" style="margin-top: -100px;">
+        <p style="font-size:13px; margin-bottom: 3px; color: #546e7a; height: 20px;">{{$t('type')}}:</p>
+        <b-form-select size="sm" v-model="newCategory.type" v-on:input="uniqueCategory">
+          <b-form-select-option value="expense" selected>{{$t('expense')}}</b-form-select-option>
+          <b-form-select-option value="income">{{$t('revenue')}}</b-form-select-option>
         </b-form-select>
       </div>
       <b-button
+        id="create-btn"
         size="sm"
         :variant="btnVariant"
         :disabled="newCategory.name === '' || duplicateCategoryName"
         type="submit"
-      >Create new</b-button>
+      >Create</b-button>
     </b-form>
     <!-- Create a new category stats here -->
 
-    <h6 class="my-headers">Income categories</h6>
+    <h6 class="my-headers">{{$t('revenue_categories')}}</h6>
     <draggable class="list-group" :list="incomeCategories" v-on:change="onChange">
       <!-- Category item starts here -->
       <div class="draggable-row" v-for="(element,index) in incomeCategories" :key="index">
@@ -129,7 +134,7 @@
 
     <!-- End of income categories and begin of expense -->
 
-    <h6 class="my-headers" id="expense-header">Expense categories</h6>
+    <h6 class="my-headers" id="expense-header">{{$t('expense_categories')}}</h6>
     <draggable class="list-group" :list="expenseCategories" v-on:change="onChange">
       <!-- Category item starts here -->
       <div class="draggable-row" v-for="(element,index) in expenseCategories" :key="index">
@@ -173,7 +178,7 @@
     <b-modal
       centered
       id="modal-center"
-      title="Edit Category"
+      :title="$t('edit_category')"
       size="lg"
       button-size="sm"
       ok-title="Done"
@@ -181,7 +186,9 @@
     >
       <div id="modal-edit-category">
         <div class="picker-cols">
-          <p style="font-size:13px; margin-bottom: 0px; margin-left: 12px; color: #546e7a">Icon:</p>
+          <p
+            style="font-size:13px; margin-bottom: 0px; margin-left: 12px; color: #546e7a"
+          >{{$t('icon')}}:</p>
           <b-dropdown class="short-dropdown" variant="light">
             <template v-slot:button-content>
               <svgicon
@@ -207,7 +214,9 @@
           </b-dropdown>
         </div>
         <div class="picker-cols">
-          <p style="font-size:13px; margin-bottom: 0px; margin-left: 12px; color: #546e7a">Color:</p>
+          <p
+            style="font-size:13px; margin-bottom: 0px; margin-left: 12px; color: #546e7a"
+          >{{$t('color')}}:</p>
           <b-dropdown class="short-dropdown" variant="light">
             <template v-slot:button-content>
               <svgicon
@@ -229,13 +238,13 @@
         </div>
 
         <div id="input-category-name">
-          <p style="font-size:13px; margin-bottom: 0px; color: #546e7a">Category name:</p>
+          <p style="font-size:13px; margin-bottom: 0px; color: #546e7a">{{$t('category_name')}}:</p>
           <b-form-input
             class="my-form-name"
             size="sm"
             type="text"
             v-model="currentCategory.name"
-            placeholder="Category name"
+            :placeholder="$t('category_name')"
           ></b-form-input>
         </div>
       </div>
@@ -498,8 +507,20 @@ export default {
   height: 40px;
 }
 
+#create-btn {
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-bottom: 2px;
+}
+
 .b-dropdown >>> .btn-light {
   background-color: transparent !important;
   border-color: transparent;
+}
+
+select {
+  height: 32px;
+  margin-bottom: 2px;
+  padding-left: 12px;
 }
 </style>

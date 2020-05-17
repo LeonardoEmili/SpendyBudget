@@ -153,4 +153,8 @@ export default {
   min-width: 200px;
   margin-right: 6vw;
 }
+
+.my-dropdown {
+  margin-left: -22px;
+}
 </style>

@@ -48,5 +48,16 @@
   "german": "Alemán",
   "euro": "Euro",
   "united_states_dollar": "Dólar estadounidense",
-  "pound_sterling": "Libra esterlina"
+  "pound_sterling": "Libra esterlina",
+  "create_a_new_category": "Crear una nueva categoría",
+  "icon": "Icono",
+  "color": "Color",
+  "category_name": "Nombre de categoría",
+  "new_category_name": "Nueva categoría",
+  "type": "Tipo",
+  "expense": "Gasto",
+  "revenue": "Ingresos",
+  "revenue_categories": " Categorías de ingresos ",
+  "expense_categories": "Categorías de gastos",
+  "edit_category": "Editar categoría"
 }

@@ -229,6 +229,6 @@ export default {
 }
 
 .my-dropdown {
-  margin-left: -20px;
+  margin-left: -22px;
 }
 </style>

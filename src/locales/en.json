@@ -30,7 +30,6 @@
   "logout": "Log Out",
   "account_settings": "Account Settings",
   "category_settings": "Category Settings",
-
   "profile_photo": "Profile photo",
   "upload_your_photo": "Upload your photo",
   "upload_photo": "Upload photo",
@@ -49,5 +48,16 @@
   "german": "German",
   "euro": "Euro",
   "united_states_dollar": "United States Dollar",
-  "pound_sterling": "Pound Sterling"
+  "pound_sterling": "Pound Sterling",
+  "create_a_new_category": "Create a new category",
+  "icon": "Icon",
+  "color": "Color",
+  "category_name": "Category name",
+  "new_category_name": "New category",
+  "type": "Type",
+  "expense": "Expense",
+  "revenue": "Revenue",
+  "revenue_categories": "Revenue categories",
+  "expense_categories": "Expense categories",
+  "edit_category": "Edit Category"
 }
