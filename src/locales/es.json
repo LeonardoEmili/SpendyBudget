@@ -39,6 +39,8 @@
   "sex_optional": "Sexo (opcional):",
   "date_of_birth_optional": "Fecha de nacimiento (opcional):",
   "email_address": "Dirección de correo electrónico:",
+  "password": "Contraseña:",
+  "confirm_password": "Confirmar contraseña:",
   "localization_settings": "Configuración de localización",
   "account_currency": "Moneda de la cuenta:",
   "language": "Idoma",
@@ -59,5 +61,15 @@
   "revenue": "Ingresos",
   "revenue_categories": " Categorías de ingresos ",
   "expense_categories": "Categorías de gastos",
-  "edit_category": "Editar categoría"
+  "edit_category": "Editar categoría",
+  "login": "Login",
+  "login_btn_text" : "Inicia sesión en SpendyBudget",
+  "sign_up": "Regístrate",
+  "signup_btn_text" : "Inicia sesión en SpendyBudget",
+  "on_spendybudget": "a SpendyBudget",
+  "to_spendybudget": "para SpendyBudget",
+  "not_yet_registered": "¿Aún no tienes una cuenta?",
+  "already_registered": "¿Tienes una cuenta?",
+  "sign_up_here": "¡Registrate aquí!",
+  "login_here": "¡Inicia sesión aquí!"
 }

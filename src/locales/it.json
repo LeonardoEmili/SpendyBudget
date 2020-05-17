@@ -39,6 +39,8 @@
   "sex_optional": "Sesso (opzionale):",
   "date_of_birth_optional": "Data di nascita (opzionale):",
   "email_address": "Indirizzo email:",
+  "password": "Password:",
+  "confirm_password": "Conferma password:",
   "localization_settings": "Impostazioni di localizzazione",
   "account_currency": "Valuta account:",
   "language": "Lingua",
@@ -59,5 +61,15 @@
   "revenue": "Entrata",
   "revenue_categories": "Categorie delle entrate",
   "expense_categories": "Categorie delle spese",
-  "edit_category": "Modifica categoria"
+  "edit_category": "Modifica categoria",
+  "login": "Accedi",
+  "login_btn_text" : "Accedi a SpendyBudget",
+  "sign_up": "Registrati",
+  "signup_btn_text" : "Iscriviti su SpendyBudget",
+  "on_spendybudget": "su SpendyBudget",
+  "to_spendybudget": "a SpendyBudget",
+  "not_yet_registered": "Non hai ancora un account?",
+  "already_registered": "Hai un account?",
+  "sign_up_here": "Registrati qui!",
+  "login_here": "Entra qui!"
 }

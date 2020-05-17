@@ -6,19 +6,44 @@
         SpendyBudget
       </b-navbar-brand>
 
-      <b-navbar-nav class="ml-auto">
-        <b-nav-item to="/about">About us</b-nav-item>
-        <b-nav-item to="/signup">Sign up</b-nav-item>
-      </b-navbar-nav>
+      <b-collapse id="nav-collapse" is-nav>
+        <!-- Right aligned nav items -->
+        <b-navbar-nav class="ml-auto" style="margin-right: 10px;">
+          <b-nav-item-dropdown :text="$t(userLanguage)" right>
+            <b-dropdown-item
+              variant="dark"
+              v-for="(locale, index) in locales"
+              :key="locale.iso"
+              v-on:click="updateLocale(index)"
+            >
+              <img
+                :src="require('../assets/flags/' + locale.iso + '.png')"
+                height="20px"
+                width="20px"
+                alt="."
+                style="margin-left: -15px; margin-right: 8px;"
+              />
+              <span :class="{ 'selected' : locale.iso == currentISO}">{{$t(locale.name)}}</span>
+            </b-dropdown-item>
+          </b-nav-item-dropdown>
+        </b-navbar-nav>
+      </b-collapse>
     </b-navbar>
 
-    <div style="width: 360px; margin-left: auto; margin-right: auto; margin-top: 15vh;">
+    <div style="width: 500px; margin-left: auto; margin-right: auto; margin-top: 15vh;">
       <p style="font-size:32px; text-align:center;">
-        <b>Signup</b> to SpendyBudget
+        <span v-show="currentISO !== 'de'">
+          <b>{{$t('sign_up')}}</b>
+          {{$t('on_spendybudget')}}
+        </span>
+        <span v-show="currentISO === 'de'">
+          {{$t('on_spendybudget')}}
+          <b>{{$t('sign_up')}}</b>
+        </span>
       </p>
       <p style="text-align:center; font-size: 16px; margin-top: 5px;">
-        Don't have an account yet?
-        <b-link to="/signup">Sign up here!</b-link>
+        {{$t('already_registered')}}
+        <b-link to="/login">{{$t('login_here')}}</b-link>
       </p>
 
       <b-spinner
@@ -28,9 +53,13 @@
         style="position: absolute; top:50%; left:50%;"
       ></b-spinner>
 
-      <b-form @submit="onSubmit" style="margin-top:40px;">
+      <b-form
+        @submit="onSubmit"
+        style="margin-top:40px; width: 350px; margin-left: auto; margin-right: auto"
+      >
         <ValidationProvider rules="required|email" v-slot="{ errors, valid }">
-          <b-form-group label="Email address:" label-size="sm">
+          <b-form-group label-size="sm">
+            <label style="font-size:15px; margin-bottom: 4px;">{{$t('email_address')}}</label>
             <b-form-input
               size="sm"
               v-model="email"
@@ -47,7 +76,8 @@
 
         <ValidationObserver>
           <ValidationProvider rules="required|password:@confirm" v-slot="{ errors, valid }">
-            <b-form-group label="Password:" style="margin-top:8px" label-size="sm">
+            <b-form-group style="margin-top:10px" label-size="sm">
+              <label style="font-size:15px; margin-bottom: 4px;">{{$t('password')}}</label>
               <b-form-input
                 size="sm"
                 type="password"
@@ -63,7 +93,8 @@
           </ValidationProvider>
 
           <ValidationProvider name="confirm" rules="required" v-slot="{ errors, valid }">
-            <b-form-group label="Confirm password:" style="margin-top:8px" label-size="sm">
+            <b-form-group style="margin-top:10px" label-size="sm">
+              <label style="font-size:15px; margin-bottom: 4px;">{{$t('confirm_password')}}</label>
               <b-form-input
                 size="sm"
                 type="password"
@@ -80,11 +111,12 @@
 
         <div style="text-align: center;">
           <b-button
+            block
             size="sm"
             type="submit"
             variant="primary"
             style="margin-top:30px; margin-bottom: 30px"
-          >Signup to SpendyBudget</b-button>
+          >{{$t('signup_btn_text')}}</b-button>
         </div>
       </b-form>
     </div>
@@ -95,16 +127,17 @@
 import * as functions from "../plugins/firebase";
 import sha512 from "js-sha512";
 import router from "../router";
-import {
-  isMobileView,
-  getCurrentLocale,
-  DEFAULT_CURRENCY,
-  userIncomeCategories,
-  userExpenseCategories
-} from "../utils";
+import * as utils from "../utils";
 
 export default {
   name: "SignUp",
+  created() {
+    // Initialize the locale to be used
+    // TODO: check if this conditions still holds (probably not)
+    this.userLocaleIndex = utils.locales.findIndex(
+      locale => locale.iso === utils.getCurrentLocale()
+    );
+  },
   data() {
     return {
       email: "",
@@ -112,23 +145,38 @@ export default {
       confirmation: "",
       firebaseError: "",
       isLoading: false,
-      componentKey: 0
+      userLocaleIndex: 0
     };
   },
   computed: {
+    locales: function() {
+      return utils.locales;
+    },
+    currentISO: function() {
+      return (
+        utils.locales[this.userLocaleIndex].iso || utils.getCurrentLocale()
+      );
+    },
+    userLanguage: function() {
+      return utils.languageFromISO(this.currentISO);
+    },
     error: function() {
       // TODO: translate(firebaseError) into many languages
       return this.firebaseError;
     }
   },
   methods: {
+    updateLocale: function(index) {
+      this.userLocaleIndex = index;
+      utils.changeLanguage(this.currentISO);
+    },
     keyboardOpen() {
-      if (isMobileView()) {
+      if (utils.isMobileView()) {
         this.$parent.$refs.footer.classList.add("when-keyboard");
       }
     },
     keyboardClosed() {
-      if (isMobileView()) {
+      if (utils.isMobileView()) {
         this.$parent.$refs.footer.classList.remove("when-keyboard");
       }
     },
@@ -142,10 +190,10 @@ export default {
       const user = {
         email: this.email,
         password: sha512(this.password),
-        locale: getCurrentLocale(),
-        currency: DEFAULT_CURRENCY,
-        revenueCategories: userIncomeCategories,
-        expenseCategories: userExpenseCategories
+        locale: utils.getCurrentLocale(),
+        currency: utils.DEFAULT_CURRENCY,
+        revenueCategories: utils.userIncomeCategories,
+        expenseCategories: utils.userExpenseCategories
       };
 
       // The view model.
