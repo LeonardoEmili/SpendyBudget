@@ -9,7 +9,7 @@
       <b-collapse id="nav-collapse" is-nav>
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          <b-nav-item-dropdown :text="userLanguage" right>
+          <b-nav-item-dropdown :text="$t(userLanguage)" right>
             <b-dropdown-item
               variant="dark"
               v-for="(locale, index) in locales"
@@ -23,12 +23,12 @@
                 alt="."
                 style="margin-left: -15px; margin-right: 8px;"
               />
-              <span :class="{ 'selected' : locale.iso == currentISO}">{{locale.name}}</span>
+              <span :class="{ 'selected' : locale.iso == currentISO}">{{$t(locale.name)}}</span>
             </b-dropdown-item>
           </b-nav-item-dropdown>
 
-          <b-nav-item to="/about" class="border-right" style="margin-left: 10px;">About us</b-nav-item>
-          <b-nav-item to="/login">Login</b-nav-item>
+          <b-nav-item to="/about" class="border-right" style="margin-left: 10px;">{{$t('about_us')}}</b-nav-item>
+          <b-nav-item to="/login">{{$t('login')}}</b-nav-item>
           <b-button
             variant="outline-success"
             style="padding: 0px 10px; margin-left: 20px;"
@@ -37,7 +37,7 @@
             v-on:mouseleave="hovering = false"
           >
             <b-nav-item to="/signup">
-              <span :class="{ 'hovering' : hovering}">Sign up</span>
+              <span :class="{ 'hovering' : hovering}">{{$t('sign_up')}}</span>
             </b-nav-item>
           </b-button>
         </b-navbar-nav>
