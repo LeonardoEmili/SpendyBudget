@@ -143,13 +143,13 @@ export default {
 }
 
 #settings-list {
-  padding-right: 8vw;
+  padding-right: 160px;
   padding-top: 0px;
 }
 
 .settings-list-item {
   padding-left: 20px;
-  padding-right: 8vw;
+  padding-right: 160px;
   border-radius: 6px;
 }
 
