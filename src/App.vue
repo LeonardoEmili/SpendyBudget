@@ -105,6 +105,7 @@ html::-webkit-scrollbar {
 }
 
 #user-profile-visiblename {
-  color: white
+  color: white;
+  margin-right: 4px; 
 }
 </style>

@@ -311,10 +311,10 @@ export default {
 #upload-photo-text {
   position: absolute;
   left: 00%;
-  top: 20%;
+  top: 14%;
   font-size: 14px;
   text-align: center;
-  padding: 10px;
+  padding: 10px 12px 0 12px;
   color: #222;
 }
 
