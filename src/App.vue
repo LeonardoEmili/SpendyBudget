@@ -87,8 +87,8 @@ export default {
   padding: 8px;
 }
 
-::-webkit-scrollbar {
-    display: none;
+html::-webkit-scrollbar {
+  display: none;
 }
 
 .small-nav {

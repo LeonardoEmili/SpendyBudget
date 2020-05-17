@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar type="dark" style="background-color: #088ac7">
+    <b-navbar type="dark" style="background-color: #088ac7; margin-bottom: 20px;">
       <b-navbar-brand class="small-nav">
         <img src="../assets/logo.png" height="50px" width="50px" alt="app logo" />
         SpendyBudget
@@ -29,7 +29,7 @@
 
     <div id="settings-wrapper">
       <b-row style="min-width: 400px;">
-        <b-col cols="2" style="min-width:200px;">
+        <b-col cols="1" style="min-width:200px; margin-right: 6vw;">
           <div v-for="(item,index) of items" :key="item">
             <div
               class="settings"
@@ -127,7 +127,7 @@ export default {
 }
 
 #settings-wrapper {
-  width: 50vw;
+  width: 60vw;
   margin: auto;
   min-width: 800px;
 }
