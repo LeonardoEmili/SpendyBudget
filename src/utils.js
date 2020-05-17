@@ -413,16 +413,16 @@ export function uniqueCategory(categoryName, categoryList) {
 }
 
 export const currencies = [
-    { iso: "EUR", name: "Euro" },
-    { iso: "USD", name: "United States Dollar" },
-    { iso: "GBP", name: "Pound Sterling" }
+    { iso: "EUR", name: "euro" },
+    { iso: "USD", name: "united_states_dollar" },
+    { iso: "GBP", name: "pound_sterling" }
 ];
 
 export const locales = [
-    { iso: "en", name: "English" },
-    { iso: "it", name: "Italian" },
-    { iso: "es", name: "Spanish" },
-    { iso: "de", name: "German" }
+    { iso: "en", name: "english" },
+    { iso: "it", name: "italian" },
+    { iso: "es", name: "spanish" },
+    { iso: "de", name: "german" }
 ];
 
 export const defaultCategoryIcons = ["necktie",

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h6 class="my-headers">Profile photo</h6>
+    <h6 class="my-headers">{{$t('profile_photo')}}</h6>
 
     <div id="photo-wrapper">
       <img
@@ -28,13 +28,13 @@
           :style="borderStyle"
         />
 
-        <span id="upload-photo-text">Upload your photo</span>
+        <span id="upload-photo-text">{{$t('upload_your_photo')}}</span>
       </div>
 
       <input type="file" ref="file" v-on:change="uploadImage" accept="image/*" id="custom-input" />
       <b-button size="sm" variant="primary" id="custom-btn" v-on:click="$refs.file.click()">
         <upload-icon></upload-icon>
-        <span>Upload photo</span>
+        <span>{{$t('upload_photo')}}</span>
       </b-button>
     </div>
 
@@ -42,11 +42,12 @@
 
     <ValidationObserver v-slot="{ handleSubmit }">
       <b-form v-on:submit.prevent="handleSubmit(onSubmit)" id="account-form">
-        <h6 class="my-headers">General Settings</h6>
+        <h6 class="my-headers">{{$t('general_settings')}}</h6>
         <b-row>
           <b-col class="my-cols">
             <ValidationProvider rules="required" v-slot="{ errors }">
-              <b-form-group label="Name" class="custom-font">
+              <b-form-group class="custom-font">
+                <label>{{$t('name')}}</label>
                 <b-form-input
                   size="sm"
                   type="text"
@@ -60,7 +61,8 @@
           </b-col>
           <b-col class="my-cols">
             <ValidationProvider rules="required" v-slot="{ errors }">
-              <b-form-group label="Surname" class="custom-font">
+              <b-form-group class="custom-font">
+                <label>{{$t('surname')}}</label>
                 <b-form-input
                   size="sm"
                   type="text"
@@ -76,7 +78,8 @@
 
         <b-row>
           <b-col class="my-cols">
-            <b-form-group label="Sex (optional)" size="sm" class="custom-font">
+            <b-form-group label="" size="sm" class="custom-font">
+              <label>{{$t('sex_optional')}}</label>
               <b-form-select v-model="user.gender" size="sm">
                 <b-form-select-option value="null" disabled></b-form-select-option>
                 <b-form-select-option value="M">Male</b-form-select-option>
@@ -88,7 +91,8 @@
 
           <b-col class="my-cols">
             <ValidationProvider rules="birthdate" v-slot="{ errors }">
-              <b-form-group label="Date of birth (optional)" size="sm" class="custom-font">
+              <b-form-group size="sm" class="custom-font">
+                <label>{{$t('date_of_birth_optional')}}</label>
                 <b-form-datepicker
                   size="sm"
                   v-model="user.birthdate"
@@ -103,7 +107,8 @@
         </b-row>
         <b-row>
           <b-col class="my-cols">
-            <b-form-group label="Email address:" class="custom-font">
+            <b-form-group class="custom-font">
+              <label>{{$t('email_address')}}</label>
               <b-form-input
                 size="sm"
                 type="email"
@@ -116,28 +121,30 @@
           <b-col></b-col>
         </b-row>
 
-        <h6 class="my-headers">Localization settings</h6>
+        <h6 class="my-headers">{{$t('localization_settings')}}</h6>
 
         <b-row>
           <b-col class="my-cols">
-            <b-form-group label="Account currency" size="sm" class="custom-font">
+            <b-form-group size="sm" class="custom-font">
+              <label>{{$t('account_currency')}}</label>
               <b-form-select v-model="user.currency" size="sm">
                 <b-form-select-option
                   v-for="currency in currencies"
                   :value="currency.iso"
                   :key="currency.iso"
-                >{{currency.name}}</b-form-select-option>
+                >{{$t(currency.name)}}</b-form-select-option>
               </b-form-select>
             </b-form-group>
           </b-col>
           <b-col class="my-cols">
-            <b-form-group label="Language" size="sm" class="custom-font">
+            <b-form-group size="sm" class="custom-font">
+              <label>{{$t('language')}}</label>
               <b-form-select v-model="user.locale" size="sm">
                 <b-form-select-option
                   v-for="locale in locales"
                   :value="locale.iso"
                   :key="locale.iso"
-                >{{locale.name}}</b-form-select-option>
+                >{{$t(locale.name)}}</b-form-select-option>
               </b-form-select>
             </b-form-group>
           </b-col>

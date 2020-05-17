@@ -23,7 +23,7 @@
           </template>
           <b-dropdown-item class="my-dropdown" to="/settings" variant="dark">{{$t('settings')}}</b-dropdown-item>
           <b-dropdown-item class="my-dropdown" to="/about" variant="dark">{{$t('about_us')}}</b-dropdown-item>
-          <b-dropdown-item class="my-dropdown" v-on:click="logout" variant="dark">Logout</b-dropdown-item>
+          <b-dropdown-item class="my-dropdown" v-on:click="logout" variant="dark">{{$t('logout')}}</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-navbar>
