@@ -87,7 +87,7 @@
       <!-- Expanded wallet card -->
       <b-container fluid>
         <b-collapse id="collapse-wallet-card" v-model="walletCardVisible">
-          <wallet-card :user="user" :wallet="getSelectedWallet()"></wallet-card>
+          <wallet :user="user" :wallet="getSelectedWallet()"></wallet>
         </b-collapse>
       </b-container>
     </div>
@@ -96,7 +96,7 @@
 
 <script>
 import WalletThumbnail from "../components/WalletThumbnail";
-import WalletCard from "../components/WalletCard";
+import Wallet from "../components/Wallet";
 import { loadWallets, createNewWallet } from "../plugins/firebase";
 import * as utils from "../utils";
 
@@ -117,7 +117,7 @@ export default {
   },
   components: {
     walletThumbnail: WalletThumbnail,
-    walletCard: WalletCard
+    wallet: Wallet
   },
   computed: {
     userName: function() {

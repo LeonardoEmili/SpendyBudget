@@ -4,7 +4,7 @@
     <img v-if="!selected" src="../assets/wallet.png" width = "50px" class="wallet_img"/>
     <img v-else src="../assets/wallet_white.png" width = "50px" class="wallet_img"/>
     <h4 class="wallet_name">{{wallet.name}}</h4>
-    <h6 class="wallet_description">Balance: {{convertFromEUR(wallet.balanceEUR, wallet.currency)}} {{wallet.currency}}</h6>
+    <h6 class="wallet_description">{{$t("balance")}} {{convertFromEUR(wallet.balanceEUR, wallet.currency)}} {{wallet.currency}}</h6>
     </b-card>
  
 </template>
