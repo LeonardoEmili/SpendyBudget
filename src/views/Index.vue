@@ -50,43 +50,19 @@
         <h1>{{ $t('same_spending_tracker') }}</h1>
         <p>{{$t('a_simple_expense_tracker')}}</p>
 
-        <div>
-          <b-carousel
-            style="display: none"
-            :interval="4000"
-            background="#ababab"
-            img-width="1024"
-            img-height="480"
-          >
-            <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54"></b-carousel-slide>
-            <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=58"></b-carousel-slide>
-          </b-carousel>
-        </div>
+        <div id="macbook-wrapper">
+          <img src="../assets/img_macbook.png" height="530px" width="800px" />
 
-        <div style="position: relative; width: 800px; height: 530px;">
-          <img
-            src="../assets/img_macbook.png"
-            height="530px"
-            width="800px"
-            style="position: absolute; display: block;"
-          />
-
-          <div
-            style="width: 631px; height: 432px; position: absolute; top: 42px; left: 85px; border-top-right-radius: 16px; border-top-left-radius: 16px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px;"
-          >
+          <div id="macbook-slider">
             <b-carousel :interval="3000">
               <b-carousel-slide>
                 <template v-slot:img>
-                  <div>
-                    <img src="../assets/prova5.png" width="648px" height="400px" />
-                  </div>
+                  <img src="../assets/prova5.png" width="631px" height="400px" />
                 </template>
               </b-carousel-slide>
               <b-carousel-slide>
                 <template v-slot:img>
-                  <div>
-                    <img src="../assets/prova8.png" width="648px" height="400px" />
-                  </div>
+                  <img src="../assets/prova8.png" width="631px" height="400px" />
                 </template>
               </b-carousel-slide>
             </b-carousel>
@@ -149,7 +125,17 @@ export default {
   color: white;
 }
 
-.carousel {
-  
+#macbook-slider {
+  width: 631px;
+  height: 400px;
+  position: absolute;
+  top: 42px;
+  left: 85px;
+}
+
+#macbook-wrapper {
+  position: relative;
+  width: 800px;
+  height: 530px;
 }
 </style>
