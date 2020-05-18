@@ -49,10 +49,48 @@
         {{$t()}}
         <h1>{{ $t('same_spending_tracker') }}</h1>
         <p>{{$t('a_simple_expense_tracker')}}</p>
-        <div style="margin-top:50px">
-          <img src="../assets/chart1.png" width="240px" alt="." style="margin-right:50px" />
 
-          <img src="../assets/chart2.png" width="240px" alt="." />
+        <div>
+          <b-carousel
+            style="display: none"
+            :interval="4000"
+            background="#ababab"
+            img-width="1024"
+            img-height="480"
+          >
+            <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54"></b-carousel-slide>
+            <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=58"></b-carousel-slide>
+          </b-carousel>
+        </div>
+
+        <div style="position: relative; width: 800px; height: 530px;">
+          <img
+            src="../assets/img_macbook.png"
+            height="530px"
+            width="800px"
+            style="position: absolute; display: block;"
+          />
+
+          <div
+            style="width: 643px; height: 433px; position: absolute; top: 30px; left: 79px; border-top-right-radius: 16px; border-top-left-radius: 16px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px;"
+          >
+            <b-carousel :interval="3000">
+              <b-carousel-slide>
+                <template v-slot:img>
+                  <div>
+                    <img src="../assets/prova5.png" width="648px" height="432px" />
+                  </div>
+                </template>
+              </b-carousel-slide>
+              <b-carousel-slide>
+                <template v-slot:img>
+                  <div>
+                    <img src="../assets/prova8.png" width="648px" height="432px" />
+                  </div>
+                </template>
+              </b-carousel-slide>
+            </b-carousel>
+          </div>
         </div>
       </div>
     </center>
@@ -109,5 +147,13 @@ export default {
 }
 .hovering {
   color: white;
+}
+
+.carousel {
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  overflow: hidden;
 }
 </style>
