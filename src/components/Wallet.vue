@@ -2,11 +2,21 @@
 <div>
   <wallet-info :wallet="wallet"></wallet-info>
   <wallet-budget :wallet="wallet"></wallet-budget>
-        
-   <wallet-transactions :wallet="wallet"></wallet-transactions>
 
+
+<b-container fluid>
+  <b-row>
+    <b-col>
   <wallet-expense :wallet="wallet"></wallet-expense>
+    </b-col>
+  <b-col>
   <wallet-revenue :wallet="wallet"></wallet-revenue>
+  </b-col>
+
+  </b-row>
+</b-container>
+        
+   <wallet-transactions :wallet="wallet" :user="user"></wallet-transactions>
 
 
 
@@ -56,7 +66,12 @@ export default {
   }
 
 .chart {
-  width: 50%;
+  width: 500px;
+  display: inline-block;
+}
+
+.chart_mobile {
+  width: 300px;
   display: inline-block;
 }
 

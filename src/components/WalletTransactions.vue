@@ -73,12 +73,19 @@ export default {
     }
     },
     props: [
-        "wallet"
+        "wallet",
+        "user"
     ],
     computed: {
+        walletId: function () {return  this.wallet !== null ? this.wallet.id : ""},
         walletCurrency:  function () {return this.wallet !== null ? this.wallet.currency : ""},
         walletTransactions:  function () {return this.wallet !== null && this.wallet.transactions !== undefined
            ? this.wallet.transactions : []},
+
+           userExpenseCategories:  function () {return this.user !== null && this.user.expenseCategories !== undefined 
+            ? this.user.expenseCategories : []},     
+        userRevenueCategories:  function () {return this.user !== null && this.user.revenueCategories !== undefined 
+            ? this.user.revenueCategories : []},   
 
       userFormSelectedCategories() {
         return this.transactionFormSelectedType === 'expense'
@@ -116,7 +123,6 @@ export default {
         category: category
       };
 
-
       createNewTransaction(this.walletId, formData, transaction => 
             this.wallet.transactions.push(transaction)
             );
@@ -129,6 +135,26 @@ export default {
       this.$bvModal.hide("new_transaction_modal");
 
     },  
+
+    /**
+     * Returns the right category for the given name.
+     */
+    getCategoryByName(name) {
+      if (this.transactionFormSelectedType === 'expense') {
+      for (let category of this.userExpenseCategories) {
+        if (category.name === name) {
+          return category
+        }
+      }
+      } else {
+      for (let category of this.userRevenueCategories) {
+        if (category.name === name) {
+          return category
+        }
+      }
+      }
+      return {name:this.$t("other"), color:"#788D93", icon:""}
+    }
     }
 }
 </script>
