@@ -1,42 +1,53 @@
 <template>
-      <b-card class="shadow-sm p-3 mb-5 wallet_card">
+      <b-card class="shadow-sm p-3 mb-5 wallet_card" >
         <!-- Wallet budget -->
-    <h3>{{$t('budget')}}</h3>
-    <div v-if="walletBudget.expiryDate._seconds*1000 > Date.now()">
-      <!-- Budget valid -->
-      <p>{{$t('your_budget_for')}} {{convertFromEUR(walletBudget.budgetEUR, walletCurrency)}} {{walletCurrency}}</p>
-      <p>{{$t('you_have_reached')}} {{(walletBudget.spentEUR*100/walletBudget.budgetEUR).toFixed(0)}}%.</p>
-      <p>{{$t('the_budget_is_set')}} {{new Date(walletBudget.expiryDate._seconds*1000).toLocaleDateString()}}</p>
+        <b-container>
+            <b-row>
+        <b-col>
+            <h3>{{$t('budget')}}</h3>
+            <div v-if="walletBudget.expiryDate._seconds*1000 > Date.now()">
+            <!-- Budget valid -->
+            <p>{{$t('your_budget_for')}} {{convertFromEUR(walletBudget.budgetEUR, walletCurrency)}} {{walletCurrency}}</p>
+            <p>{{$t('you_have_reached')}} {{(walletBudget.spentEUR*100/walletBudget.budgetEUR).toFixed(0)}}%.</p>
+            <p>{{$t('the_budget_is_set')}} {{new Date(walletBudget.expiryDate._seconds*1000).toLocaleDateString()}}</p>
 
-      <pie-chart class="chart" :chartdata="budgetChartData" :options="null"></pie-chart>
-      <br><br>
-    </div>
-    <div v-else> 
-      <!-- Budget expired -->
-      <p>{{$t('you_do_not_have_a_budget')}}</p>
-       
-    </div>
-    <!-- Edit budget modal -->
-     <div>
-          <b-button v-b-modal.edit_budget_modal>{{$t('edit_budget')}}</b-button>
+            </div>
+            <div v-else> 
+            <!-- Budget expired -->
+            <p>{{$t('you_do_not_have_a_budget')}}</p>
+            
+            </div>
+            <!-- Edit budget modal -->
+            <div>
+                <b-button v-b-modal.edit_budget_modal>{{$t('edit_budget')}}</b-button>
 
-          <b-modal id="edit_budget_modal" v-bind:title="$t('edit_budget')" hide-footer>
-            <b-form id="edit_budget_form">
-              {{$t('amount')}} ({{walletCurrency}}):
-              <br >
-              <b-form-input type="number" name="amount" required />
-              <br >
-              <br >
-              {{$t('until')}}
-            <br >
-            <b-form-datepicker name="expiryDate" required/>
-            </b-form>
-            <br >
-            <br >
-            <b-button v-on:click="onEditBudgetPressed">{{$t('edit_budget')}}</b-button>
-          </b-modal>
-        </div>
+                <b-modal id="edit_budget_modal" v-bind:title="$t('edit_budget')" hide-footer>
+                    <b-form id="edit_budget_form">
+                    {{$t('amount')}} ({{walletCurrency}}):
+                    <br >
+                    <b-form-input type="number" name="amount" required />
+                    <br >
+                    <br >
+                    {{$t('until')}}
+                    <br >
+                    <b-form-datepicker name="expiryDate" required/>
+                    </b-form>
+            
+                    <b-button v-on:click="onEditBudgetPressed">{{$t('edit_budget')}}</b-button>
+                </b-modal>
+                </div>
+        </b-col>
+        
+        <b-col>
+
+      <pie-chart  :class="{chart: !isMobileView(), chart_mobile: isMobileView()}" 
+            :chartdata="budgetChartData" :options="null"></pie-chart>
+    
       <br><br>
+
+        </b-col>
+            </b-row>
+      </b-container>
      </b-card>
 </template>
 
@@ -83,6 +94,9 @@ export default {
     methods: {
     convertFromEUR(quantityEUR, currency) {
       return utils.convertFromEUR(quantityEUR, currency);
+    },
+    isMobileView() {
+      return utils.isMobileView();
     },
     
      /**

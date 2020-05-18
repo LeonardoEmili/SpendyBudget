@@ -1,8 +1,9 @@
 <template>
       <b-card class="shadow-sm p-3 mb-5 wallet_card">
-     Expense:
+     <h3> Expense: </h3>
         <br>
-        <doughnut-chart class="chart" :chartdata="expenseTransactionsChartData" :options="null"></doughnut-chart>
+        <doughnut-chart :class="{chart: !isMobileView(), chart_mobile: isMobileView()}" 
+             :chartdata="expenseTransactionsChartData" :options="null"></doughnut-chart>
         <br>
       </b-card>
 </template>
@@ -61,7 +62,10 @@ export default {
     methods: {
     convertFromEUR(quantityEUR, currency) {
       return utils.convertFromEUR(quantityEUR, currency);
-        }  
+        },
+        isMobileView() {
+      return utils.isMobileView();
+    },
     }
 }
 </script>

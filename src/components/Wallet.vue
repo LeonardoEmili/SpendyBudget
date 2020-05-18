@@ -2,11 +2,21 @@
 <div>
   <wallet-info :wallet="wallet"></wallet-info>
   <wallet-budget :wallet="wallet"></wallet-budget>
+
+
+<b-container fluid>
+  <b-row>
+    <b-col>
+  <wallet-expense :wallet="wallet"></wallet-expense>
+    </b-col>
+  <b-col>
+  <wallet-revenue :wallet="wallet"></wallet-revenue>
+  </b-col>
+
+  </b-row>
+</b-container>
         
    <wallet-transactions :wallet="wallet" :user="user"></wallet-transactions>
-
-  <wallet-expense :wallet="wallet"></wallet-expense>
-  <wallet-revenue :wallet="wallet"></wallet-revenue>
 
 
 
