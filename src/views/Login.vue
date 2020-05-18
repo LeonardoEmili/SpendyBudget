@@ -9,7 +9,8 @@
       <b-collapse id="nav-collapse" is-nav>
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto" style="margin-right: 10px;">
-          <b-nav-item-dropdown :text="$t(userLanguage)" right>
+          <b-nav-item-dropdown :text="userLanguage" right>
+            
             <b-dropdown-item
               variant="dark"
               v-for="(locale, index) in locales"
@@ -23,7 +24,7 @@
                 alt="."
                 style="margin-left: -15px; margin-right: 8px;"
               />
-              <span :class="{ 'selected' : locale.iso == currentISO}">{{$t(locale.name)}}</span>
+              <span :class="{ 'selected' : locale.iso == currentISO}">{{locale.name}}</span>
             </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
