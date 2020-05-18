@@ -72,20 +72,20 @@
           />
 
           <div
-            style="width: 643px; height: 433px; position: absolute; top: 30px; left: 79px; border-top-right-radius: 16px; border-top-left-radius: 16px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px;"
+            style="width: 631px; height: 432px; position: absolute; top: 42px; left: 85px; border-top-right-radius: 16px; border-top-left-radius: 16px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px;"
           >
             <b-carousel :interval="3000">
               <b-carousel-slide>
                 <template v-slot:img>
                   <div>
-                    <img src="../assets/prova5.png" width="648px" height="432px" />
+                    <img src="../assets/prova5.png" width="648px" height="400px" />
                   </div>
                 </template>
               </b-carousel-slide>
               <b-carousel-slide>
                 <template v-slot:img>
                   <div>
-                    <img src="../assets/prova8.png" width="648px" height="432px" />
+                    <img src="../assets/prova8.png" width="648px" height="400px" />
                   </div>
                 </template>
               </b-carousel-slide>
@@ -150,10 +150,6 @@ export default {
 }
 
 .carousel {
-  border-top-right-radius: 15px;
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
-  overflow: hidden;
+  
 }
 </style>
