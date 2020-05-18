@@ -3,7 +3,7 @@
   <wallet-info :wallet="wallet"></wallet-info>
   <wallet-budget :wallet="wallet"></wallet-budget>
         
-   <wallet-transactions :wallet="wallet"></wallet-transactions>
+   <wallet-transactions :wallet="wallet" :user="user"></wallet-transactions>
 
   <wallet-expense :wallet="wallet"></wallet-expense>
   <wallet-revenue :wallet="wallet"></wallet-revenue>
@@ -56,7 +56,12 @@ export default {
   }
 
 .chart {
-  width: 50%;
+  width: 500px;
+  display: inline-block;
+}
+
+.chart_mobile {
+  width: 300px;
   display: inline-block;
 }
 

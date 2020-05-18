@@ -56,6 +56,7 @@ export default {
         pieChart: PieChart,
     },
     computed: {
+        walletId: function () {return  this.wallet !== null ? this.wallet.id : ""},
         walletCurrency:  function () {return this.wallet !== null ? this.wallet.currency : ""},
          walletBudget:  function () {return this.wallet !== null ? this.wallet.budget : {
           budgetEUR: 0.0,
