@@ -67,5 +67,8 @@
   "not_yet_registered": "Haben Sie noch keinen Account?",
   "already_registered": "Haben Sie einen account?",
   "sign_up_here": "Registrieren Sie sich hier!",
-  "login_here": "Melden Sie sich hier an!!"
+  "login_here": "Melden Sie sich hier an!!",
+  "last_week": "Letzte Woche",
+  "last_month": "Letzten Monat",
+  "all_time": "Alle Zeit"
 }

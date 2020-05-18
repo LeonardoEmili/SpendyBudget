@@ -38,12 +38,11 @@
                 </div>
         </b-col>
         
-        <b-col>
+        <b-col v-if="walletBudget.expiryDate._seconds*1000 > Date.now()">
 
       <pie-chart  :class="{chart: !isMobileView(), chart_mobile: isMobileView()}" 
             :chartdata="budgetChartData" :options="null"></pie-chart>
     
-      <br><br>
 
         </b-col>
             </b-row>

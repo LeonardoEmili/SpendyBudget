@@ -1,6 +1,6 @@
 <template>
       <b-card class="shadow-sm p-3 mb-5 wallet_card">
-     <h3> Expense: </h3>
+     <h3>{{$t("expense")}}</h3>
         <br>
         <doughnut-chart :class="{chart: !isMobileView(), chart_mobile: isMobileView()}" 
              :chartdata="expenseTransactionsChartData" :options="null"></doughnut-chart>

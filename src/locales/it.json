@@ -67,5 +67,8 @@
   "not_yet_registered": "Non hai ancora un account?",
   "already_registered": "Hai un account?",
   "sign_up_here": "Registrati qui!",
-  "login_here": "Entra qui!"
+  "login_here": "Entra qui!",
+  "last_week": "Ultima settimana",
+  "last_month": "Ultimo mese",
+  "all_time": "Dall'inizio"
 }
