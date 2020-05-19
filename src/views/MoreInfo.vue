@@ -68,7 +68,7 @@
         </div>
       </div>
 
-      <b-form v-on:submit.prevent="onSubmit" style="margin-top:40px;" v-show="!finished">
+      <b-form v-on:submit.prevent="onSubmit" id="user-form" v-show="!finished">
         <ValidationProvider rules="required" v-slot="{ errors, valid }">
           <b-form-group :label="$t('first_name')" label-size="sm">
             <b-form-input
@@ -86,7 +86,7 @@
         </ValidationProvider>
 
         <ValidationProvider rules="required" v-slot="{ errors, valid }">
-          <b-form-group :label="$t('last_name')" style="margin-top:12px" label-size="sm">
+          <b-form-group :label="$t('last_name')" id="form-last-name" label-size="sm">
             <b-form-input
               size="sm"
               type="text"
@@ -258,6 +258,10 @@ export default {
   text-align: center;
 }
 
+#form-last-name {
+  margin-top: 12px;
+}
+
 #spinner {
   position: absolute;
   top: 50%;
@@ -282,6 +286,10 @@ export default {
   position: absolute;
   left: 110px;
   text-align: center;
+}
+
+#user-form {
+  margin-top: 40px;
 }
 
 #photo-avatar {
