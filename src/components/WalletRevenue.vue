@@ -47,13 +47,22 @@ export default {
           }
           return categories
         },      
-        revenueTransactionsChartData: function() {return {
-          labels: this.walletRevenueTransactionsCategories.map(category => category.name),
+        revenueTransactionsChartData: function() {
+            let labels = this.walletRevenueTransactionsCategories.map(category => category.name)
+            let backgroundColor = this.walletRevenueTransactionsCategories.map(category => category.color)
+            let data = this.walletRevenueTransactionsCategories.map(category => utils.convertFromEUR(category.amountEUR, this.walletCurrency))
+            if (labels.length == 0) {
+                labels = [this.$t("none")]
+                backgroundColor = ["#CCCCCC"]
+                data = [1]
+            }
+            return {
+          labels: labels,
           datasets: [
             {
               label: 'Revenue transactions data',
-              backgroundColor: this.walletRevenueTransactionsCategories.map(category => category.color),
-              data: this.walletRevenueTransactionsCategories.map(category => utils.convertFromEUR(category.amountEUR, this.walletCurrency))
+              backgroundColor: backgroundColor,
+              data: data
             }
           ]
         }

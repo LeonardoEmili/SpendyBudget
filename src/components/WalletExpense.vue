@@ -47,16 +47,27 @@ export default {
           }
           return categories
         },
-        expenseTransactionsChartData: function() {return {
-          labels: this.walletExpenseTransactionsCategories.map(category => category.name),
+        expenseTransactionsChartData: function() {
+            let labels = this.walletExpenseTransactionsCategories.map(category => category.name)
+            let backgroundColor = this.walletExpenseTransactionsCategories.map(category => category.color)
+            let data = this.walletExpenseTransactionsCategories.map(category => -utils.convertFromEUR(category.amountEUR, this.walletCurrency))
+            if (labels.length == 0) {
+                labels = [this.$t("none")]
+                backgroundColor = ["#CCCCCC"]
+                data = [1]
+            }
+            return {
+          labels: labels,
           datasets: [
             {
-              label: 'Expense transactions data',
-              backgroundColor: this.walletExpenseTransactionsCategories.map(category => category.color),
-              data: this.walletExpenseTransactionsCategories.map(category => -utils.convertFromEUR(category.amountEUR, this.walletCurrency))
+              label: 'Revenue transactions data',
+              backgroundColor: backgroundColor,
+              data: data
             }
           ]
         }
+        
+
         },
     },
     methods: {

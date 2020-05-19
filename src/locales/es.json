@@ -59,9 +59,9 @@
   "expense_categories": "Categorías de gastos",
   "edit_category": "Editar categoría",
   "login": "Login",
-  "login_btn_text" : "Inicia sesión en SpendyBudget",
+  "login_btn_text": "Inicia sesión en SpendyBudget",
   "sign_up": "Regístrate",
-  "signup_btn_text" : "Inicia sesión en SpendyBudget",
+  "signup_btn_text": "Inicia sesión en SpendyBudget",
   "on_spendybudget": "a SpendyBudget",
   "to_spendybudget": "para SpendyBudget",
   "not_yet_registered": "¿Aún no tienes una cuenta?",
@@ -102,5 +102,6 @@
   "years_old": "años",
   "student_at_sapienza": "Estudiante @Sapienza, University of Rome",
   "our": "Nuestro",
-  "the_project": "El proyecto"
+  "the_project": "El proyecto",
+  "none": "Ninguna"
 }
