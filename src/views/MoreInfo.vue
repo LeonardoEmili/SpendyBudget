@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-navbar>
-      <b-navbar-brand to="/">
+      <b-navbar-brand to="/more">
         <img src="../assets/logo.png" height="60px" width="60px" alt="." />
         SpendyBudget
       </b-navbar-brand>
