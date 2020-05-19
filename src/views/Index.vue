@@ -79,7 +79,8 @@
     </div>
     <div style="margin-top: 100px; max-width: 1200px; margin-left: auto; margin-right: auto;">
       <div
-        style="position: relative; width: 380px; display: inline-block; margin-left: 10px; margin-right: 10px;"
+        class="fade-cards"
+        style="position: relative; width: 380px; display: inline-block; margin-left: 10px; margin-right: 10px; opacity: 0;"
       >
         <b-card
           class="shadow-sm mb-7 prova"
@@ -98,7 +99,8 @@
       </div>
 
       <div
-        style="position: relative; width: 380px; display: inline-block; margin-left: 10px; margin-right: 10px;"
+        class="fade-cards"
+        style="position: relative; width: 380px; display: inline-block; margin-left: 10px; margin-right: 10px; opacity: 0;"
       >
         <b-card
           class="shadow-sm mb-7 prova"
@@ -119,7 +121,8 @@
       </div>
 
       <div
-        style="position: relative; width: 380px; display: inline-block; margin-left: 10px; margin-right: 10px;"
+        class="fade-cards"
+        style="position: relative; width: 380px; display: inline-block; margin-left: 10px; margin-right: 10px; opacity: 0;"
       >
         <b-card
           class="shadow-sm mb-7 prova"
@@ -188,8 +191,13 @@ export default {
   methods: {
     handleScroll() {
       // Any code to be executed when the window is scrolled
-      if (window.scrollY > 400) {
-        //let cards = document.getElementsByClassName("prova");
+      if (window.scrollY > 450) {
+        console.log(window.scrollY);
+        let cards = document.getElementsByClassName("fade-cards");
+        cards[0].className = "animated animatedFadeInUp fadeInUp";
+        cards[1].className = "animated animatedFadeInUp fadeInUp";
+        cards[2].className = "animated animatedFadeInUp fadeInUp";
+        window.removeEventListener("scroll", this);
       }
     },
     updateLocale: function(index) {
@@ -289,5 +297,44 @@ export default {
     from(rgba(0, 0, 0, 1)),
     to(rgba(0, 0, 0, 0.1))
   );
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translate3d(0, 40px, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeInUp {
+  from {
+    transform: translate3d(0, 40px, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+.animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+}
+
+.animatedFadeInUp {
+  opacity: 0;
+}
+
+.fadeInUp {
+  opacity: 0;
+  animation-name: fadeInUp;
+  -webkit-animation-name: fadeInUp;
 }
 </style>
