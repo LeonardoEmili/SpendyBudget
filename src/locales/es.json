@@ -98,5 +98,9 @@
   "last_name": "Apellido;",
   "next": "Siguiente",
   "go_to_dashboard": "Ir al tablero",
-  "skip": "Saltar"
+  "skip": "Saltar",
+  "years_old": "años",
+  "student_at_sapienza": "Estudiante @Sapienza, University of Rome",
+  "our": "Nuestro",
+  "the_project": "El proyecto"
 }

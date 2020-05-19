@@ -83,19 +83,6 @@
         </div>
       </div>
     </div>
-    <div id="bottom-description">
-      <p>
-        <span>{{$t('you_wish_to_keep_track_etc')}}</span>
-        <br />
-        <span>{{$t('then_you_have_come_to_the_right_place')}}</span>
-      </p>
-
-      <p>
-        <span>{{$t('spendybduget_is_a_simple_spending_tracker_etc')}}</span>
-        <br />
-        <span>{{$t('the_project_was_carried_etc')}}</span>
-      </p>
-    </div>
   </div>
 </template>
 
@@ -148,6 +135,24 @@ export default {
           color: "#5c6bc0",
           title: "third_card_title",
           description: "third_card_description"
+        },
+        {
+          icon: "benefit",
+          color: "#9c27b0",
+          title: "second_card_title",
+          description: "first_card_description"
+        },
+        {
+          icon: "chat",
+          color: "#ff9800",
+          title: "first_card_title",
+          description: "second_card_description"
+        },
+        {
+          icon: "shield",
+          color: "#afb42b",
+          title: "third_card_title",
+          description: "third_card_description"
         }
       ],
       userLocaleIndex: 0,
@@ -172,9 +177,9 @@ export default {
   methods: {
     fadeCards() {
       let cards = document.getElementsByClassName("fade-cards");
-      cards[0].className += " animated animatedFadeInUp fadeInUp";
-      cards[1].className += " animated animatedFadeInUp fadeInUp";
-      cards[2].className += " animated animatedFadeInUp fadeInUp";
+      cards.forEach(
+        card => (card.className += " animated animatedFadeInUp fadeInUp")
+      );
     },
     handleScroll() {
       // Any code to be executed when the window is scrolled
@@ -275,10 +280,8 @@ export default {
 }
 
 #cards-container {
-  margin-top: 100px;
+  margin: 100px auto 40px auto;
   max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .sel-flags {

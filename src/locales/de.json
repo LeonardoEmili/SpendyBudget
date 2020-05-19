@@ -98,5 +98,9 @@
   "last_name": "Nachname:",
   "next": "Next",
   "go_to_dashboard": "Gehe zum Dashboard",
-  "skip": "Überspringen"
+  "skip": "Überspringen",
+  "years_old": "Jahre alt",
+  "student_at_sapienza": "Student @Sapienza, University of Rome",
+  "our": "Unser",
+  "the_project": "Das Projekt"
 }
