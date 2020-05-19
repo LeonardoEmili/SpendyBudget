@@ -88,5 +88,15 @@
   "password_confirmation_does_not_match": "Password confirmation does not match",
   "do_you_come_from_the_future": "Do you come from the future?",
   "wrong_email_address_or_password": "Wrong email address or password",
-  "email_address_already_in_use": "Email address already in use"
+  "email_address_already_in_use": "Email address already in use",
+  "your_name": "Your name",
+  "your_surname": "Your surname",
+  "more_about": "More about",
+  "you": "you",
+  "click_here_to_upload_a_photo": "Click here to upload a photo",
+  "first_name": "First name:",
+  "last_name": "Last name:",
+  "next": "Next",
+  "go_to_dashboard": "Go to dashboard",
+  "skip": "Skip"
 }
