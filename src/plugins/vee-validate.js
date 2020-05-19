@@ -11,12 +11,12 @@ Vue.component("ValidationProvider", ValidationProvider);
 
 extend('required', {
     ...required,
-    message: 'This field is required'
+    message: 'this_field_is_required'
 });
 
 extend('email', {
     ...email,
-    message: 'The email address must be a valid email'
+    message: 'the_email_address_must_be_a_valid_email'
 });
 
 extend("password", {
@@ -24,7 +24,7 @@ extend("password", {
     validate(value, { target }) {
         return value === target;
     },
-    message: "Password confirmation does not match"
+    message: 'password_confirmation_does_not_match'
 });
 
 extend("birthdate", {
@@ -32,5 +32,5 @@ extend("birthdate", {
     validate(value) {
         return new Date() >= new Date(value);
     },
-    message: "Do you come from the future?"
+    message: 'do_you_come_from_the_future'
 });
