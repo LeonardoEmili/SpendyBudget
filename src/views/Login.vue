@@ -10,7 +10,6 @@
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto" style="margin-right: 10px;">
           <b-nav-item-dropdown :text="userLanguage" right>
-            
             <b-dropdown-item
               variant="dark"
               v-for="(locale, index) in locales"
@@ -46,13 +45,6 @@
         {{$t('not_yet_registered')}}
         <b-link to="/signup">{{$t('sign_up_here')}}</b-link>
       </p>
-
-      <b-spinner
-        variant="primary"
-        label="Spinning"
-        v-show="isLoading"
-        style="position: absolute; top:50%; left:50%;"
-      ></b-spinner>
 
       <b-form
         @submit="onSubmit"
@@ -111,6 +103,7 @@ import * as functions from "../plugins/firebase";
 import sha512 from "js-sha512";
 import router from "../router";
 import * as utils from "../utils";
+import { app } from "../main";
 
 export default {
   name: "Login",
@@ -125,12 +118,14 @@ export default {
     return {
       email: "",
       password: "",
-      isLoading: false,
       firebaseError: "",
       userLocaleIndex: 0
     };
   },
   computed: {
+    showProgress() {
+      return app.showProgress;
+    },
     locales: function() {
       return utils.locales;
     },
@@ -165,12 +160,12 @@ export default {
     onSubmit(evt) {
       evt.preventDefault();
 
-      if (this.isLoading) {
+      if (this.showProgress) {
         // Prevent sending a new request while the previous is still being processed
         return;
       }
 
-      this.isLoading = true;
+      app.showProgress = true;
       const user = {
         email: this.email,
         password: sha512(this.password)
@@ -180,7 +175,7 @@ export default {
       let vm = this;
 
       functions.loginWithEmailAndPassword(user, function(xmlHttp) {
-        vm.isLoading = false;
+        app.showProgress = false;
 
         let response = JSON.parse(xmlHttp.responseText);
         if (response.error !== undefined) {

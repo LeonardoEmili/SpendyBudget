@@ -18,7 +18,9 @@
               class="rounded-circle"
             />
 
-            <span v-show="!userProfPic" class="picture-navbar">{{nameInitials}}</span>
+            <span v-show="!userProfPic" class="picture-navbar">
+              <span :class="{ 'invisible' : emptyInitials}">{{nameInitials}}</span>
+            </span>
             <span id="user-profile-visiblename">{{userName}}</span>
           </template>
           <b-dropdown-item class="my-dropdown" to="/settings" variant="dark">{{$t('settings')}}</b-dropdown-item>
@@ -94,9 +96,12 @@ export default {
     selectedItem() {
       return this.items[this.selectedIndex];
     },
+    emptyInitials: function() {
+      return !this.user.name || !this.user.surname;
+    },
     nameInitials: function() {
-      if (!this.user.name || !this.user.surname) {
-        return "";
+      if (this.emptyInitials) {
+        return "AB";
       }
       return (
         this.user.name[0].toUpperCase() + this.user.surname[0].toUpperCase()
