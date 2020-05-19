@@ -3,7 +3,7 @@
         <!-- Wallet budget -->
         <b-container>
             <b-row>
-        <b-col>
+        <b-col >
             <h3>{{$t('budget')}}</h3>
             <div v-if="walletBudget.expiryDate._seconds*1000 > Date.now()">
             <!-- Budget valid -->
@@ -36,6 +36,7 @@
                     <b-button :variant="budgetFormBtnVariant"  v-on:click="onEditBudgetPressed">{{$t('edit_budget')}}</b-button>
                 </b-modal>
                 </div>
+
         </b-col>
         
         <b-col v-if="walletBudget.expiryDate._seconds*1000 > Date.now()">

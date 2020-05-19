@@ -1,61 +1,71 @@
 <template>
       <b-card class="shadow-sm p-3 mb-5 wallet_card">
-        <h3>{{$t('transactions')}}</h3>
-     <!-- " New transaction" modal view -->
-        <div>
-          <b-button variant="primary" v-b-modal.new_transaction_modal>{{$t('new_transaction')}}</b-button>
+    
+    <b-container fluid>
+        <b-row>
+            <b-col>
+                <h3>{{$t('transactions')}}</h3>
+            </b-col>
+            <b-col>
+            <!-- " New transaction" modal view -->
+                <div>
+                <b-button variant="primary" v-b-modal.new_transaction_modal>{{$t('new_transaction')}}</b-button>
 
-          <b-modal centered id="new_transaction_modal" v-bind:title="$t('new_transaction')" hide-footer>
-            <b-form id="new_transaction_form">
-              {{$t("type")}}:
-              <br ><br>
-              <b-form-radio  value="expense" name="type" v-model="transactionFormSelectedType" selected>
-              {{$t("expense")}}
-            </b-form-radio>
-              <b-form-radio type="radio"  value="revenue" name="type" v-model="transactionFormSelectedType">
-                {{$t("revenue")}}
-            </b-form-radio>
-              <br><br>
-              {{$t('amount')}} ({{walletCurrency}}):
-              <br >
-              <div v-if="transactionFormSelectedType === 'expense'">-</div>
-              <b-form-input type="number" name="amount" 
-                    min="0"  v-model="transactionFormAmount" />
-              <br >
-              <br >
-             {{$t('description')}}:
-            <br >
-            <b-form-input type="text" name="description" />
-            <br>
-            Category:
-            <b-form-select name="category" v-model="transactionFormSelectedCategory">
-                <option v-bind:value="$t('other')" selected>{{$t('other')}}</option>
-                <option v-for="(category, i) in userFormSelectedCategories" :key="i" 
-                  v-bind:value="category.name">{{category.name}}</option>
-              </b-form-select>
-            </b-form>
-            <br >
-            <br >
-            <b-button :variant="transactionFormBtnVariant" v-on:click="onNewTransactionPressed">{{$t('create')}}</b-button>
-          </b-modal>
-        </div>
+                <b-modal centered id="new_transaction_modal" v-bind:title="$t('new_transaction')" hide-footer>
+                    <b-form id="new_transaction_form">
+                    {{$t("type")}}:
+                    <br ><br>
+                    <b-form-radio  value="expense" name="type" v-model="transactionFormSelectedType" selected>
+                    {{$t("expense")}}
+                    </b-form-radio>
+                    <b-form-radio type="radio"  value="revenue" name="type" v-model="transactionFormSelectedType">
+                        {{$t("revenue")}}
+                    </b-form-radio>
+                    <br><br>
+                    {{$t('amount')}} ({{walletCurrency}}):
+                    <br >
+                    <div v-if="transactionFormSelectedType === 'expense'">-</div>
+                    <b-form-input type="number" name="amount" 
+                            min="0"  v-model="transactionFormAmount" />
+                    <br >
+                    <br >
+                    {{$t('description')}}:
+                    <br >
+                    <b-form-input type="text" name="description" />
+                    <br>
+                    Category:
+                    <b-form-select name="category" v-model="transactionFormSelectedCategory">
+                        <option v-bind:value="$t('other')" selected>{{$t('other')}}</option>
+                        <option v-for="(category, i) in userFormSelectedCategories" :key="i" 
+                        v-bind:value="category.name">{{category.name}}</option>
+                    </b-form-select>
+                    </b-form>
+                    <br >
+                    <br >
+                    <b-button :variant="transactionFormBtnVariant" v-on:click="onNewTransactionPressed">{{$t('create')}}</b-button>
+                </b-modal>
+                </div>
+            </b-col>
+
+        </b-row>
         <div v-for="i in walletTransactions.length" :key="i">
-        {{convertFromEUR(walletTransactions[walletTransactions.length-i].amountEUR, walletCurrency)}}
-        {{walletCurrency}}
-        <br>
-        <svgicon
-                :icon="walletTransactions[walletTransactions.length-i].category.icon"
-                color= "#fff"
-                :style="'background-color:' + walletTransactions[walletTransactions.length-i].category.color"
-                class="small_icon"
-              />
-              {{walletTransactions[walletTransactions.length-i].category.name}}
-        <br>
-        {{walletTransactions[walletTransactions.length-i].description}}
-        <br>
-        {{new Date(walletTransactions[walletTransactions.length-i].instant._seconds*1000).toLocaleDateString()}}
-        <br><br>
-        </div>
+            {{convertFromEUR(walletTransactions[walletTransactions.length-i].amountEUR, walletCurrency)}}
+            {{walletCurrency}}
+            <br>
+            <svgicon
+                    :icon="walletTransactions[walletTransactions.length-i].category.icon"
+                    color= "#fff"
+                    :style="'background-color:' + walletTransactions[walletTransactions.length-i].category.color"
+                    class="small_icon"
+                />
+                {{walletTransactions[walletTransactions.length-i].category.name}}
+            <br>
+            {{walletTransactions[walletTransactions.length-i].description}}
+            <br>
+            {{new Date(walletTransactions[walletTransactions.length-i].instant._seconds*1000).toLocaleDateString()}}
+            <br><br>
+            </div>
+    </b-container>
       </b-card>
 </template>
 
