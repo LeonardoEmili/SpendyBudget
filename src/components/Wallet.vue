@@ -1,5 +1,6 @@
 <template>
 <div>
+
   <wallet-info :wallet="wallet"></wallet-info>
   <wallet-budget :wallet="wallet"></wallet-budget>
 

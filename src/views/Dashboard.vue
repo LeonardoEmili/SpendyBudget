@@ -44,7 +44,7 @@
             <div class="new_wallet_button">
               <b-button variant="primary" v-b-modal.new_wallet_modal>{{$t('new_wallet')}}</b-button>
 
-              <b-modal id="new_wallet_modal" title="New wallet" hide-footer>
+              <b-modal center id="new_wallet_modal" title="New wallet" hide-footer>
                 <b-form id="new_wallet_form">
                   {{$t('wallet_name')}}
                   <br />
@@ -85,6 +85,8 @@
           </b-col>
         </b-row>
       </b-container>
+
+      <hr>
 
       <!-- Expanded wallet card -->
       <b-container fluid>
