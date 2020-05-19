@@ -81,5 +81,12 @@
   "you_wish_to_keep_track_etc": "¿Desea realizar un seguimiento de todos sus ingresos y gastos en una sola página?",
   "then_you_have_come_to_the_right_place": "¡Entonces has venido al lugar correcto!",
   "spendybduget_is_a_simple_spending_tracker_etc": "SpendyBudget es un simple rastreador de gastos que tiene como objetivo monitorear todas sus transacciones para permitirle beneficiarse de una visión clara de sus gastos",
-  "the_project_was_carried_etc": "El proyecto se llevó a cabo a través del curso de Linguaggi e Tecnologie per il Web, celebrado en Sapienza, Universidad de Roma. Este sitio web está destinado a ser accesible para todos y todo el proyecto ahora es open source."
+  "the_project_was_carried_etc": "El proyecto se llevó a cabo a través del curso de Linguaggi e Tecnologie per il Web, celebrado en Sapienza, Universidad de Roma. Este sitio web está destinado a ser accesible para todos y todo el proyecto ahora es open source.",
+  "update_settings": "Actualizar configuración",
+  "this_field_is_required": "Este campo es obligatorio",
+  "the_email_address_must_be_a_valid_email": "La dirección de correo electrónico debe ser válida",
+  "password_confirmation_does_not_match": "La confirmación de contraseña no coincide",
+  "do_you_come_from_the_future": "¿Vienes del futuro?",
+  "wrong_email_address_or_password": "Dirección de correo electrónico o contraseña incorrecta",
+  "email_address_already_in_use": "Dirección de correo electrónico ya en uso"
 }

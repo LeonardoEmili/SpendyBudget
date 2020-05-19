@@ -59,11 +59,11 @@
               v-on:focus="keyboardOpen"
               v-on:blur="keyboardClosed"
               type="email"
-              :state="errors[0] || error ? false : (valid ? true : null)"
+              :state="firebaseError || errors[0]  ? false : (valid ? true : null)"
               placeholder="example@gmail.com"
               required
             ></b-form-input>
-            <b-form-invalid-feedback>{{ error || errors[0] }}</b-form-invalid-feedback>
+            <b-form-invalid-feedback>{{ $t(firebaseError) || $t(errors[0]) }}</b-form-invalid-feedback>
           </b-form-group>
         </ValidationProvider>
 
@@ -81,7 +81,7 @@
                 placeholder="qwerty123@"
                 required
               ></b-form-input>
-              <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
+              <b-form-invalid-feedback>{{ $t(errors[0]) }}</b-form-invalid-feedback>
             </b-form-group>
           </ValidationProvider>
 
@@ -155,10 +155,6 @@ export default {
     },
     userLanguage: function() {
       return utils.languageFromISO(this.currentISO);
-    },
-    error: function() {
-      // TODO: translate(firebaseError) into many languages
-      return this.firebaseError;
     }
   },
   methods: {

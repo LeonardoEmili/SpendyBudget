@@ -77,11 +77,11 @@
               v-on:focus="keyboardOpen"
               v-on:blur="keyboardClosed"
               type="text"
-              :state="errors[0] || error ? false : (valid ? true : null)"
+              :state="error || errors[0] ? false : (valid ? true : null)"
               placeholder="Your name"
               required
             ></b-form-input>
-            <b-form-invalid-feedback>{{ error || errors[0] }}</b-form-invalid-feedback>
+            <b-form-invalid-feedback>{{ error || $t(errors[0]) }}</b-form-invalid-feedback>
           </b-form-group>
         </ValidationProvider>
 
@@ -98,7 +98,7 @@
               required
             ></b-form-input>
 
-            <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
+            <b-form-invalid-feedback>{{ $t(errors[0]) }}</b-form-invalid-feedback>
           </b-form-group>
         </ValidationProvider>
 

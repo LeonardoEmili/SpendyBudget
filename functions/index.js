@@ -30,7 +30,7 @@ exports.loginWithEmailAndPassword = functions.https.onRequest(async (req, res) =
         res.setHeader('Authentication', authToken);
         res.send(user.data());
     } else {
-        res.send('{"error": "Wrong email address or password"}');
+        res.send('{"error": "wrong_email_address_or_password"}');
     }
 });
 
@@ -66,7 +66,7 @@ exports.signUpWithEmailAndPassword = functions.https.onRequest(async (req, res) 
         res.setHeader('Authentication', authToken);
         res.send('{}');
     } else {
-        res.send('{"error": "Email address already in use"}');
+        res.send('{"error": "email_address_already_in_use"}');
     }
 });
 

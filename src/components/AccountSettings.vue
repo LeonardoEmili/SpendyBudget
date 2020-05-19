@@ -55,7 +55,7 @@
                   placeholder="Your name"
                   :state="errors[0]? false : null"
                 ></b-form-input>
-                <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
+                <b-form-invalid-feedback>{{ $t(errors[0]) }}</b-form-invalid-feedback>
               </b-form-group>
             </ValidationProvider>
           </b-col>
@@ -70,7 +70,7 @@
                   placeholder="Your surname"
                   :state="errors[0]? false : null"
                 ></b-form-input>
-                <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
+                <b-form-invalid-feedback>{{ $t(errors[0]) }}</b-form-invalid-feedback>
               </b-form-group>
             </ValidationProvider>
           </b-col>
@@ -100,7 +100,7 @@
                   placeholder="Choose a date"
                   :state="errors[0]? false : null"
                 ></b-form-datepicker>
-                <b-form-invalid-feedback>{{ errors[0] }}</b-form-invalid-feedback>
+                <b-form-invalid-feedback>{{ $t(errors[0]) }}</b-form-invalid-feedback>
               </b-form-group>
             </ValidationProvider>
           </b-col>
@@ -158,7 +158,7 @@
               size="sm"
               type="submit"
               :variant="btnVariant"
-            >Update settings</b-button>
+            >{{$t('update_settings')}}</b-button>
           </b-col>
           <b-col></b-col>
         </b-row>

@@ -81,5 +81,12 @@
   "you_wish_to_keep_track_etc": "You wish to keep track of all your revenues and expenses on a single page?",
   "then_you_have_come_to_the_right_place": "Then you’ve come to the right place!",
   "spendybduget_is_a_simple_spending_tracker_etc": "SpendyBudget is a simple spending tracker that aims at monitoring all of your transactions to allow you to benefit from a clear view of your expenses.",
-  "the_project_was_carried_etc": "The project was carried on through the course of Linguaggi e Tecnologie per il Web, held at Sapienza, University of Rome. This website is intended to be accessible to everybody and the entire project is now open source."
+  "the_project_was_carried_etc": "The project was carried on through the course of Linguaggi e Tecnologie per il Web, held at Sapienza, University of Rome. This website is intended to be accessible to everybody and the entire project is now open source.",
+  "update_settings": "Update settings",
+  "this_field_is_required": "This field is required",
+  "the_email_address_must_be_a_valid_email": "The email address must be a valid email",
+  "password_confirmation_does_not_match": "Password confirmation does not match",
+  "do_you_come_from_the_future": "Do you come from the future?",
+  "wrong_email_address_or_password": "Wrong email address or password",
+  "email_address_already_in_use": "Email address already in use"
 }
