@@ -48,7 +48,7 @@
                 <b-form id="new_wallet_form">
                   {{$t('wallet_name')}}
                   <br />
-                  <b-form-input type="text" name="name" maxlength="30" required />
+                  <b-form-input type="text" name="name" maxlength="30" v-model="walletFormName" required />
                   <br />
                   <br />
                   {{$t('wallet_currency')}}
@@ -62,7 +62,7 @@
 
                 <br />
                 <br />
-                <b-button v-on:click="onNewWalletPressed">{{$t('create')}}</b-button>
+                <b-button :variant="walletFormBtnVariant"  v-on:click="onNewWalletPressed">{{$t('create')}}</b-button>
               </b-modal>
             </div>
           </b-col>
@@ -116,7 +116,8 @@ export default {
       wallets: [],
       selectedWalletId: "",
       walletCardVisible: false,
-      user: {}
+      user: {},
+      walletFormName: ""
     };
   },
   components: {
@@ -142,7 +143,12 @@ export default {
       return (
         this.user.name[0].toUpperCase() + this.user.surname[0].toUpperCase()
       );
-    }
+    },
+    walletFormBtnVariant() {
+          return this.walletFormName !== ""
+                ? "primary"
+                : ""
+      }
   },
   methods: {
     isMobileView() {

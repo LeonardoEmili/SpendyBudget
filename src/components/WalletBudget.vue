@@ -25,15 +25,15 @@
                     <b-form id="edit_budget_form">
                     {{$t('amount')}} ({{walletCurrency}}):
                     <br >
-                    <b-form-input type="number" name="amount" required />
+                    <b-form-input type="number" name="amount" min="0" v-model="budgetFormAmount" required />
                     <br >
                     {{$t('until')}}
                     <br >
-                    <b-form-datepicker name="expiryDate" required/>
+                    <b-form-datepicker name="expiryDate" v-model="budgetFormExpiryDate" required/>
                     <br >
                     </b-form>
             
-                    <b-button v-on:click="onEditBudgetPressed">{{$t('edit_budget')}}</b-button>
+                    <b-button :variant="budgetFormBtnVariant"  v-on:click="onEditBudgetPressed">{{$t('edit_budget')}}</b-button>
                 </b-modal>
                 </div>
         </b-col>
@@ -59,6 +59,13 @@ import PieChart from './PieChart.vue'
 
 export default {
     name: "WalletBudget",
+    data: function() {
+        return {
+            budgetFormAmount: "",
+            budgetFormExpiryDate: ""
+
+        }
+    },
     props: [
         "wallet"
     ],
@@ -88,7 +95,13 @@ export default {
             }
           ]
         }
-        }
+        },
+        budgetFormBtnVariant() {
+          return this.budgetFormAmount !== ""
+                && this.budgetFormExpiryDate !== ""
+                ? "primary"
+                : ""
+      }
     },
     methods: {
     convertFromEUR(quantityEUR, currency) {

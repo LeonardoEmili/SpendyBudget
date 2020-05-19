@@ -7,19 +7,20 @@
 
           <b-modal centered id="new_transaction_modal" v-bind:title="$t('new_transaction')" hide-footer>
             <b-form id="new_transaction_form">
-              Type:
+              {{$t("type")}}:
               <br ><br>
               <b-form-radio  value="expense" name="type" v-model="transactionFormSelectedType" selected>
-              Expense
+              {{$t("expense")}}
             </b-form-radio>
               <b-form-radio type="radio"  value="revenue" name="type" v-model="transactionFormSelectedType">
-              Revenue
+                {{$t("revenue")}}
             </b-form-radio>
               <br><br>
               {{$t('amount')}} ({{walletCurrency}}):
               <br >
               <div v-if="transactionFormSelectedType === 'expense'">-</div>
-              <b-form-input type="number" name="amount" required />
+              <b-form-input type="number" name="amount" 
+                    min="0"  v-model="transactionFormAmount" />
               <br >
               <br >
              {{$t('description')}}:
@@ -35,7 +36,7 @@
             </b-form>
             <br >
             <br >
-            <b-button v-on:click="onNewTransactionPressed">{{$t('create')}}</b-button>
+            <b-button :variant="transactionFormBtnVariant" v-on:click="onNewTransactionPressed">{{$t('create')}}</b-button>
           </b-modal>
         </div>
         <div v-for="i in walletTransactions.length" :key="i">
@@ -69,7 +70,8 @@ export default {
      data: function() {
     return {
       transactionFormSelectedCategory: this.$t("other"),
-      transactionFormSelectedType: "expense"
+      transactionFormSelectedType: "expense",
+      transactionFormAmount: ""
     }
     },
     props: [
@@ -91,6 +93,12 @@ export default {
         return this.transactionFormSelectedType === 'expense'
           ? this.userExpenseCategories
           : this.userRevenueCategories
+      },
+
+      transactionFormBtnVariant() {
+          return this.transactionFormAmount !== ""
+                ? "primary"
+                : ""
       }
     
     },
