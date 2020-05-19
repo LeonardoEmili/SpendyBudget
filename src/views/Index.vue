@@ -52,7 +52,8 @@
       <b-button
         pill
         variant="success"
-        style="font-size: 20px; padding-left: 32px; padding-right: 32px; margin-top: 40px; margin-bottom: 40px"
+        id="cta-get-started"
+        to="/signup"
       >Get Started</b-button>
 
       <div id="macbook-wrapper">
@@ -77,65 +78,37 @@
         </div>
       </div>
     </div>
-    <div style="margin-top: 100px; max-width: 1200px; margin-left: auto; margin-right: auto;">
-      <div
-        class="fade-cards"
-        style="position: relative; width: 380px; display: inline-block; margin-left: 10px; margin-right: 10px; opacity: 0;"
-      >
-        <b-card
-          class="shadow-sm mb-7 prova"
-          style="margin-right: 40px; border-radius: 8px; height: 320px;"
-        ></b-card>
+    <div id="cards-container">
+      <div class="fade-cards">
+        <b-card class="shadow-sm mb-7 opacity-gradient-bg custom-cards"></b-card>
 
-        <div
-          style="position: absolute; top: 0; left: 40px; right: 50px; padding-right: 30px; padding-top: 30px;"
-        >
+        <div class="custom-cards-content">
           <svgicon icon="benefit" width="70" height="70" color="#d32f2f" />
-          <p style="color: #444; font-size: 20px; font-weight: bold; margin-top: 40px;">Easy monitor</p>
+          <p class="custom-cards-title">Easy monitor</p>
           <p
-            style="line-height:1.8; font-size: 17px;"
+            class="custom-cards-description"
           >Control over all of your expenses to help you save money.</p>
         </div>
       </div>
 
-      <div
-        class="fade-cards"
-        style="position: relative; width: 380px; display: inline-block; margin-left: 10px; margin-right: 10px; opacity: 0;"
-      >
-        <b-card
-          class="shadow-sm mb-7 prova"
-          style="margin-right: 40px; border-radius: 8px; height: 320px;"
-        ></b-card>
+      <div class="fade-cards">
+        <b-card class="shadow-sm mb-7 opacity-gradient-bg custom-cards"></b-card>
 
-        <div
-          style="position: absolute; top: 0; left: 40px; right: 50px; padding-right: 30px; padding-top: 30px;"
-        >
+        <div class="custom-cards-content">
           <svgicon icon="chat" width="70" height="70" color="#388e3c" />
-          <p
-            style="color: #444; font-size: 20px; font-weight: bold; margin-top: 40px;"
-          >Beautiful charts</p>
-          <p
-            style="line-height:1.8; font-size: 17px;"
-          >Check your balance through by our interactive charts.</p>
+          <p class="custom-cards-title">Beautiful charts</p>
+          <p class="custom-cards-description">Check your balance through by our interactive charts.</p>
         </div>
       </div>
 
-      <div
-        class="fade-cards"
-        style="position: relative; width: 380px; display: inline-block; margin-left: 10px; margin-right: 10px; opacity: 0;"
-      >
-        <b-card
-          class="shadow-sm mb-7 prova"
-          style="margin-right: 40px; border-radius: 8px; height: 320px;"
-        ></b-card>
+      <div class="fade-cards">
+        <b-card class="shadow-sm mb-7 opacity-gradient-bg custom-cards"></b-card>
 
-        <div
-          style="position: absolute; top: 0; left: 40px; right: 50px; padding-right: 30px; padding-top: 30px;"
-        >
+        <div class="custom-cards-content">
           <svgicon icon="shield" width="70" height="70" color="#5c6bc0" />
-          <p style="color: #444; font-size: 20px; font-weight: bold; margin-top: 40px;">Safe place</p>
+          <p class="custom-cards-title">Safe place</p>
           <p
-            style="line-height:1.8; font-size: 17px;"
+            class="custom-cards-description"
           >Our systems provide secure ways to store and manipulate data.</p>
         </div>
       </div>
@@ -158,20 +131,32 @@ export default {
   name: "Index",
   created() {
     window.addEventListener("scroll", this.handleScroll);
+    this.onScrollAttached = true;
     // Initialize the locale to be used
     // TODO: check if this conditions still holds (probably not)
     this.userLocaleIndex = utils.locales.findIndex(
       locale => locale.iso === utils.getCurrentLocale()
     );
   },
+  mounted() {
+    if (this.onScrollAttached && window.scrollY > 450) {
+      window.removeEventListener("scroll", this.handleScroll);
+      this.onScrollAttached = false;
+      this.fadeCards();
+    }
+  },
   destroyed() {
-    window.removeEventListener("scroll", this.handleScroll);
+    if (this.onScrollAttached) {
+      // Remove the onscroll listener
+      window.removeEventListener("scroll", this.handleScroll);
+    }
   },
   data() {
     return {
       previews: ["dashboard.png", "settings.png"],
       userLocaleIndex: 0,
       slide: 0,
+      onScrollAttached: false,
       hovering: false
     };
   },
@@ -189,15 +174,18 @@ export default {
     }
   },
   methods: {
+    fadeCards() {
+      let cards = document.getElementsByClassName("fade-cards");
+      cards[0].className += " animated animatedFadeInUp fadeInUp";
+      cards[1].className += " animated animatedFadeInUp fadeInUp";
+      cards[2].className += " animated animatedFadeInUp fadeInUp";
+    },
     handleScroll() {
       // Any code to be executed when the window is scrolled
-      if (window.scrollY > 450) {
-        console.log(window.scrollY);
-        let cards = document.getElementsByClassName("fade-cards");
-        cards[0].className = "animated animatedFadeInUp fadeInUp";
-        cards[1].className = "animated animatedFadeInUp fadeInUp";
-        cards[2].className = "animated animatedFadeInUp fadeInUp";
-        window.removeEventListener("scroll", this);
+      if (this.onScrollAttached && window.scrollY > 450) {
+        window.removeEventListener("scroll", this.handleScroll);
+        this.onScrollAttached = false;
+        this.fadeCards();
       }
     },
     updateLocale: function(index) {
@@ -239,6 +227,14 @@ export default {
   height: 530px;
 }
 
+#cta-get-started {
+  font-size: 20px;
+  padding: 5px 30px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  color: white;
+}
+
 .generic-dot {
   height: 12px;
   width: 12px;
@@ -274,6 +270,13 @@ export default {
   font-size: 18px;
 }
 
+#cards-container {
+  margin-top: 100px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .sel-flags {
   margin-left: -15px;
   margin-right: 8px;
@@ -288,15 +291,43 @@ export default {
   margin-left: 20px;
 }
 
-.prova {
+.opacity-gradient-bg {
   mask-image: none;
   -webkit-mask-image: -webkit-gradient(
     linear,
     left bottom,
     left top,
-    from(rgba(0, 0, 0, 1)),
-    to(rgba(0, 0, 0, 0.1))
+    from(rgba(255, 255, 255, 1)),
+    to(rgba(255, 255, 255, 0.1))
   );
+}
+
+.custom-cards {
+  margin-right: 40px;
+  border-radius: 8px;
+  height: 320px;
+}
+
+.custom-cards-content {
+  position: absolute;
+  top: 0;
+  left: 40px;
+  right: 50px;
+  padding-right: 30px;
+  padding-top: 30px;
+}
+
+.custom-cards-title {
+  color: #444;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 40px;
+}
+
+.custom-cards-description {
+  line-height: 1.8;
+  font-size: 17px;
+  color: #444;
 }
 
 @keyframes fadeInUp {
@@ -336,5 +367,14 @@ export default {
   opacity: 0;
   animation-name: fadeInUp;
   -webkit-animation-name: fadeInUp;
+}
+
+.fade-cards {
+  position: relative;
+  width: 380px;
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 10px;
+  opacity: 0;
 }
 </style>
