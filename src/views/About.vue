@@ -79,6 +79,9 @@
             <v-btn class="mx-4" icon v-on:click="openLinkedinProfile(developer.linkedinName)">
               <v-icon>mdi-linkedin</v-icon>
             </v-btn>
+            <v-btn v-show="developer.website" class="mx-4" icon v-on:click="openWebsite(developer.website)">
+              <v-icon>mdi-web</v-icon>
+            </v-btn>
           </b-card>
         </b-col>
       </b-row>
@@ -118,7 +121,8 @@ export default {
           year: 1999,
           githubName: "AlessioLuciani",
           linkedinName: "alessioluciani",
-          position: "student_at_sapienza"
+          position: "student_at_sapienza",
+          website: "https://www.aluc.dev"
         }
       ],
       userLocaleIndex: 0,
@@ -135,6 +139,9 @@ export default {
     },
     openLinkedinProfile(username) {
       window.open("https://www.linkedin.com/in/" + username);
+    },
+    openWebsite(url) {
+      window.open(url);
     }
   },
   computed: {
