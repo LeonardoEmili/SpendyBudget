@@ -74,49 +74,27 @@
       </div>
     </div>
     <div id="cards-container">
-      <div class="fade-cards">
+      <div class="fade-cards" v-for="(card,index) in cards" :key="index">
         <b-card class="shadow-sm mb-7 opacity-gradient-bg custom-cards"></b-card>
-
         <div class="custom-cards-content">
-          <svgicon icon="benefit" width="70" height="70" color="#d32f2f" />
-          <p class="custom-cards-title">{{$t('first_card_title')}}</p>
-          <p class="custom-cards-description">{{$t('first_card_description')}}</p>
+          <svgicon :icon="card.icon" width="70" height="70" :color="card.color" />
+          <p class="custom-cards-title">{{$t(card.title)}}</p>
+          <p class="custom-cards-description">{{$t(card.description)}}</p>
         </div>
       </div>
+    </div>
+    <div id="bottom-description">
+      <p>
+        <span>{{$t('you_wish_to_keep_track_etc')}}</span>
+        <br />
+        <span>{{$t('then_you_have_come_to_the_right_place')}}</span>
+      </p>
 
-      <div class="fade-cards">
-        <b-card class="shadow-sm mb-7 opacity-gradient-bg custom-cards"></b-card>
-
-        <div class="custom-cards-content">
-          <svgicon icon="chat" width="70" height="70" color="#388e3c" />
-          <p class="custom-cards-title">{{$t('second_card_title')}}</p>
-          <p class="custom-cards-description">{{$t('second_card_description')}}</p>
-        </div>
-      </div>
-
-      <div class="fade-cards">
-        <b-card class="shadow-sm mb-7 opacity-gradient-bg custom-cards"></b-card>
-
-        <div class="custom-cards-content">
-          <svgicon icon="shield" width="70" height="70" color="#5c6bc0" />
-          <p class="custom-cards-title">{{$t('third_card_title')}}</p>
-          <p class="custom-cards-description">{{$t('third_card_description')}}</p>
-        </div>
-      </div>
-
-      <div id="bottom-description">
-        <p>
-          <span>{{$t('you_wish_to_keep_track_etc')}}</span>
-          <br />
-          <span>{{$t('then_you_have_come_to_the_right_place')}}</span>
-        </p>
-
-        <p>
-          <span>{{$t('spendybduget_is_a_simple_spending_tracker_etc')}}</span>
-          <br />
-          <span>{{$t('the_project_was_carried_etc')}}</span>
-        </p>
-      </div>
+      <p>
+        <span>{{$t('spendybduget_is_a_simple_spending_tracker_etc')}}</span>
+        <br />
+        <span>{{$t('the_project_was_carried_etc')}}</span>
+      </p>
     </div>
   </div>
 </template>
@@ -152,6 +130,26 @@ export default {
   data() {
     return {
       previews: ["dashboard.png", "settings.png"],
+      cards: [
+        {
+          icon: "benefit",
+          color: "#d32f2f",
+          title: "second_card_title",
+          description: "first_card_description"
+        },
+        {
+          icon: "chat",
+          color: "#388e3c",
+          title: "first_card_title",
+          description: "second_card_description"
+        },
+        {
+          icon: "shield",
+          color: "#5c6bc0",
+          title: "third_card_title",
+          description: "third_card_description"
+        }
+      ],
       userLocaleIndex: 0,
       slide: 0,
       onScrollAttached: false,
@@ -265,10 +263,10 @@ export default {
 
 #bottom-description {
   color: #666;
-  padding-top: 40px;
-  padding-bottom: 60px;
+  max-width: 1200px;
+  margin: auto;
+  padding: 40px 100px 60px 100px;
   text-align: center;
-  margin: auto 100px;
 }
 
 #description {
