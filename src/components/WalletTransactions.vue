@@ -48,23 +48,43 @@
             </b-col>
 
         </b-row>
-        <div v-for="i in walletTransactions.length" :key="i">
-            {{convertFromEUR(walletTransactions[walletTransactions.length-i].amountEUR, walletCurrency)}}
-            {{walletCurrency}}
-            <br>
-            <svgicon
-                    :icon="walletTransactions[walletTransactions.length-i].category.icon"
-                    color= "#fff"
-                    :style="'background-color:' + walletTransactions[walletTransactions.length-i].category.color"
-                    class="small_icon"
-                />
-                {{walletTransactions[walletTransactions.length-i].category.name}}
-            <br>
-            {{walletTransactions[walletTransactions.length-i].description}}
-            <br>
-            {{new Date(walletTransactions[walletTransactions.length-i].instant._seconds*1000).toLocaleDateString()}}
-            <br><br>
-            </div>
+        <br>
+        <b-row v-for="i in Math.ceil(walletTransactions.length / 2)" :key="i">
+            <b-col>
+                {{convertFromEUR(walletTransactions[walletTransactions.length-(i*2)+1].amountEUR, walletCurrency)}}
+                {{walletCurrency}}
+                <br>
+                <svgicon
+                        :icon="walletTransactions[walletTransactions.length-(i*2)+1].category.icon"
+                        color= "#fff"
+                        :style="'background-color:' + walletTransactions[walletTransactions.length-(i*2)+1].category.color"
+                        class="small_icon"
+                    />
+                    {{walletTransactions[walletTransactions.length-(i*2)+1].category.name}}
+                <br>
+                {{walletTransactions[walletTransactions.length-(i*2)+1].description}}
+                <br>
+                {{new Date(walletTransactions[walletTransactions.length-(i*2)+1].instant._seconds*1000).toLocaleDateString()}}
+                <br><br>
+            </b-col>
+            <b-col v-if="walletTransactions.length-(i*2) >= 0">
+                {{convertFromEUR(walletTransactions[walletTransactions.length-(i*2)].amountEUR, walletCurrency)}}
+                {{walletCurrency}}
+                <br>
+                <svgicon
+                        :icon="walletTransactions[walletTransactions.length-(i*2)].category.icon"
+                        color= "#fff"
+                        :style="'background-color:' + walletTransactions[walletTransactions.length-(i*2)].category.color"
+                        class="small_icon"
+                    />
+                    {{walletTransactions[walletTransactions.length-(i*2)].category.name}}
+                <br>
+                {{walletTransactions[walletTransactions.length-(i*2)].description}}
+                <br>
+                {{new Date(walletTransactions[walletTransactions.length-(i*2)].instant._seconds*1000).toLocaleDateString()}}
+                <br><br>
+            </b-col>
+        </b-row>
     </b-container>
       </b-card>
 </template>
@@ -141,9 +161,10 @@ export default {
         category: category
       };
 
-      createNewTransaction(this.walletId, formData, transaction => 
+      createNewTransaction(this.walletId, formData, (transaction) =>  
+
             this.wallet.transactions.push(transaction)
-            );
+      );
         this.wallet.balanceEUR = amountEUR + this.wallet.balanceEUR
         this.wallet.budget.spentEUR = amountEUR < 0 
           ? - amountEUR + this.wallet.budget.spentEUR

@@ -98,5 +98,6 @@
   "last_name": "Nachname:",
   "next": "Next",
   "go_to_dashboard": "Gehe zum Dashboard",
-  "skip": "Überspringen"
+  "skip": "Überspringen",
+  "none": "Nichts"
 }

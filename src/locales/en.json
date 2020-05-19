@@ -98,5 +98,6 @@
   "last_name": "Last name:",
   "next": "Next",
   "go_to_dashboard": "Go to dashboard",
-  "skip": "Skip"
+  "skip": "Skip",
+  "none": "None"
 }

@@ -98,5 +98,6 @@
   "last_name": "Apellido;",
   "next": "Siguiente",
   "go_to_dashboard": "Ir al tablero",
-  "skip": "Saltar"
+  "skip": "Saltar",
+  "none": "Ninguna"
 }

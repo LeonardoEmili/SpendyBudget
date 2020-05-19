@@ -98,5 +98,6 @@
   "last_name": "Cognome:",
   "next": "Avanti",
   "go_to_dashboard": "Vai alla home",
-  "skip": "Salta"
+  "skip": "Salta",
+  "none": "Nessuna"
 }
