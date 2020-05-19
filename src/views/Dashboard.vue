@@ -102,13 +102,18 @@
 import WalletThumbnail from "../components/WalletThumbnail";
 import Wallet from "../components/Wallet";
 import { loadWallets, createNewWallet } from "../plugins/firebase";
+import { app } from "../main";
 import * as utils from "../utils";
 
 export default {
   name: "Dashboard",
   created() {
     utils.fetchUserData(user => (this.user = user));
-    loadWallets(wallets => (this.wallets = wallets));
+    app.showProgress = true;
+    loadWallets(wallets => {
+      this.wallets = wallets;     
+      app.showProgress = false;
+    });
   },
   data: function() {
     return {
@@ -243,7 +248,7 @@ export default {
   cursor: pointer;
 }
 
-.short-dropdown >>> .dropdown-menu {
+.short-dropdown > .dropdown-menu {
   min-width: 120px;
   max-height: 200px;
   overflow-y: auto;
