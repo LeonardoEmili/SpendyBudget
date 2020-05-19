@@ -13,8 +13,6 @@
         <strong>you</strong>
       </p>
 
-      <b-spinner variant="primary" label="Spinning" v-show="isLoading" id="spinner"></b-spinner>
-
       <vue-croppie id="my-croppie" ref="croppieRef"></vue-croppie>
 
       <div v-show="finished">
@@ -104,7 +102,14 @@
           </b-form-group>
         </ValidationProvider>
 
-        <b-button size="sm" type="submit" :variant="variant" block id="next-btn">Next</b-button>
+        <b-button
+          :disabled="showProgress"
+          size="sm"
+          type="submit"
+          :variant="variant"
+          block
+          id="next-btn"
+        >Next</b-button>
       </b-form>
     </div>
   </div>
@@ -114,6 +119,7 @@
 import router from "../router";
 import * as functions from "../plugins/firebase";
 import { isMobileView, resizeImage } from "../utils";
+import { app } from "../main";
 
 export default {
   name: "MoreInfo",
@@ -124,11 +130,13 @@ export default {
       picture: null,
       name: "",
       surname: "",
-      firebaseError: "",
-      isLoading: false
+      firebaseError: ""
     };
   },
   computed: {
+    showProgress() {
+      return app.showProgress;
+    },
     btnVariant: function() {
       return this.picture ? "success" : "";
     },
@@ -145,15 +153,21 @@ export default {
   },
   methods: {
     async sendInfo() {
-      //console.log(this.picture);
-      console.log("Sending user data ... ");
+      if (this.showProgress) {
+        // Prevent sending a new request while the previous is still being processed
+        return;
+      }
+
+      app.showProgress = true;
       const data = {
         name: this.name,
         surname: this.surname,
         profPic: this.picture
       };
-      await functions.updateUserData(data);
-      router.replace("/dashboard").catch(() => {});
+      await functions.updateUserData(data, () => {
+        app.showProgress = false;
+        router.replace("/dashboard").catch(() => {});
+      });
     },
     remove() {
       this.picture = null;

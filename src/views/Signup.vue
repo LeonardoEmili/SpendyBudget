@@ -46,13 +46,6 @@
         <b-link to="/login">{{$t('login_here')}}</b-link>
       </p>
 
-      <b-spinner
-        variant="primary"
-        label="Spinning"
-        v-show="isLoading"
-        style="position: absolute; top:50%; left:50%;"
-      ></b-spinner>
-
       <b-form
         @submit="onSubmit"
         style="margin-top:40px; width: 350px; margin-left: auto; margin-right: auto"
@@ -128,6 +121,7 @@ import * as functions from "../plugins/firebase";
 import sha512 from "js-sha512";
 import router from "../router";
 import * as utils from "../utils";
+import { app } from "../main";
 
 export default {
   name: "SignUp",
@@ -144,11 +138,13 @@ export default {
       password: "",
       confirmation: "",
       firebaseError: "",
-      isLoading: false,
       userLocaleIndex: 0
     };
   },
   computed: {
+    showProgress() {
+      return app.showProgress;
+    },
     locales: function() {
       return utils.locales;
     },
@@ -182,11 +178,11 @@ export default {
     },
     async onSubmit(evt) {
       evt.preventDefault();
-      if (this.isLoading || this.password !== this.confirmation) {
+      if (this.showProgress || this.password !== this.confirmation) {
         return;
       }
 
-      this.isLoading = true;
+      app.showProgress = true;
       const user = {
         email: this.email,
         password: sha512(this.password),
@@ -200,7 +196,7 @@ export default {
       let vm = this;
 
       await functions.signUpWithEmailAndPassword(user, function(xmlHttp) {
-        vm.isLoading = false;
+        app.showProgress = false;
         console.log(xmlHttp.responseText);
 
         let response = JSON.parse(xmlHttp.responseText);

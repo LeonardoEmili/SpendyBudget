@@ -20,7 +20,8 @@ Vue.config.productionTip = false
 
 export const app = new Vue({
   data: {
-    user
+    user,
+    showProgress: false
   },
   router,
   i18n,

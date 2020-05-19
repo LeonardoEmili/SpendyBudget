@@ -18,7 +18,9 @@
               class="rounded-circle"
             />
 
-            <span v-show="!userProfPic" class="picture-navbar">{{nameInitials}}</span>
+            <span v-show="!userProfPic" class="picture-navbar">
+              <span :class="{ 'invisible' : emptyInitials}">{{nameInitials}}</span>
+            </span>
             <span id="user-profile-visiblename">{{userName}}</span>
           </template>
           <b-dropdown-item class="my-dropdown" to="/settings" variant="dark">{{$t('settings')}}</b-dropdown-item>
@@ -121,16 +123,19 @@ export default {
   },
   computed: {
     userName: function() {
-      return this.user !== null ? this.user.name : "";
+      return this.user.name || this.user.email || "";
     },
     userProfPic: function() {
       return this.user !== null && this.user.profPic !== undefined
         ? this.user.profPic
         : "";
     },
+    emptyInitials: function() {
+      return !this.user.name || !this.user.surname;
+    },
     nameInitials: function() {
-      if (!this.user.name || !this.user.surname) {
-        return "";
+      if (this.emptyInitials) {
+        return "AB";
       }
       return (
         this.user.name[0].toUpperCase() + this.user.surname[0].toUpperCase()
@@ -234,6 +239,10 @@ export default {
   min-width: 120px;
   max-height: 200px;
   overflow-y: auto;
+}
+
+.invisible {
+  opacity: 0;
 }
 
 .my-dropdown {

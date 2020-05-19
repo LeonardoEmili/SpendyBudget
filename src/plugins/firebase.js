@@ -103,13 +103,14 @@ export const authenticateFunction = function (name, method="GET", payload=null, 
  * Attempts a bearer authentication (a.k.a. token-based authentication) using the 
  * "Authorization" request header field with the "Bearer" HTTP authorization scheme.
  */
-export const signInSilently = async function () {
+export const signInSilently = async function (onFinish) {
     utils.initUserData();
 
     // If there is no active session, redirecting to the welcome page
     if (localStorage.authToken === undefined) {
         console.log("No active session");
         utils.resetSession();
+        onFinish();
         return;
     }
 
@@ -121,6 +122,7 @@ export const signInSilently = async function () {
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
             let response = JSON.parse(xmlHttp.responseText);
+            onFinish();
             if (response.error !== undefined) {
                 console.log(response.error);
                 utils.resetSession();
@@ -200,13 +202,14 @@ export function loadWallets(onSuccess) {
  * 
  * @param {Object} data the user's data to be updated
  */
-export function updateUserData(data) {
+export function updateUserData(data, onFinish = () => {}) {
     let xmlHttp = new XMLHttpRequest()
     RELEASE ? xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/updateUserData", true) :
         xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/updateUserData", true);
     xmlHttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken)
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
+            onFinish();
             if (data.profPic) {
                 data.profPic = utils.b64DecodeUnicode(data.profPic);
             }
@@ -271,7 +274,7 @@ export function createNewTransaction(walletId, newTransaction, onSuccess) {
     RELEASE ? xmlHttp.open("POST", "https://us-central1-spendybudget.cloudfunctions.net/createNewTransaction", true) :
         xmlHttp.open("POST", "http://localhost:16492/spendybudget/us-central1/createNewTransaction", true);
 
-        xmlHttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken)
+    xmlHttp.setRequestHeader('Authorization', 'Bearer ' + localStorage.authToken)
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
             const transaction = JSON.parse(xmlHttp.responseText)
