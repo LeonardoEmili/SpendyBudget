@@ -59,9 +59,9 @@
   "expense_categories": "Expense categories",
   "edit_category": "Edit Category",
   "login": "Login",
-  "login_btn_text" : "Login to SpendyBudget",
+  "login_btn_text": "Login to SpendyBudget",
   "sign_up": "Sign Up",
-  "signup_btn_text" : "Signup to SpendyBudget",
+  "signup_btn_text": "Signup to SpendyBudget",
   "on_spendybudget": "to SpendyBudget",
   "to_spendybudget": "to SpendyBudget",
   "not_yet_registered": "Don't have an account yet?",
@@ -77,5 +77,9 @@
   "third_card_title": "Safe place",
   "first_card_description": "Control over all of your expenses to help you save money.",
   "second_card_description": "Check your balance through our beautiful interactive charts.",
-  "third_card_description": "Our systems provide secure ways to store and manipulate data."
+  "third_card_description": "Our systems provide secure ways to store and manipulate data.",
+  "you_wish_to_keep_track_etc": "You wish to keep track of all your revenues and expenses on a single page?",
+  "then_you_have_come_to_the_right_place": "Then you’ve come to the right place!",
+  "spendybduget_is_a_simple_spending_tracker_etc": "SpendyBudget is a simple spending tracker that aims at monitoring all of your transactions to allow you to benefit from a clear view of your expenses.",
+  "the_project_was_carried_etc": "The project was carried on through the course of Linguaggi e Tecnologie per il Web, held at Sapienza, University of Rome. This website is intended to be accessible to everybody and the entire project is now open source."
 }

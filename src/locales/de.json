@@ -59,9 +59,9 @@
   "expense_categories": "Ausgabenkategorien",
   "edit_category": "Kategorie bearbeiten",
   "login": "Einloggen",
-  "login_btn_text" : "Bei SpendyBudget anmelden",
+  "login_btn_text": "Bei SpendyBudget anmelden",
   "sign_up": "Anmelden",
-  "signup_btn_text" : "Bei SpendyBudget registrieren",
+  "signup_btn_text": "Bei SpendyBudget registrieren",
   "on_spendybudget": "An SpendyBudget",
   "to_spendybudget": "An SpendyBudget",
   "not_yet_registered": "Haben Sie noch keinen Account?",
@@ -77,5 +77,9 @@
   "third_card_title": "Sicherer Ort",
   "first_card_description": "Kontrollieren Sie alle Ihre Ausgaben, um Geld zu sparen.",
   "second_card_description": "Überprüfen Sie Ihr Guthaben anhand unserer wunderschönen interaktiven Diagramme.",
-  "third_card_description": "Unsere Systeme bieten sichere Möglichkeiten zum Speichern und Bearbeiten von Daten."
+  "third_card_description": "Unsere Systeme bieten sichere Möglichkeiten zum Speichern und Bearbeiten von Daten.",
+  "you_wish_to_keep_track_etc": "Sie möchten alle Ihre Einnahmen und Ausgaben auf einer einzigen Seite verfolgen?",
+  "then_you_have_come_to_the_right_place": "Dann sind Sie bei uns genau richtig!",
+  "spendybduget_is_a_simple_spending_tracker_etc": "SpendyBudget ist ein einfacher Ausgaben-Tracker, der darauf abzielt, alle Ihre Transaktionen zu überwachen, damit Sie eine klare Übersicht über Ihre Ausgaben erhalten.",
+  "the_project_was_carried_etc": "Das Projekt wurde im Rahmen von Linguaggi e Tecnologie per il Web an der Universität Sapienza in Rom durchgeführt. Diese Website soll für alle zugänglich sein und das gesamte Projekt ist jetzt Open Source."
 }

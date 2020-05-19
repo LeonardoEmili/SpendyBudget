@@ -77,5 +77,9 @@
   "third_card_title": "Lugar seguro",
   "first_card_description": "Controle todos sus gastos para ayudarlo a ahorrar dinero.",
   "second_card_description": "Consulte su saldo a través de nuestros hermosos gráficos interactivos.",
-  "third_card_description": "Nuestros sistemas proporcionan formas seguras de almacenar y manipular datos."
+  "third_card_description": "Nuestros sistemas proporcionan formas seguras de almacenar y manipular datos.",
+  "you_wish_to_keep_track_etc": "¿Desea realizar un seguimiento de todos sus ingresos y gastos en una sola página?",
+  "then_you_have_come_to_the_right_place": "¡Entonces has venido al lugar correcto!",
+  "spendybduget_is_a_simple_spending_tracker_etc": "SpendyBudget es un simple rastreador de gastos que tiene como objetivo monitorear todas sus transacciones para permitirle beneficiarse de una visión clara de sus gastos",
+  "the_project_was_carried_etc": "El proyecto se llevó a cabo a través del curso de Linguaggi e Tecnologie per il Web, celebrado en Sapienza, Universidad de Roma. Este sitio web está destinado a ser accesible para todos y todo el proyecto ahora es open source."
 }

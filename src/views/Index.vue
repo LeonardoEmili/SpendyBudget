@@ -104,12 +104,19 @@
         </div>
       </div>
 
-      <p style="color: #666; margin-top: 80px; margin-bottom: 60px;">
-        You’ve just started a new business or you wish to keep track of all your expenses on projects in a single place?
-        Then you’ve come to the right place!
-        Spendy is a simple and convenient service that allows keeping track of the money you spend on your startups and websites. Only your expenses and nothing else! We’ve decided not to overburden this service with invoices, income, and document flow, but rather concentrate only on expenses. Why would we do such a thing? Many startups are built by people from the ground up using their own money. Thus, it is important to remember how much money you’ve take out from the ‘family’ budget. When starting out it is vital to keep track of how much you spent and on what.
-        Spendy is suitable for any type of project, since you yourself choose the categories of your expenses, and their number is unlimited. Give this system a try and decide whether you’d like stay with us or choose another system.
-      </p>
+      <div id="bottom-description">
+        <p>
+          <span>{{$t('you_wish_to_keep_track_etc')}}</span>
+          <br />
+          <span>{{$t('then_you_have_come_to_the_right_place')}}</span>
+        </p>
+
+        <p>
+          <span>{{$t('spendybduget_is_a_simple_spending_tracker_etc')}}</span>
+          <br />
+          <span>{{$t('the_project_was_carried_etc')}}</span>
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -254,6 +261,14 @@ export default {
 
 #dot-frame {
   margin-top: 80px;
+}
+
+#bottom-description {
+  color: #666;
+  padding-top: 40px;
+  padding-bottom: 60px;
+  text-align: center;
+  margin: auto 100px;
 }
 
 #description {

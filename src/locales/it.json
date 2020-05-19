@@ -59,9 +59,9 @@
   "expense_categories": "Categorie delle spese",
   "edit_category": "Modifica categoria",
   "login": "Accedi",
-  "login_btn_text" : "Accedi a SpendyBudget",
+  "login_btn_text": "Accedi a SpendyBudget",
   "sign_up": "Registrati",
-  "signup_btn_text" : "Iscriviti su SpendyBudget",
+  "signup_btn_text": "Iscriviti su SpendyBudget",
   "on_spendybudget": "su SpendyBudget",
   "to_spendybudget": "a SpendyBudget",
   "not_yet_registered": "Non hai ancora un account?",
@@ -77,5 +77,9 @@
   "third_card_title": "Posto sicuro",
   "first_card_description": "Controllo di tutte le spese per aiutarti a risparmiare denaro.",
   "second_card_description": "Controlla il tuo saldo attraverso bellissimi grafici interattivi.",
-  "third_card_description": "I nostri sistemi garantiscono modi sicuri per salvare e gestire i dati."
+  "third_card_description": "I nostri sistemi garantiscono modi sicuri per salvare e gestire i dati.",
+  "you_wish_to_keep_track_etc": "Desideri tener traccia di tutte le tue entrate ed uscite in una singola pagina?",
+  "then_you_have_come_to_the_right_place": "Allora sei nel posto giusto!",
+  "spendybduget_is_a_simple_spending_tracker_etc": "SpendyBudget è un semplice strumento per tracciare le spese che si propone di monitorare tutte le tue transazioni per permetterti di beneficiare di una chiara visione delle tue spese.",
+  "the_project_was_carried_etc": "Questo progetto è stato portato avanti durante il corso di Linguaggi e Tecnologie per il Web, tenutosi alla Sapienza, Università di Roma. Questo sito nasce per essere accessibile a chiunque e l'intero progetto è ora open source."
 }
