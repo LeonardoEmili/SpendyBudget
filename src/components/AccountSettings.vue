@@ -55,7 +55,7 @@
                   placeholder="Your name"
                   :state="errors[0]? false : null"
                 ></b-form-input>
-                <b-form-invalid-feedback>{{ $t(errors[0]) }}</b-form-invalid-feedback>
+                <b-form-invalid-feedback class="inline-error">{{ $t(errors[0]) }}</b-form-invalid-feedback>
               </b-form-group>
             </ValidationProvider>
           </b-col>
@@ -70,7 +70,7 @@
                   placeholder="Your surname"
                   :state="errors[0]? false : null"
                 ></b-form-input>
-                <b-form-invalid-feedback>{{ $t(errors[0]) }}</b-form-invalid-feedback>
+                <b-form-invalid-feedback class="inline-error">{{ $t(errors[0]) }}</b-form-invalid-feedback>
               </b-form-group>
             </ValidationProvider>
           </b-col>
@@ -100,7 +100,7 @@
                   placeholder="Choose a date"
                   :state="errors[0]? false : null"
                 ></b-form-datepicker>
-                <b-form-invalid-feedback>{{ $t(errors[0]) }}</b-form-invalid-feedback>
+                <b-form-invalid-feedback class="inline-error">{{ $t(errors[0]) }}</b-form-invalid-feedback>
               </b-form-group>
             </ValidationProvider>
           </b-col>
@@ -275,8 +275,8 @@ export default {
   opacity: 0.15;
 }
 .my-cols {
-  padding-top: 2px;
-  padding-bottom: 2px;
+  padding-top: 3px;
+  padding-bottom: 3px;
   min-width: 240px;
 }
 .my-headers {
@@ -295,6 +295,10 @@ export default {
 }
 #submit-btn {
   margin-top: 20px;
+}
+
+.inline-error {
+  position: absolute;
 }
 
 #account-form {

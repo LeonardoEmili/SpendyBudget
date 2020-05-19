@@ -8,7 +8,7 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <!-- Right aligned nav items -->
-        <b-navbar-nav class="ml-auto" style="margin-right: 10px;">
+        <b-navbar-nav class="ml-auto" id="custom-nav">
           <b-nav-item-dropdown :text="userLanguage" right>
             <b-dropdown-item
               variant="dark"
@@ -21,7 +21,7 @@
                 height="20px"
                 width="20px"
                 alt="."
-                style="margin-left: -15px; margin-right: 8px;"
+                class="flags-locale"
               />
               <span :class="{ 'selected' : locale.iso == currentISO}">{{locale.name}}</span>
             </b-dropdown-item>
@@ -30,8 +30,8 @@
       </b-collapse>
     </b-navbar>
 
-    <div style="width: 500px; margin-left: auto; margin-right: auto; margin-top: 15vh;">
-      <p style="font-size:32px; text-align:center;">
+    <div id="wrapper">
+      <p id="wrapper-title">
         <span v-show="currentISO !== 'de'">
           <b>{{$t('sign_up')}}</b>
           {{$t('on_spendybudget')}}
@@ -41,18 +41,15 @@
           <b>{{$t('sign_up')}}</b>
         </span>
       </p>
-      <p style="text-align:center; font-size: 16px; margin-top: 5px;">
+      <p id="wrapper-subtitle">
         {{$t('already_registered')}}
         <b-link to="/login">{{$t('login_here')}}</b-link>
       </p>
 
-      <b-form
-        @submit="onSubmit"
-        style="margin-top:40px; width: 350px; margin-left: auto; margin-right: auto"
-      >
+      <b-form @submit="onSubmit" id="user-form">
         <ValidationProvider rules="required|email" v-slot="{ errors, valid }">
           <b-form-group label-size="sm">
-            <label style="font-size:15px; margin-bottom: 4px;">{{$t('email_address')}}</label>
+            <label id="form-email-label">{{$t('email_address')}}</label>
             <b-form-input
               size="sm"
               v-model="email"
@@ -63,14 +60,14 @@
               placeholder="example@gmail.com"
               required
             ></b-form-input>
-            <b-form-invalid-feedback>{{ $t(firebaseError) || $t(errors[0]) }}</b-form-invalid-feedback>
+            <b-form-invalid-feedback class="inline-error">{{ $t(firebaseError) || $t(errors[0]) }}</b-form-invalid-feedback>
           </b-form-group>
         </ValidationProvider>
 
         <ValidationObserver>
           <ValidationProvider rules="required|password:@confirm" v-slot="{ errors, valid }">
-            <b-form-group style="margin-top:10px" label-size="sm">
-              <label style="font-size:15px; margin-bottom: 4px;">{{$t('password')}}</label>
+            <b-form-group label-size="sm">
+              <label id="form-password-label">{{$t('password')}}</label>
               <b-form-input
                 size="sm"
                 type="password"
@@ -81,13 +78,13 @@
                 placeholder="qwerty123@"
                 required
               ></b-form-input>
-              <b-form-invalid-feedback>{{ $t(errors[0]) }}</b-form-invalid-feedback>
+              <b-form-invalid-feedback class="inline-error">{{ $t(errors[0]) }}</b-form-invalid-feedback>
             </b-form-group>
           </ValidationProvider>
 
           <ValidationProvider name="confirm" rules="required" v-slot="{ errors, valid }">
-            <b-form-group style="margin-top:10px" label-size="sm">
-              <label style="font-size:15px; margin-bottom: 4px;">{{$t('confirm_password')}}</label>
+            <b-form-group label-size="sm">
+              <label id="form-confirmation-label">{{$t('confirm_password')}}</label>
               <b-form-input
                 size="sm"
                 type="password"
@@ -102,15 +99,13 @@
           </ValidationProvider>
         </ValidationObserver>
 
-        <div style="text-align: center;">
-          <b-button
-            block
-            size="sm"
-            type="submit"
-            variant="primary"
-            style="margin-top:30px; margin-bottom: 30px"
-          >{{$t('signup_btn_text')}}</b-button>
-        </div>
+        <b-button
+          block
+          size="sm"
+          type="submit"
+          variant="primary"
+          id="signup-btn"
+        >{{$t('signup_btn_text')}}</b-button>
       </b-form>
     </div>
   </div>
@@ -217,5 +212,65 @@ export default {
 <style scoped>
 * {
   margin: 0;
+}
+
+#wrapper {
+  width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15vh;
+}
+
+#custom-nav {
+  margin-right: 10px;
+}
+
+.flags-locale {
+  margin-left: -15px;
+  margin-right: 8px;
+}
+
+#wrapper-title {
+  font-size: 32px;
+  text-align: center;
+}
+
+#wrapper-subtitle {
+  text-align: center;
+  font-size: 16px;
+  margin-top: 5px;
+}
+
+#user-form {
+  margin-top: 40px;
+  width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#form-email-label {
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+#form-password-label {
+  font-size: 15px;
+  margin-bottom: 4px;
+  margin-top: 14px;
+}
+
+#form-confirmation-label {
+  font-size: 15px;
+  margin-bottom: 4px;
+  margin-top: 14px;
+}
+
+#signup-btn {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.inline-error {
+  position: absolute;
 }
 </style>

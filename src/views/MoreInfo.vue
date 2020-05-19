@@ -81,7 +81,7 @@
               :placeholder="$t('your_name')"
               required
             ></b-form-input>
-            <b-form-invalid-feedback>{{ error || $t(errors[0]) }}</b-form-invalid-feedback>
+            <b-form-invalid-feedback class="inline-error">{{ error || $t(errors[0]) }}</b-form-invalid-feedback>
           </b-form-group>
         </ValidationProvider>
 
@@ -98,7 +98,7 @@
               required
             ></b-form-input>
 
-            <b-form-invalid-feedback>{{ $t(errors[0]) }}</b-form-invalid-feedback>
+            <b-form-invalid-feedback class="inline-error">{{ $t(errors[0]) }}</b-form-invalid-feedback>
           </b-form-group>
         </ValidationProvider>
 
@@ -259,7 +259,7 @@ export default {
 }
 
 #form-last-name {
-  margin-top: 12px;
+  margin-top: 16px;
 }
 
 #spinner {
@@ -271,6 +271,10 @@ export default {
 #photo-wrapper {
   text-align: center;
   margin-top: 40px;
+}
+
+.inline-error {
+  position: absolute;
 }
 
 #clear-img {
