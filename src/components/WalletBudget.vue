@@ -19,18 +19,18 @@
             </div>
             <!-- Edit budget modal -->
             <div>
-                <b-button v-b-modal.edit_budget_modal>{{$t('edit_budget')}}</b-button>
+                <b-button variant="primary" v-b-modal.edit_budget_modal>{{$t('edit_budget')}}</b-button>
 
-                <b-modal id="edit_budget_modal" v-bind:title="$t('edit_budget')" hide-footer>
+                <b-modal centered id="edit_budget_modal" v-bind:title="$t('edit_budget')" hide-footer>
                     <b-form id="edit_budget_form">
                     {{$t('amount')}} ({{walletCurrency}}):
                     <br >
                     <b-form-input type="number" name="amount" required />
                     <br >
-                    <br >
                     {{$t('until')}}
                     <br >
                     <b-form-datepicker name="expiryDate" required/>
+                    <br >
                     </b-form>
             
                     <b-button v-on:click="onEditBudgetPressed">{{$t('edit_budget')}}</b-button>

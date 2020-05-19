@@ -3,9 +3,9 @@
         <h3>{{$t('transactions')}}</h3>
      <!-- " New transaction" modal view -->
         <div>
-          <b-button v-b-modal.new_transaction_modal>{{$t('new_transaction')}}</b-button>
+          <b-button variant="primary" v-b-modal.new_transaction_modal>{{$t('new_transaction')}}</b-button>
 
-          <b-modal id="new_transaction_modal" v-bind:title="$t('new_transaction')" hide-footer>
+          <b-modal centered id="new_transaction_modal" v-bind:title="$t('new_transaction')" hide-footer>
             <b-form id="new_transaction_form">
               Type:
               <br ><br>

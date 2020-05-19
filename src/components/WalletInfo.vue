@@ -3,21 +3,21 @@
         <b-row>
             <b-col>
                 <b-card class="shadow-sm  wallet_card info_card">
-                    <h2>{{$t("last_week")}}</h2>
+                    <h3>{{$t("last_week")}}</h3>
                     <!-- Wallet balance -->
                     <p>{{$t('balance')}} {{convertFromEUR(getBalanceOfLastDays(7), walletCurrency)}} {{walletCurrency}}</p>
                 </b-card>
             </b-col>
              <b-col>
                 <b-card class="shadow-sm  wallet_card info_card">
-                    <h2>{{$t("last_month")}}</h2>
+                    <h3>{{$t("last_month")}}</h3>
                     <!-- Wallet balance -->
                     <p>{{$t('balance')}} {{convertFromEUR(getBalanceOfLastDays(30), walletCurrency)}} {{walletCurrency}}</p>
                 </b-card>
             </b-col>
             <b-col>
                 <b-card class="shadow-sm  wallet_card info_card">
-                    <h2>{{$t("all_time")}}</h2>
+                    <h3>{{$t("all_time")}}</h3>
                     <!-- Wallet balance -->
                     <p>{{$t('balance')}} {{convertFromEUR(walletBalanceEUR, walletCurrency)}} {{walletCurrency}}</p>
                 </b-card>
