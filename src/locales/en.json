@@ -70,5 +70,12 @@
   "login_here": "Login here!",
   "last_week": "Last week",
   "last_month": "Last month",
-  "all_time": "All time"
+  "all_time": "All time",
+  "get_started": "Get Started",
+  "first_card_title": "Easy monitoring",
+  "second_card_title": "Interactive charts",
+  "third_card_title": "Safe place",
+  "first_card_description": "Control over all of your expenses to help you save money.",
+  "second_card_description": "Check your balance through our beautiful interactive charts.",
+  "third_card_description": "Our systems provide secure ways to store and manipulate data."
 }

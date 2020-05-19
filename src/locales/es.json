@@ -70,5 +70,12 @@
   "login_here": "¡Inicia sesión aquí!",
   "last_week": "Última semana",
   "last_month": "Último mes",
-  "all_time": "Desde el inicio"
+  "all_time": "Desde el inicio",
+  "get_started": "Empezamos",
+  "first_card_title": "Monitoreo fácil",
+  "second_card_title": "Cartas interactivas",
+  "third_card_title": "Lugar seguro",
+  "first_card_description": "Controle todos sus gastos para ayudarlo a ahorrar dinero.",
+  "second_card_description": "Consulte su saldo a través de nuestros hermosos gráficos interactivos.",
+  "third_card_description": "Nuestros sistemas proporcionan formas seguras de almacenar y manipular datos."
 }

@@ -70,5 +70,12 @@
   "login_here": "Melden Sie sich hier an!!",
   "last_week": "Letzte Woche",
   "last_month": "Letzten Monat",
-  "all_time": "Alle Zeit"
+  "all_time": "Alle Zeit",
+  "get_started": "Loslegen",
+  "first_card_title": "Einfache Überwachung",
+  "second_card_title": "Interaktive Diagramme",
+  "third_card_title": "Sicherer Ort",
+  "first_card_description": "Kontrollieren Sie alle Ihre Ausgaben, um Geld zu sparen.",
+  "second_card_description": "Überprüfen Sie Ihr Guthaben anhand unserer wunderschönen interaktiven Diagramme.",
+  "third_card_description": "Unsere Systeme bieten sichere Möglichkeiten zum Speichern und Bearbeiten von Daten."
 }

@@ -49,12 +49,7 @@
       <h1>{{ $t('same_spending_tracker') }}</h1>
       <p id="description">{{$t('a_simple_expense_tracker')}}</p>
 
-      <b-button
-        pill
-        variant="success"
-        id="cta-get-started"
-        to="/signup"
-      >Get Started</b-button>
+      <b-button pill variant="success" id="cta-get-started" to="/signup">{{$t('get_started')}}</b-button>
 
       <div id="macbook-wrapper">
         <img src="../assets/img_macbook.png" height="530px" width="800px" />
@@ -84,10 +79,8 @@
 
         <div class="custom-cards-content">
           <svgicon icon="benefit" width="70" height="70" color="#d32f2f" />
-          <p class="custom-cards-title">Easy monitor</p>
-          <p
-            class="custom-cards-description"
-          >Control over all of your expenses to help you save money.</p>
+          <p class="custom-cards-title">{{$t('first_card_title')}}</p>
+          <p class="custom-cards-description">{{$t('first_card_description')}}</p>
         </div>
       </div>
 
@@ -96,8 +89,8 @@
 
         <div class="custom-cards-content">
           <svgicon icon="chat" width="70" height="70" color="#388e3c" />
-          <p class="custom-cards-title">Beautiful charts</p>
-          <p class="custom-cards-description">Check your balance through by our interactive charts.</p>
+          <p class="custom-cards-title">{{$t('second_card_title')}}</p>
+          <p class="custom-cards-description">{{$t('second_card_description')}}</p>
         </div>
       </div>
 
@@ -106,10 +99,8 @@
 
         <div class="custom-cards-content">
           <svgicon icon="shield" width="70" height="70" color="#5c6bc0" />
-          <p class="custom-cards-title">Safe place</p>
-          <p
-            class="custom-cards-description"
-          >Our systems provide secure ways to store and manipulate data.</p>
+          <p class="custom-cards-title">{{$t('third_card_title')}}</p>
+          <p class="custom-cards-description">{{$t('third_card_description')}}</p>
         </div>
       </div>
 
