@@ -8,7 +8,7 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <!-- Right aligned nav items -->
-        <b-navbar-nav class="ml-auto" style="margin-right: 10px;">
+        <b-navbar-nav class="ml-auto" id="custom-navbar">
           <b-nav-item-dropdown :text="userLanguage" right>
             <b-dropdown-item
               variant="dark"
@@ -21,7 +21,7 @@
                 height="20px"
                 width="20px"
                 alt="."
-                style="margin-left: -15px; margin-right: 8px;"
+                class="flags-locale"
               />
               <span :class="{ 'selected' : locale.iso == currentISO}">{{locale.name}}</span>
             </b-dropdown-item>
@@ -30,8 +30,8 @@
       </b-collapse>
     </b-navbar>
 
-    <div style="width: 500px; margin-left: auto; margin-right: auto; margin-top: 15vh;">
-      <p style="font-size:32px; text-align:center;">
+    <div id="wrapper">
+      <p id="wrapper-title">
         <span v-show="currentISO !== 'de'">
           <b>{{$t('login')}}</b>
           {{$t('to_spendybudget')}}
@@ -41,18 +41,15 @@
           <b>{{$t('login')}}</b>
         </span>
       </p>
-      <p style="text-align:center; font-size: 16px; margin-top: 5px;">
+      <p id="wrapper-subtitle">
         {{$t('not_yet_registered')}}
         <b-link to="/signup">{{$t('sign_up_here')}}</b-link>
       </p>
 
-      <b-form
-        @submit="onSubmit"
-        style="margin-top:40px; width: 350px; margin-left: auto; margin-right: auto"
-      >
+      <b-form @submit="onSubmit" id="user-form">
         <ValidationProvider rules="required|email" v-slot="{ errors, valid }">
           <b-form-group label-size="sm">
-            <label style="font-size:15px; margin-bottom: 4px;">{{$t('email_address')}}</label>
+            <label id="form-email-label">{{$t('email_address')}}</label>
             <b-form-input
               size="sm"
               v-model="email"
@@ -63,13 +60,13 @@
               placeholder="example@gmail.com"
               required
             ></b-form-input>
-            <b-form-invalid-feedback>{{ $t(errors[0]) }}</b-form-invalid-feedback>
+            <b-form-invalid-feedback class="inline-error">{{ $t(errors[0]) }}</b-form-invalid-feedback>
           </b-form-group>
         </ValidationProvider>
 
         <ValidationProvider rules="required" v-slot="{ errors, valid }">
-          <b-form-group style="margin-top:10px" label-size="sm">
-            <label style="font-size:15px; margin-bottom: 4px;">{{$t('password')}}</label>
+          <b-form-group label-size="sm">
+            <label id="label-form-password">{{$t('password')}}</label>
             <b-form-input
               size="sm"
               type="password"
@@ -80,19 +77,16 @@
               placeholder="qwerty123@"
               required
             ></b-form-input>
-            <b-form-invalid-feedback>{{ $t(firebaseError) || $t(errors[0]) }}</b-form-invalid-feedback>
+            <b-form-invalid-feedback class="inline-error">{{ $t(firebaseError) || $t(errors[0]) }}</b-form-invalid-feedback>
           </b-form-group>
         </ValidationProvider>
-
-        <div style="text-align: center;">
-          <b-button
-            size="sm"
-            type="submit"
-            variant="primary"
-            style="margin-top:30px; margin-bottom: 30px"
-            block
-          >{{$t('login_btn_text')}}</b-button>
-        </div>
+        <b-button
+          size="sm"
+          type="submit"
+          variant="primary"
+          id="login-btn"
+          block
+        >{{$t('login_btn_text')}}</b-button>
       </b-form>
     </div>
   </div>
@@ -136,7 +130,7 @@ export default {
     },
     userLanguage: function() {
       return utils.languageFromISO(this.currentISO);
-    },
+    }
   },
   methods: {
     updateLocale: function(index) {
@@ -195,5 +189,59 @@ export default {
 <style scoped>
 * {
   margin: 0;
+}
+
+#label-form-password {
+  font-size: 15px;
+  margin-bottom: 4px;
+  margin-top: 16px;
+}
+
+#custom-navbar {
+  margin-right: 10px;
+}
+
+.flags-locale {
+  margin-left: -15px;
+  margin-right: 8px;
+}
+
+.inline-error {
+  position: absolute;
+}
+
+#login-btn {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+#wrapper-title {
+  font-size: 32px;
+  text-align: center;
+}
+
+#wrapper-subtitle {
+  text-align: center;
+  font-size: 16px;
+  margin-top: 5px;
+}
+
+#wrapper {
+  width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15vh;
+}
+
+#user-form {
+  margin-top: 40px;
+  width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#form-email-label {
+  font-size: 15px;
+  margin-bottom: 4px;
 }
 </style>

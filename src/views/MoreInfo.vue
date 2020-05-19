@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-navbar>
-      <b-navbar-brand to="/">
+      <b-navbar-brand to="/more">
         <img src="../assets/logo.png" height="60px" width="60px" alt="." />
         SpendyBudget
       </b-navbar-brand>
@@ -9,8 +9,8 @@
 
     <div id="wrapper">
       <p id="title">
-        More about
-        <strong>you</strong>
+        {{$t('more_about')}}
+        <strong>{{$t('you')}}</strong>
       </p>
 
       <vue-croppie id="my-croppie" ref="croppieRef"></vue-croppie>
@@ -49,7 +49,7 @@
               id="placeholder-img"
             >
               <b-col>
-                <span>Click here to upload a photo</span>
+                <span>{{$t('click_here_to_upload_a_photo')}}</span>
                 <div>
                   <upload-icon id="my-upload"></upload-icon>
                 </div>
@@ -64,13 +64,13 @@
             :variant="btnVariant"
             block
             id="proceed-btn"
-          >{{btnName}}</b-button>
+          >{{$t(btnName)}}</b-button>
         </div>
       </div>
 
-      <b-form v-on:submit.prevent="onSubmit" style="margin-top:40px;" v-show="!finished">
+      <b-form v-on:submit.prevent="onSubmit" id="user-form" v-show="!finished">
         <ValidationProvider rules="required" v-slot="{ errors, valid }">
-          <b-form-group label="First name:" label-size="sm">
+          <b-form-group :label="$t('first_name')" label-size="sm">
             <b-form-input
               size="sm"
               v-model="name"
@@ -78,15 +78,15 @@
               v-on:blur="keyboardClosed"
               type="text"
               :state="error || errors[0] ? false : (valid ? true : null)"
-              placeholder="Your name"
+              :placeholder="$t('your_name')"
               required
             ></b-form-input>
-            <b-form-invalid-feedback>{{ error || $t(errors[0]) }}</b-form-invalid-feedback>
+            <b-form-invalid-feedback class="inline-error">{{ error || $t(errors[0]) }}</b-form-invalid-feedback>
           </b-form-group>
         </ValidationProvider>
 
         <ValidationProvider rules="required" v-slot="{ errors, valid }">
-          <b-form-group label="Last name:" style="margin-top:12px" label-size="sm">
+          <b-form-group :label="$t('last_name')" id="form-last-name" label-size="sm">
             <b-form-input
               size="sm"
               type="text"
@@ -94,11 +94,11 @@
               v-on:focus="keyboardOpen"
               v-on:blur="keyboardClosed"
               :state="errors[0] ? false : (valid ? true : null)"
-              placeholder="Your surname"
+              :placeholder="$t('your_surname')"
               required
             ></b-form-input>
 
-            <b-form-invalid-feedback>{{ $t(errors[0]) }}</b-form-invalid-feedback>
+            <b-form-invalid-feedback class="inline-error">{{ $t(errors[0]) }}</b-form-invalid-feedback>
           </b-form-group>
         </ValidationProvider>
 
@@ -109,7 +109,7 @@
           :variant="variant"
           block
           id="next-btn"
-        >Next</b-button>
+        >{{$t('next')}}</b-button>
       </b-form>
     </div>
   </div>
@@ -141,7 +141,7 @@ export default {
       return this.picture ? "success" : "";
     },
     btnName: function() {
-      return this.picture ? "Go to dashboard" : "Skip";
+      return this.picture ? "go_to_dashboard" : "skip";
     },
     variant: function() {
       return this.name.length > 0 && this.surname.length > 0 ? "success" : "";
@@ -258,6 +258,10 @@ export default {
   text-align: center;
 }
 
+#form-last-name {
+  margin-top: 16px;
+}
+
 #spinner {
   position: absolute;
   top: 50%;
@@ -267,6 +271,10 @@ export default {
 #photo-wrapper {
   text-align: center;
   margin-top: 40px;
+}
+
+.inline-error {
+  position: absolute;
 }
 
 #clear-img {
@@ -282,6 +290,10 @@ export default {
   position: absolute;
   left: 110px;
   text-align: center;
+}
+
+#user-form {
+  margin-top: 40px;
 }
 
 #photo-avatar {

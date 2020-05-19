@@ -88,5 +88,15 @@
   "password_confirmation_does_not_match": "La confirmación de contraseña no coincide",
   "do_you_come_from_the_future": "¿Vienes del futuro?",
   "wrong_email_address_or_password": "Dirección de correo electrónico o contraseña incorrecta",
-  "email_address_already_in_use": "Dirección de correo electrónico ya en uso"
+  "email_address_already_in_use": "Dirección de correo electrónico ya en uso",
+  "your_name": "Tu nombre",
+  "your_surname": "Tu apellido",
+  "more_about": "Mas sobre",
+  "you": "ti",
+  "click_here_to_upload_a_photo": "Haga clic aquí para cargar una foto",
+  "first_name": "Nombre:",
+  "last_name": "Apellido;",
+  "next": "Siguiente",
+  "go_to_dashboard": "Ir al tablero",
+  "skip": "Saltar"
 }

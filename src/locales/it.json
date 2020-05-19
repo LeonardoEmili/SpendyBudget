@@ -88,5 +88,15 @@
   "password_confirmation_does_not_match": "Le password non corrispondono",
   "do_you_come_from_the_future": "Vieni dal futuro?",
   "wrong_email_address_or_password": "Indirizzo email o password errati",
-  "email_address_already_in_use": "Indirizzo email già in uso"
+  "email_address_already_in_use": "Indirizzo email già in uso",
+  "your_name": "Il tuo nome",
+  "your_surname": "Il tuo cognome",
+  "more_about": "Più su di",
+  "you": "te",
+  "click_here_to_upload_a_photo": "Clicca qui per caricare una foto",
+  "first_name": "Nome:",
+  "last_name": "Cognome:",
+  "next": "Avanti",
+  "go_to_dashboard": "Vai alla home",
+  "skip": "Salta"
 }
