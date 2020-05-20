@@ -122,7 +122,7 @@ export default {
           githubName: "AlessioLuciani",
           linkedinName: "alessioluciani",
           position: "student_at_sapienza",
-          website: "https://www.aluc.dev"
+          website: "https://aluc.dev"
         }
       ],
       userLocaleIndex: 0,

@@ -43,7 +43,8 @@
 
       <pie-chart  :class="{chart: !isMobileView(), chart_mobile: isMobileView()}" 
             :chartdata="budgetChartData" :options="null"></pie-chart>
-    
+    <!--<line-chart  :class="{chart: !isMobileView(), chart_mobile: isMobileView()}" 
+            :chartdata="lastWeekChartData" :options="null"></line-chart>-->
 
         </b-col>
             </b-row>
@@ -56,6 +57,7 @@ import * as utils from "../utils"
 import { firestore } from 'firebase'
 import { editBudget } from '../plugins/firebase'
 import PieChart from './PieChart.vue'
+//import LineChart from './LineChart.vue'
 
 
 export default {
@@ -72,6 +74,7 @@ export default {
     ],
     components: {
         pieChart: PieChart,
+      //  lineChart: LineChart
     },
     computed: {
         walletId: function () {return  this.wallet !== null ? this.wallet.id : ""},
@@ -80,6 +83,9 @@ export default {
           budgetEUR: 0.0,
           expiryDate: firestore.Timestamp.fromMillis(0),
           spentEUR: 0.0}},
+            /*     walletTransactions:  function () {return this.wallet !== null && this.wallet.transactions !== undefined
+           ? this.wallet.transactions : []},
+*/
         budgetChartData: function() {return {
           labels: [this.$t('available'), this.$t('spent')],
           datasets: [
@@ -96,7 +102,19 @@ export default {
             }
           ]
         }
+      
         },
+        /*  lastWeekChartData: function() {
+            return {
+                  datasets: [
+            {
+              label: this.$t("last_week"),
+              data: this.getBalanceMapOfLastDays(7)
+            }
+          ]
+            }
+        },*/
+       
         budgetFormBtnVariant() {
           return this.budgetFormAmount !== ""
                 && this.budgetFormExpiryDate !== ""
@@ -105,6 +123,25 @@ export default {
       }
     },
     methods: {
+         /*getBalanceMapOfLastDays(daysNum) {
+        let ret = []
+        for (let i = 1; i <= daysNum; i++) {
+            ret.push({
+                x: i,
+                y: 0.0
+            })
+        }
+        console.log(ret)
+        for (let transaction of this.walletTransactions) {
+            let transactionDay = transaction.instant._seconds/60/60/24
+            let today = Date.now()/1000/60/60/24
+            if ( transactionDay >= today - daysNum) {
+                console.log(transactionDay - today + daysNum)
+                    ret[Math.floor(transactionDay - today + daysNum)].y = transaction.amountEUR + ret[transactionDay - today + daysNum].y
+                }
+        }
+        return ret
+    },*/
     convertFromEUR(quantityEUR, currency) {
       return utils.convertFromEUR(quantityEUR, currency);
     },
