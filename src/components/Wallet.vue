@@ -1,11 +1,21 @@
 <template>
 <div>
 
-  <wallet-info :wallet="wallet"></wallet-info>
-  <wallet-budget :wallet="wallet"></wallet-budget>
 
 
-<b-container fluid>
+<b-container>
+  <b-row>
+    <b-col>
+        <wallet-info :wallet="wallet"></wallet-info>
+
+    </b-col>
+  </b-row>
+  <b-row>
+    <b-col>
+        <wallet-budget :wallet="wallet"></wallet-budget>
+
+    </b-col>
+  </b-row>
   <b-row>
     <b-col>
   <wallet-expense :wallet="wallet"></wallet-expense>
@@ -24,9 +34,13 @@
     </b-col>
 
   </b-row>
+  <b-row>
+    <b-col>
+         <wallet-transactions :wallet="wallet" :user="user"></wallet-transactions>
+    </b-col>
+  </b-row>
 </b-container>
         
-   <wallet-transactions :wallet="wallet" :user="user"></wallet-transactions>
 
 
 
@@ -77,7 +91,7 @@ export default {
   }
 
 .chart {
-  width: 500px;
+  width: 350px;
   display: inline-block;
 }
 

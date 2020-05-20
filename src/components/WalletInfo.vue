@@ -65,7 +65,7 @@ export default {
 <style>
 
 .info_card {
-    width: 300px;
+    width: 250px;
 }
 
 </style>
