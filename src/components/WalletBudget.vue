@@ -33,7 +33,7 @@
                 <br />
                 {{$t('until')}}
                 <br />
-                <b-form-datepicker name="expiryDate" v-model="budgetFormExpiryDate" required />
+                <b-form-datepicker :min="Date()" name="expiryDate" v-model="budgetFormExpiryDate" required />
                 <br />
               </b-form>
 
@@ -143,6 +143,10 @@ export default {
       let form = document.getElementById("edit_budget_form");
       if (form.amount.value === "" || form.expiryDate.value === "") {
         alert("Fill out all the fields");
+        return;
+      }
+      if (new Date(this.budgetFormExpiryDate) < new Date()) {
+          alert("Insert a future date");
         return;
       }
 
