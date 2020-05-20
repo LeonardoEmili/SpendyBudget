@@ -29,11 +29,15 @@
       </b-navbar-nav>
     </b-navbar>
 
-    <div id="welcome-div">
+    <div
+      id="welcome-div"
+      style="max-width: 1400px; margin-left: auto; margin-right: auto; margin-top: 30px"
+    >
       <b-container fluid>
         <b-row>
           <b-col>
             <p
+              style="font-size: 30px"
               :class="{my_wallets_title: !isMobileView(), 
                 my_wallets_title_mobile: isMobileView()}"
             >{{$t('my_wallets')}}</p>
@@ -47,7 +51,13 @@
                 <b-form id="new_wallet_form">
                   {{$t('wallet_name')}}
                   <br />
-                  <b-form-input type="text" name="name" maxlength="30" v-model="walletFormName" required />
+                  <b-form-input
+                    type="text"
+                    name="name"
+                    maxlength="30"
+                    v-model="walletFormName"
+                    required
+                  />
                   <br />
                   <br />
                   {{$t('wallet_currency')}}
@@ -61,7 +71,10 @@
 
                 <br />
                 <br />
-                <b-button :variant="walletFormBtnVariant"  v-on:click="onNewWalletPressed">{{$t('create')}}</b-button>
+                <b-button
+                  :variant="walletFormBtnVariant"
+                  v-on:click="onNewWalletPressed"
+                >{{$t('create')}}</b-button>
               </b-modal>
             </div>
           </b-col>
@@ -72,9 +85,10 @@
       <br />
 
       <!-- List of wallet thumbnails -->
-      <b-container fluid>
-        <b-row class="wallet-thumbnails">
+      <b-container fluid style="">
+        <b-row class="wallet-thumbnails" style="padding: 0">
           <b-col
+            style="max-width: 250px; min-width: 260px; padding: 0; margin-right: 20px; margin-top: 10px"
             class="wallet-thumbnail"
             v-for="wallet in wallets"
             :key="wallet.id"
@@ -85,10 +99,10 @@
         </b-row>
       </b-container>
 
-      <hr>
+      <hr />
 
       <!-- Expanded wallet card -->
-      <b-container fluid>
+      <b-container fluid style="padding: 0; margin-top: 30px;">
         <b-collapse id="collapse-wallet-card" v-model="walletCardVisible">
           <wallet :user="user" :wallet="getSelectedWallet()"></wallet>
         </b-collapse>
@@ -110,7 +124,7 @@ export default {
     utils.fetchUserData(user => (this.user = user));
     app.showProgress = true;
     loadWallets(wallets => {
-      this.wallets = wallets;     
+      this.wallets = wallets;
       app.showProgress = false;
     });
   },
@@ -149,10 +163,8 @@ export default {
       );
     },
     walletFormBtnVariant() {
-          return this.walletFormName !== ""
-                ? "primary"
-                : ""
-      }
+      return this.walletFormName !== "" ? "primary" : "";
+    }
   },
   methods: {
     isMobileView() {
@@ -213,8 +225,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #welcome-div {
-  padding-top: 100px;
-  padding-bottom: 100px;
   text-align: center;
 }
 

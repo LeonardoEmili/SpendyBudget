@@ -1,21 +1,21 @@
 <template>
     <b-container fluid>
         <b-row>
-            <b-col>
+            <b-col style="background-color: blue; max-width: 300px; padding: 0">
                 <b-card class="shadow-sm  wallet_card info_card">
                     <h3>{{$t("last_week")}}</h3>
                     <!-- Wallet balance -->
                     <p>{{$t('balance')}} {{convertFromEUR(getBalanceOfLastDays(7), walletCurrency)}} {{walletCurrency}}</p>
                 </b-card>
             </b-col>
-             <b-col>
+             <b-col style="max-width: 300px; padding: 0">
                 <b-card class="shadow-sm  wallet_card info_card">
                     <h3>{{$t("last_month")}}</h3>
                     <!-- Wallet balance -->
                     <p>{{$t('balance')}} {{convertFromEUR(getBalanceOfLastDays(30), walletCurrency)}} {{walletCurrency}}</p>
                 </b-card>
             </b-col>
-            <b-col>
+            <b-col style="max-width: 300px; padding: 0">
                 <b-card class="shadow-sm  wallet_card info_card">
                     <h3>{{$t("all_time")}}</h3>
                     <!-- Wallet balance -->
