@@ -117,5 +117,7 @@
   "salary": "Salario",
   "entertainment": "Entretenimiento",
   "sport": "Sport",
-  "taxes": "Impuestos"
+  "taxes": "Impuestos",
+  "cancel": "Cancelar",
+  "done": "Hecho"
 }

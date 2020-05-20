@@ -181,7 +181,8 @@
       :title="$t('edit_category')"
       size="lg"
       button-size="sm"
-      ok-title="Done"
+      :cancel-title="$t('cancel')"
+      :ok-title="$t('done')"
       v-on:ok="confirmEditCategory"
     >
       <div id="modal-edit-category">

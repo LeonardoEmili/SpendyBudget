@@ -117,5 +117,7 @@
   "salary": "Gehalt",
   "entertainment": "Unterhaltung",
   "sport": "Sport",
-  "taxes": "Steuern"
+  "taxes": "Steuern",
+  "cancel": "Abbrechen",
+  "done": "Fertig"
 }

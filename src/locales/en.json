@@ -117,5 +117,7 @@
   "salary": "Salary",
   "entertainment": "Entertainment",
   "sport": "Sport",
-  "taxes": "Taxes"
+  "taxes": "Taxes",
+  "cancel": "Cancel",
+  "done": "Done"
 }
