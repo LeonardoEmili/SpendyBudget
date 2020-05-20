@@ -446,45 +446,69 @@ export const categoryColors = [
 
 export let userIncomeCategories = [
     {
-        name: "Business",
+        name: "business",
         icon: defaultCategoryIcons[0],
         color: categoryColors[0],
     },
     {
-        name: "Extra credit",
+        name: "extra_credit",
         icon: defaultCategoryIcons[1],
         color: categoryColors[1],
     },
     {
-        name: "Gifts",
+        name: "gifts",
         icon: defaultCategoryIcons[2],
         color: categoryColors[2],
     },
     {
-        name: "Salary",
+        name: "salary",
         icon: defaultCategoryIcons[3],
         color: categoryColors[3],
     },
 ];
 
+export function translateUserIncomeCategories(instance) {
+    let result = [];
+    for (let i = 0; i < userIncomeCategories.length; i++) {
+        result.push({
+            name: instance.$t(userIncomeCategories[i].name),
+            icon: userIncomeCategories[i].icon,
+            color: userIncomeCategories[i].color
+        })
+    }
+    return result;
+}
+
 
 export let userExpenseCategories = [
     {
-        name: "Entertainment",
+        name: "entertainment",
         icon: defaultCategoryIcons[4],
         color: categoryColors[4],
     },
     {
-        name: "Sport",
+        name: "sport",
         icon: defaultCategoryIcons[5],
         color: categoryColors[5],
     },
     {
-        name: "Taxes",
+        name: "taxes",
         icon: defaultCategoryIcons[6],
         color: categoryColors[6],
     }
 ];
+
+export function translateUserExpenseCategories(instance) {
+    let result = [];
+    for (let i = 0; i < userExpenseCategories.length; i++) {
+        result.push({
+            name: instance.$t(userExpenseCategories[i].name),
+            icon: userExpenseCategories[i].icon,
+            color: userExpenseCategories[i].color
+        })
+    }
+    return result;
+}
 
 /**
  * Converts the value into the desidered currency.

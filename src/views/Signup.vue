@@ -179,8 +179,8 @@ export default {
         password: sha512(this.password),
         locale: utils.getCurrentLocale(),
         currency: utils.DEFAULT_CURRENCY,
-        revenueCategories: utils.userIncomeCategories,
-        expenseCategories: utils.userExpenseCategories
+        revenueCategories: utils.translateUserIncomeCategories(this),
+        expenseCategories: utils.translateUserExpenseCategories(this)
       };
 
       // The view model.

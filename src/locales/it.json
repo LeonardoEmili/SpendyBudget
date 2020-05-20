@@ -110,5 +110,12 @@
   "thursday": "Giovedì",
   "friday": "Venerdì",
   "saturday": "Sabato",
-  "sunday": "Domenica"
+  "sunday": "Domenica",
+  "business": "Business",
+  "extra_credit": "Soldi extra",
+  "gifts": "Regali",
+  "salary": "Salario",
+  "entertainment": "Divertimento",
+  "sport": "Sport",
+  "taxes": "Tasse"
 }
