@@ -29,15 +29,11 @@
       </b-navbar-nav>
     </b-navbar>
 
-    <div
-      id="welcome-div"
-      style="max-width: 1400px; margin-left: auto; margin-right: auto; margin-top: 30px"
-    >
-      <b-container fluid>
+    <div id="welcome-div">
+      <b-container>
         <b-row>
           <b-col>
             <p
-              style="font-size: 30px"
               :class="{my_wallets_title: !isMobileView(), 
                 my_wallets_title_mobile: isMobileView()}"
             >{{$t('my_wallets')}}</p>
@@ -85,11 +81,10 @@
       <br />
 
       <!-- List of wallet thumbnails -->
-      <b-container fluid style="">
-        <b-row class="wallet-thumbnails" style="padding: 0">
+      <b-container style>
+        <b-row class="wallet-thumbnails">
           <b-col
-            style="max-width: 250px; min-width: 260px; padding: 0; margin-right: 20px; margin-top: 10px"
-            class="wallet-thumbnail"
+            class="wallet-thumbnail custom-wallet"
             v-for="wallet in wallets"
             :key="wallet.id"
             v-on:click="selectWallet(wallet)"
@@ -102,7 +97,7 @@
       <hr />
 
       <!-- Expanded wallet card -->
-      <b-container fluid style="padding: 0; margin-top: 30px;">
+      <b-container fluid id="wrapper-wallet-card">
         <b-collapse id="collapse-wallet-card" v-model="walletCardVisible">
           <wallet :user="user" :wallet="getSelectedWallet()"></wallet>
         </b-collapse>
@@ -226,6 +221,10 @@ export default {
 <style scoped>
 #welcome-div {
   text-align: center;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
 }
 
 .my_wallets_title_mobile {
@@ -245,6 +244,19 @@ export default {
 .new_wallet_button {
   position: absolute;
   right: 10px;
+}
+
+#wrapper-wallet-card {
+  padding: 0;
+  margin-top: 30px;
+}
+
+.custom-wallet {
+  max-width: 250px;
+  min-width: 260px;
+  padding: 0;
+  margin-right: 20px;
+  margin-top: 10px;
 }
 
 .wallet-thumbnails {

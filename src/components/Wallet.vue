@@ -1,12 +1,12 @@
 <template>
   <div>
-    <b-container style="padding: 0;">
-      <b-row style="padding: 0;">
+    <b-container id="wrapper-wallet-container">
+      <b-row>
         <b-col>
           <wallet-budget :wallet="wallet"></wallet-budget>
         </b-col>
       </b-row>
-      <b-row style="margin-top: -30px">
+      <b-row class="custom-row">
         <b-col>
           <wallet-expense :wallet="wallet"></wallet-expense>
         </b-col>
@@ -14,7 +14,7 @@
           <wallet-revenue :wallet="wallet"></wallet-revenue>
         </b-col>
       </b-row>
-      <b-row style="margin-top: -30px">
+      <b-row class="custom-row">
         <b-col>
           <wallet-last-week :wallet="wallet"></wallet-last-week>
         </b-col>
@@ -22,7 +22,7 @@
           <wallet-last-month :wallet="wallet"></wallet-last-month>
         </b-col>
       </b-row>
-      <b-row style="margin-top: -30px">
+      <b-row class="custom-row">
         <b-col>
           <wallet-transactions :wallet="wallet" :user="user"></wallet-transactions>
         </b-col>
@@ -59,11 +59,16 @@ export default {
 <style>
 .wallet_card {
   border-radius: 12px;
+  margin-top: -20px;
 }
 
 .chart {
   width: 350px;
   display: inline-block;
+}
+
+#wrapper-wallet-container {
+  padding: 0;
 }
 
 .chart_mobile {

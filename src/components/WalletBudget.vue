@@ -1,7 +1,7 @@
 <template>
-  <b-card class="shadow-sm p-3 mb-5 wallet_card" style="margin-top: -20px;">
+  <b-card class="shadow-sm p-3 mb-5 wallet_card">
     <!-- Wallet budget -->
-    <b-container style="padding: 0">
+    <b-container class="zero-pad-budget">
       <b-row>
         <b-col>
           <h3>{{$t('budget')}}</h3>
@@ -45,7 +45,7 @@
           </div>
         </b-col>
 
-        <b-col v-if="walletBudget.expiryDate._seconds*1000 > Date.now()" style="padding: 0">
+        <b-col v-if="walletBudget.expiryDate._seconds*1000 > Date.now()" class="zero-pad-budget">
           <pie-chart
             :height="300"
             :class="{chart: !isMobileView(), chart_mobile: isMobileView()}"
@@ -170,4 +170,7 @@ export default {
 </script>
 
 <style>
+.zero-pad-budget {
+  padding: 0;
+}
 </style>

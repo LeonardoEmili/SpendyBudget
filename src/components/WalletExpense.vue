@@ -4,7 +4,7 @@
     <br />
     <doughnut-chart
       :height="350"
-      style="margin-top: -10px;"
+      id="custom-doughnut-chart"
       :class="{chart: !isMobileView(), chart_mobile: isMobileView()}"
       :chartdata="expenseTransactionsChartData"
       :options="null"
@@ -94,4 +94,7 @@ export default {
 </script>
 
 <style>
+#custom-doughnut-chart {
+  margin-top: -10px;
+}
 </style>
