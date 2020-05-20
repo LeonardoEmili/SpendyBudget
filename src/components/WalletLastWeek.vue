@@ -32,7 +32,7 @@ export default {
     lastWeekChartData: function() {
       let data = this.getBalanceMapOfLastDays(7);
       return {
-        labels: data.map(point => point.x),
+        labels: data.map(point => this.$t(point.x)),
         datasets: [
           {
             label: [this.$t("last_week")],
@@ -51,7 +51,7 @@ export default {
       return utils.isMobileView();
     },
     getBalanceMapOfLastDays(daysNum) {
-      return utils.getBalanceMapOfLastDays(daysNum, this.walletTransactions);
+      return utils.getBalanceMapOfLastDays(daysNum, this.walletTransactions, true);
     },
     getBalanceOfLastDays(daysNum) {
       let ret = 0.0;

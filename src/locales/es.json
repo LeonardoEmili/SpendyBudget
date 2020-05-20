@@ -103,5 +103,12 @@
   "student_at_sapienza": "Estudiante @Sapienza, University of Rome",
   "our": "Nuestro",
   "the_project": "El proyecto",
-  "none": "Ninguna"
+  "none": "Ninguna",
+  "monday": "Lunes",
+  "tuesday": "Marted",
+  "wednesday": "Miercoles",
+  "thursday": "Jueves",
+  "friday": "Viernes",
+  "saturday": "Sábado",
+  "sunday": "Domingo"
 }

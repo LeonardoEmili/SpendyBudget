@@ -515,21 +515,22 @@ export function getCurrentLocale() {
  * @param {Number} daysNum number of days 
  * @param {Transaction array} transactions wallet transactions
  */
-export function getBalanceMapOfLastDays(daysNum, transactions) {
+export function getBalanceMapOfLastDays(daysNum, transactions, weekly = false) {
     let ret = []
+    let weekdays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
     for (let i = 1; i <= daysNum; i++) {
         ret.push({
-            x: i,
+            x: weekly ? weekdays[i - 1] : i,
             y: 0.0
-            })
+        })
     }
     for (let transaction of transactions) {
-        let transactionDay = transaction.instant._seconds/60/60/24
-        let today = Date.now()/1000/60/60/24
-        if ( transactionDay >= today - daysNum) {
+        let transactionDay = transaction.instant._seconds / 60 / 60 / 24
+        let today = Date.now() / 1000 / 60 / 60 / 24
+        if (transactionDay >= today - daysNum) {
             let index = Math.floor(transactionDay - today + daysNum)
-                ret[index].y = transaction.amountEUR + ret[index].y
-            }
+            ret[index].y = transaction.amountEUR + ret[index].y
+        }
     }
     return ret
 }
