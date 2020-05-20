@@ -81,7 +81,7 @@
       <br />
 
       <!-- List of wallet thumbnails -->
-      <b-container style>
+      <b-container fluid>
         <b-row class="wallet-thumbnails">
           <b-col
             class="wallet-thumbnail custom-wallet"

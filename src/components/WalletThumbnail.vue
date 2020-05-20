@@ -1,6 +1,6 @@
 <template>
   <b-card
-    :class="{'shadow-sm': true, thumbnail_card: true,
+    :class="{'shadow-sm': true, thumbnail_card: true, 
    thumbnail_card_selected: selected, thumbnail_text_selected: selected }"
   >
     <div id="custom-wallet-thumbnail">
@@ -31,6 +31,7 @@ export default {
 .thumbnail_card {
   border-radius: 12px;
   width: 250px;
+  margin-left: 20px;
 }
 
 .thumbnail_card_selected {
