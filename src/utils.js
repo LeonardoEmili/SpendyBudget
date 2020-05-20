@@ -542,9 +542,10 @@ export function getCurrentLocale() {
 export function getBalanceMapOfLastDays(daysNum, transactions, weekly = false) {
     let ret = []
     let weekdays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+    let currentDay = new Date().getDay();
     for (let i = 1; i <= daysNum; i++) {
         ret.push({
-            x: weekly ? weekdays[i - 1] : i,
+            x: weekly ? weekdays[(currentDay + i - 1) % 7] : i,
             y: 0.0
         })
     }
