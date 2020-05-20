@@ -87,7 +87,7 @@
         :variant="btnVariant"
         :disabled="newCategory.name === '' || duplicateCategoryName"
         type="submit"
-      >Create</b-button>
+      >{{$t('create')}}</b-button>
     </b-form>
     <!-- Create a new category stats here -->
 
@@ -509,8 +509,8 @@ export default {
 }
 
 #create-btn {
-  padding-left: 12px;
-  padding-right: 12px;
+  padding-left: 14px;
+  padding-right: 14px;
   margin-bottom: 2px;
 }
 
