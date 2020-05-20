@@ -53,8 +53,8 @@
   "category_name": "Nome della categoria",
   "new_category_name": "Nuova categoria",
   "type": "Tipo",
-  "expense": "Spesa",
-  "revenue": "Entrata",
+  "expense": "Uscite",
+  "revenue": "Entrate",
   "revenue_categories": "Categorie delle entrate",
   "expense_categories": "Categorie delle spese",
   "edit_category": "Modifica categoria",
@@ -119,5 +119,6 @@
   "sport": "Sport",
   "taxes": "Tasse",
   "cancel": "Annulla",
-  "done": "Conferma"
+  "done": "Conferma",
+  "choose_a_date": "Scegli una data"
 }

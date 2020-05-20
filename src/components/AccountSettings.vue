@@ -97,7 +97,7 @@
                   size="sm"
                   v-model="user.birthdate"
                   :locale="locale"
-                  placeholder="Choose a date"
+                  :placeholder="$t('choose_a_date')"
                   :state="errors[0]? false : null"
                 ></b-form-datepicker>
                 <b-form-invalid-feedback class="inline-error">{{ $t(errors[0]) }}</b-form-invalid-feedback>
