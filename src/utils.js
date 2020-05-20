@@ -508,3 +508,28 @@ export function convertToEUR(value, currency) {
 export function getCurrentLocale() {
     return app.user.locale || getFallbackLocale();
 }
+
+/**
+ * Returns a list of objects composed by a number of a day and the balance of
+ * that day.
+ * @param {Number} daysNum number of days 
+ * @param {Transaction array} transactions wallet transactions
+ */
+export function getBalanceMapOfLastDays(daysNum, transactions) {
+    let ret = []
+    for (let i = 1; i <= daysNum; i++) {
+        ret.push({
+            x: i,
+            y: 0.0
+            })
+    }
+    for (let transaction of transactions) {
+        let transactionDay = transaction.instant._seconds/60/60/24
+        let today = Date.now()/1000/60/60/24
+        if ( transactionDay >= today - daysNum) {
+            let index = Math.floor(transactionDay - today + daysNum)
+                ret[index].y = transaction.amountEUR + ret[index].y
+            }
+    }
+    return ret
+}

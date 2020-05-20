@@ -15,6 +15,15 @@
   </b-col>
 
   </b-row>
+  <b-row>
+    <b-col>
+  <wallet-last-week :wallet="wallet"></wallet-last-week>
+    </b-col>
+   <b-col>
+  <wallet-last-month :wallet="wallet"></wallet-last-month>
+    </b-col>
+
+  </b-row>
 </b-container>
         
    <wallet-transactions :wallet="wallet" :user="user"></wallet-transactions>
@@ -31,6 +40,8 @@ import WalletBudget from './WalletBudget.vue'
 import WalletTransactions from './WalletTransactions.vue'
 import WalletExpense from './WalletExpense.vue'
 import WalletRevenue from './WalletRevenue.vue'
+import WalletLastWeek from './WalletLastWeek.vue'
+import WalletLastMonth from './WalletLastMonth.vue'
 
 export default {
     name: "Wallet",
@@ -43,18 +54,17 @@ export default {
       walletBudget: WalletBudget,
       walletTransactions: WalletTransactions,
       walletExpense: WalletExpense,
-      walletRevenue: WalletRevenue
+      walletRevenue: WalletRevenue,
+      walletLastWeek: WalletLastWeek,
+      walletLastMonth: WalletLastMonth
     },
     computed: {
        
         },
         
     methods: {
-    
-
 
     }
-
     
 }
 </script>
