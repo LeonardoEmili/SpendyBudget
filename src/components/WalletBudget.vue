@@ -20,27 +20,40 @@
             <b-button variant="primary" v-b-modal.edit_budget_modal>{{$t('edit_budget')}}</b-button>
 
             <b-modal centered id="edit_budget_modal" v-bind:title="$t('edit_budget')" hide-footer>
-              <b-form id="edit_budget_form">
-                {{$t('amount')}} ({{walletCurrency}}):
-                <br />
-                <b-form-input
-                  type="number"
-                  name="amount"
-                  min="0"
-                  v-model="budgetFormAmount"
-                  required
-                />
-                <br />
-                {{$t('until')}}
-                <br />
-                <b-form-datepicker :min="Date()" name="expiryDate" v-model="budgetFormExpiryDate" required />
-                <br />
-              </b-form>
-
-              <b-button
-                :variant="budgetFormBtnVariant"
-                v-on:click="onEditBudgetPressed"
-              >{{$t('edit_budget')}}</b-button>
+              <ValidationObserver v-slot="{ handleSubmit }">
+                <b-form
+                  id="edit_budget_form"
+                  v-on:submit.prevent="handleSubmit(onEditBudgetPressed)"
+                >
+                  {{$t('amount')}} ({{walletCurrency}}):
+                  <br />
+                  <ValidationProvider rules="required" v-slot="{ errors }">
+                    <b-form-group>
+                      <b-form-input
+                        type="number"
+                        name="amount"
+                        size="sm"
+                        min="0"
+                        :state="errors[0]? false : null"
+                        v-model="budgetFormAmount"
+                      />
+                      <b-form-invalid-feedback class="inline-error">{{ $t(errors[0]) }}</b-form-invalid-feedback>
+                    </b-form-group>
+                  </ValidationProvider>
+                  <br />
+                  <span>{{$t('until')}}</span>
+                  <b-form-datepicker
+                    size="sm"
+                    :min="Date()"
+                    name="expiryDate"
+                    :placeholder="$t('choose_a_date')"
+                    v-model="budgetFormExpiryDate"
+                    required
+                  />
+                  <br />
+                  <b-button type="submit" :variant="budgetFormBtnVariant">{{$t('edit_budget')}}</b-button>
+                </b-form>
+              </ValidationObserver>
             </b-modal>
           </div>
         </b-col>
@@ -121,7 +134,6 @@ export default {
         ]
       };
     },
-
     budgetFormBtnVariant() {
       return this.budgetFormAmount !== "" && this.budgetFormExpiryDate !== ""
         ? "primary"
@@ -146,7 +158,7 @@ export default {
         return;
       }
       if (new Date(this.budgetFormExpiryDate) < new Date()) {
-          alert("Insert a future date");
+        alert("Insert a future date");
         return;
       }
 
@@ -176,5 +188,8 @@ export default {
 <style>
 .zero-pad-budget {
   padding: 0;
+}
+.inline-error {
+  position: absolute;
 }
 </style>
