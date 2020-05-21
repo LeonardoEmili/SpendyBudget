@@ -3,7 +3,7 @@
     :class="{'shadow-sm': true, thumbnail_card: true, 
    thumbnail_card_selected: selected, thumbnail_text_selected: selected }"
   >
-    <div id="custom-wallet-thumbnail">
+    <div>
       <img v-show="!selected" src="../assets/wallet.png" height="40px" />
       <img v-show="selected" src="../assets/wallet_white.png" height="40px" />
       <span id="wallet-thumbnail-name">{{wallet.name}}</span>
@@ -59,9 +59,5 @@ export default {
   margin-left: 2px;
   font-weight: bold;
   font-size: 17px;
-}
-#custom-wallet-thumbnail {
-  margin-top: -10px;
-  margin-bottom: -14px;
 }
 </style>

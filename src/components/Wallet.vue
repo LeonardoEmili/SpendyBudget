@@ -59,7 +59,6 @@ export default {
 <style>
 .wallet_card {
   border-radius: 12px;
-  margin-top: -20px;
 }
 
 .chart {

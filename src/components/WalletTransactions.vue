@@ -84,7 +84,7 @@
       </b-row>
       <br />
       <b-row v-for="i in Math.ceil(walletTransactions.length / 2)" :key="i">
-        <b-col>
+        <b-col class="transaction_view">
           {{convertFromEUR(walletTransactions[walletTransactions.length-(i*2)+1].amountEUR, walletCurrency)}}
           {{walletCurrency}}
           <br />
@@ -100,9 +100,8 @@
           <br />
           {{new Date(walletTransactions[walletTransactions.length-(i*2)+1].instant._seconds*1000).toLocaleDateString()}}
           <br />
-          <br />
         </b-col>
-        <b-col v-if="walletTransactions.length-(i*2) >= 0">
+        <b-col v-if="walletTransactions.length-(i*2) >= 0" class="transaction_view">
           {{convertFromEUR(walletTransactions[walletTransactions.length-(i*2)].amountEUR, walletCurrency)}}
           {{walletCurrency}}
           <br />
@@ -117,7 +116,6 @@
           {{walletTransactions[walletTransactions.length-(i*2)].description}}
           <br />
           {{new Date(walletTransactions[walletTransactions.length-(i*2)].instant._seconds*1000).toLocaleDateString()}}
-          <br />
           <br />
         </b-col>
       </b-row>
@@ -258,4 +256,11 @@ export default {
 #wrapper-form-amount {
   margin-bottom: 30px;
 }
+
+.transaction_view {
+  border-radius: 25px;
+  border: 1px solid #555555;
+  margin: 5px;
+}
+
 </style>
