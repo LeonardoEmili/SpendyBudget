@@ -42,7 +42,7 @@
                   <br />
                   <span>{{$t('amount')}} ({{walletCurrency}}):</span>
                   <br />
-                  <ValidationProvider ref="formAmount" rules="required" v-slot="{ errors }">
+                  <ValidationProvider rules="required" v-slot="{ errors }">
                     <b-form-group id="wrapper-form-amount">
                       <b-form-input
                         size="sm"
