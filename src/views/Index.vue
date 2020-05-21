@@ -137,22 +137,22 @@ export default {
           description: "third_card_description"
         },
         {
-          icon: "benefit",
-          color: "#9c27b0",
-          title: "second_card_title",
-          description: "first_card_description"
-        },
-        {
-          icon: "chat",
+          icon: "palette",
           color: "#ff9800",
-          title: "first_card_title",
-          description: "second_card_description"
+          title: "fourth_card_title",
+          description: "fourth_card_description"
         },
         {
-          icon: "shield",
+          icon: "translate",
+          color: "#9c27b0",
+          title: "fifth_card_title",
+          description: "fifth_card_description"
+        },
+        {
+          icon: "open-source",
           color: "#afb42b",
-          title: "third_card_title",
-          description: "third_card_description"
+          title: "sixth_card_title",
+          description: "sixth_card_description"
         }
       ],
       userLocaleIndex: 0,
