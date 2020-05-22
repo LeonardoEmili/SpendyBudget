@@ -5,9 +5,7 @@
 
     <b-form v-on:submit.prevent="createCategory" id="create-category-form">
       <div class="picker-cols">
-        <p
-          style="font-size:13px; margin-bottom: 0px; margin-left: 12px; color: #546e7a"
-        >{{$t('icon')}}:</p>
+        <p id="label-icon">{{$t('icon')}}:</p>
         <b-dropdown class="short-dropdown" variant="light">
           <template v-slot:button-content>
             <svgicon
@@ -33,9 +31,7 @@
         </b-dropdown>
       </div>
       <div class="picker-cols">
-        <p
-          style="font-size:13px; margin-bottom: 0px; margin-left: 12px; color: #546e7a"
-        >{{$t('color')}}:</p>
+        <p id="label-color">{{$t('color')}}:</p>
         <b-dropdown class="short-dropdown" variant="light">
           <template v-slot:button-content>
             <svgicon
@@ -57,8 +53,8 @@
         </b-dropdown>
       </div>
 
-      <div id="input-category-name" style="position:relative">
-        <p style="font-size:13px; margin-bottom: 0px; color: #546e7a">{{$t('category_name')}}:</p>
+      <div class="input-category-name">
+        <p class="label-category-name">{{$t('category_name')}}:</p>
 
         <b-form-input
           class="my-form-name"
@@ -71,11 +67,11 @@
         ></b-form-input>
         <span
           v-show="duplicateCategoryName"
-          style="font-size: 12px; position: absolute; color: #b71c1c;"
+          class="label-feedback-duplicate"
         >Please select another name</span>
       </div>
       <div id="input-category-type">
-        <p style="font-size:13px; margin-bottom: 3px; color: #546e7a; height: 20px;">{{$t('type')}}:</p>
+        <p class="label-category-type">{{$t('type')}}:</p>
         <b-form-select size="sm" v-model="newCategory.type" v-on:input="uniqueCategory">
           <b-form-select-option value="expense" selected>{{$t('expense')}}</b-form-select-option>
           <b-form-select-option value="income">{{$t('revenue')}}</b-form-select-option>
@@ -187,9 +183,7 @@
     >
       <div id="modal-edit-category">
         <div class="picker-cols">
-          <p
-            style="font-size:13px; margin-bottom: 0px; margin-left: 12px; color: #546e7a"
-          >{{$t('icon')}}:</p>
+          <p class="label-modal-icon">{{$t('icon')}}:</p>
           <b-dropdown class="short-dropdown" variant="light">
             <template v-slot:button-content>
               <svgicon
@@ -215,9 +209,7 @@
           </b-dropdown>
         </div>
         <div class="picker-cols">
-          <p
-            style="font-size:13px; margin-bottom: 0px; margin-left: 12px; color: #546e7a"
-          >{{$t('color')}}:</p>
+          <p class="label-modal-color">{{$t('color')}}:</p>
           <b-dropdown class="short-dropdown" variant="light">
             <template v-slot:button-content>
               <svgicon
@@ -238,8 +230,8 @@
           </b-dropdown>
         </div>
 
-        <div id="input-category-name">
-          <p style="font-size:13px; margin-bottom: 0px; color: #546e7a">{{$t('category_name')}}:</p>
+        <div class="input-category-name">
+          <p class="label-modal-category-name">{{$t('category_name')}}:</p>
           <b-form-input
             class="my-form-name"
             size="sm"
@@ -396,6 +388,13 @@ export default {
   position: relative;
 }
 
+#label-icon {
+  font-size: 13px;
+  margin-bottom: 0px;
+  margin-left: 12px;
+  color: #546e7a;
+}
+
 .draggable-row:hover {
   background-color: #e0e0e0;
   cursor: grab;
@@ -407,10 +406,29 @@ export default {
   margin-right: 10px;
 }
 
+.label-category-type {
+  font-size: 13px;
+  margin-bottom: 3px;
+  color: #546e7a;
+  height: 20px;
+}
+
 .category-details {
   font-size: 15px;
   line-height: 40px;
   vertical-align: middle;
+}
+
+.label-category-name {
+  font-size: 13px;
+  margin-bottom: 0px;
+  color: #546e7a;
+}
+
+.label-modal-category-name {
+  font-size: 13px;
+  margin-bottom: 0px;
+  color: #546e7a;
 }
 
 .category-transactions {
@@ -432,9 +450,30 @@ export default {
   margin-left: 4px;
 }
 
+.label-modal-icon {
+  font-size: 13px;
+  margin-bottom: 0px;
+  margin-left: 12px;
+  color: #546e7a;
+}
+
+.label-modal-color {
+  font-size: 13px;
+  margin-bottom: 0px;
+  margin-left: 12px;
+  color: #546e7a;
+}
+
 #create-category-form {
   margin-top: 30px;
   margin-bottom: 40px;
+}
+
+#label-color {
+  font-size: 13px;
+  margin-bottom: 0px;
+  margin-left: 12px;
+  color: #546e7a;
 }
 
 .picker-cols {
@@ -474,9 +513,10 @@ export default {
   margin-left: -25px;
 }
 
-#input-category-name {
+.input-category-name {
   margin-left: 10px;
   display: inline-block;
+  position: relative;
 }
 
 .my-form-name {
@@ -517,6 +557,12 @@ export default {
 .b-dropdown >>> .btn-light {
   background-color: transparent !important;
   border-color: transparent;
+}
+
+.label-feedback-duplicate {
+  font-size: 12px;
+  position: absolute;
+  color: #b71c1c;
 }
 
 select {
