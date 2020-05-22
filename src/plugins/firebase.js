@@ -258,12 +258,12 @@ export function createNewWallet(newWallet, onSuccess) {
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
             const wallet = JSON.parse(xmlHttp.responseText)
+            onSuccess(wallet)
             if ('error' in wallet) {
                 console.log(wallet.error)
                 utils.resetSession()
                 return
             }
-            onSuccess(wallet)
         }
     }
     xmlHttp.send(JSON.stringify(newWallet))
@@ -278,12 +278,12 @@ export function createNewTransaction(walletId, newTransaction, onSuccess) {
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
             const transaction = JSON.parse(xmlHttp.responseText)
+            onSuccess(transaction)
             if ('error' in transaction) {
                 console.log(transaction.error)
                 utils.resetSession()
                 return
             }
-            onSuccess(transaction)
         }
     }
     xmlHttp.send(JSON.stringify({
@@ -302,12 +302,12 @@ export function editBudget(walletId, newBudget, onSuccess) {
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState === 4) {
             const budget = JSON.parse(xmlHttp.responseText)
+            onSuccess(budget)
             if ('error' in budget) {
                 console.log(budget.error)
                 utils.resetSession()
                 return
             }
-            onSuccess(budget)
         }
     }
     xmlHttp.send(JSON.stringify({

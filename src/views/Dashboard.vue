@@ -186,7 +186,11 @@ export default {
         currency: this.selectedCurrency
       };
 
-      createNewWallet(formData, wallet => this.wallets.push(wallet));
+      app.showProgress = true;
+      createNewWallet(formData, wallet => {
+        app.showProgress = false;
+        this.wallets.push(wallet)
+      });
 
       this.$bvModal.hide("new_wallet_modal");
     },

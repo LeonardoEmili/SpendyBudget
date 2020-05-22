@@ -76,6 +76,8 @@ import * as utils from "../utils";
 import { firestore } from "firebase";
 import { editBudget } from "../plugins/firebase";
 import PieChart from "./PieChart.vue";
+import { app } from "../main";
+
 
 export default {
   name: "WalletBudget",
@@ -173,10 +175,14 @@ export default {
         expiryDate: expiryDate.getTime()
       };
 
+      app.showProgress = true;
       editBudget(
         this.walletId,
         formData,
-        budget => (this.wallet.budget = budget)
+        budget => {
+          app.showProgress = false;
+          this.wallet.budget = budget
+          }
       );
 
       this.$bvModal.hide("edit_budget_modal");

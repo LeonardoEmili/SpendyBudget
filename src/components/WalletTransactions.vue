@@ -127,6 +127,8 @@
 import * as utils from "../utils";
 import "../compiled-icons";
 import { createNewTransaction } from "../plugins/firebase";
+import { app } from "../main";
+
 
 export default {
   name: "WalletTransactions",
@@ -210,9 +212,12 @@ export default {
         description: form.description.value,
         category: category
       };
-
-      createNewTransaction(this.walletId, formData, transaction =>
+      
+      app.showProgress = true;
+      createNewTransaction(this.walletId, formData, transaction => {
+        app.showProgress = false;
         this.wallet.transactions.push(transaction)
+      }
       );
       this.wallet.balanceEUR = amountEUR + this.wallet.balanceEUR;
       this.wallet.budget.spentEUR =
