@@ -126,5 +126,7 @@
   "taxes": "Steuern",
   "cancel": "Abbrechen",
   "done": "Fertig",
-  "choose_a_date": "Wähle ein Datum"
+  "choose_a_date": "Wähle ein Datum",
+  "male": "Mann",
+  "female": "Frau"
 }

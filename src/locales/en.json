@@ -126,5 +126,7 @@
   "taxes": "Taxes",
   "cancel": "Cancel",
   "done": "Done",
-  "choose_a_date": "Choose a date"
+  "choose_a_date": "Choose a date",
+  "male": "Male",
+  "female": "Female"
 }

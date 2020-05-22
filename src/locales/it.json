@@ -56,7 +56,7 @@
   "expense": "Uscite",
   "revenue": "Entrate",
   "revenue_categories": "Categorie delle entrate",
-  "expense_categories": "Categorie delle spese",
+  "expense_categories": "Categorie delle uscite",
   "edit_category": "Modifica categoria",
   "login": "Accedi",
   "login_btn_text": "Accedi a SpendyBudget",
@@ -126,5 +126,7 @@
   "taxes": "Tasse",
   "cancel": "Annulla",
   "done": "Conferma",
-  "choose_a_date": "Scegli una data"
+  "choose_a_date": "Scegli una data",
+  "male": "Maschio",
+  "female": "Femmina"
 }

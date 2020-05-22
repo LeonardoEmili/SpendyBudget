@@ -74,7 +74,7 @@
           style="font-size: 12px; position: absolute; color: #b71c1c;"
         >Please select another name</span>
       </div>
-      <div id="input-category-type" style="margin-top: -100px;">
+      <div id="input-category-type">
         <p style="font-size:13px; margin-bottom: 3px; color: #546e7a; height: 20px;">{{$t('type')}}:</p>
         <b-form-select size="sm" v-model="newCategory.type" v-on:input="uniqueCategory">
           <b-form-select-option value="expense" selected>{{$t('expense')}}</b-form-select-option>

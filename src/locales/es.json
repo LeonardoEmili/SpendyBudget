@@ -126,5 +126,7 @@
   "taxes": "Impuestos",
   "cancel": "Cancelar",
   "done": "Hecho",
-  "choose_a_date": "Elige una fecha"
+  "choose_a_date": "Elige una fecha",
+  "male": "Hombre",
+  "female": "Mujer"
 }

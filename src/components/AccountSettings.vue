@@ -82,9 +82,9 @@
               <label>{{$t('sex_optional')}}</label>
               <b-form-select v-model="user.gender" size="sm">
                 <b-form-select-option value="null" disabled></b-form-select-option>
-                <b-form-select-option value="M">Male</b-form-select-option>
-                <b-form-select-option value="F">Female</b-form-select-option>
-                <b-form-select-option value="O">Other</b-form-select-option>
+                <b-form-select-option value="M">{{$t('male')}}</b-form-select-option>
+                <b-form-select-option value="F">{{$t('female')}}</b-form-select-option>
+                <b-form-select-option value="O">{{$t('other')}}</b-form-select-option>
               </b-form-select>
             </b-form-group>
           </b-col>
@@ -96,7 +96,7 @@
                 <b-form-datepicker
                   size="sm"
                   v-model="user.birthdate"
-                  :locale="locale"
+                  :locale="user.locale"
                   :placeholder="$t('choose_a_date')"
                   :state="errors[0]? false : null"
                 ></b-form-datepicker>
@@ -206,10 +206,6 @@ export default {
     };
   },
   computed: {
-    locale() {
-      // ["it-IT", "us-US"]
-      return "it-IT";
-    },
     locales() {
       return utils.locales;
     },
