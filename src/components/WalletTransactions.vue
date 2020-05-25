@@ -60,7 +60,7 @@
                   <br />
                   <b-form-input size="sm" type="text" name="description" />
                   <br />
-                  <span>Category:</span>
+                  <span>{{$t('category')}}:</span>
                   <b-form-select
                     size="sm"
                     name="category"
